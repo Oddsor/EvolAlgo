@@ -10,15 +10,24 @@ import java.util.List;
  * @author Odd
  */
 public class MaxOne implements IProblem{
+    
+    int[] targetArray;
+    
+    public MaxOne(String targetString){
+        targetArray = new int[targetString.length()];
+        for (int i = 0; i < targetString.length(); i++){
+            targetArray[i] = (int) targetString.charAt(i);
+        }
+    }
 
     @Override
-    public Object[] developPheno(Object geno){
+    public Object developPheno(Object geno){
         
         String genostring = geno.toString();
-        Object[] phenotype = new Object[genostring.length()];
+        int phenotype = new int[genostring.length()];
         
         for(int i = 0; i < phenotype.length; i++){
-            phenotype[i] = genostring.charAt(i);
+            phenotype[i] = (int) genostring.charAt(i);
         }
         return phenotype;
     }
@@ -27,21 +36,18 @@ public class MaxOne implements IProblem{
     public List<IIndividual> calculateFitness(List<IIndividual> population) throws Exception{
         for(int i = 0; i < population.size(); i++){
             int fitnessFactor = 0;
-            Object[] phenotype = population.get(i).phenotype();
+            int[] phenoArray = (int[]) population.get(i).phenotype();
             //Blow up targetString and compare each bit
-            if(targetString.length != phenotype.length){
+            if(targetArray.length != phenoArray.length){
                 throw new Exception("Phenotype and bit string not of equal length!");
             }
 
-            for(int j = 0; j < phenotype.length; j++){
-                if(phenotype[j].toString().equals(targetString[j].toString())){
+            for(int j = 0; j < phenoArray.length; j++){
+                if(phenoArray[j] == targetArray[j]){
                     fitnessFactor++;
                 }
-            }population.get(i).setFitness((double) fitnessFactor/ (double) phenotype.length);
+            }population.get(i).setFitness((double) fitnessFactor/ (double) phenoArray.length);
         }
-        
-        
-
         return population;
     }
 }

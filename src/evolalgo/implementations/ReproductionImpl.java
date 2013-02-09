@@ -13,20 +13,18 @@ import java.util.logging.Logger;
  * @author Odd
  */
 public class ReproductionImpl implements IReproduction{
-    
-    private double mutationRate;
+
     private double recombinationRate;
     private int recombinationSplit;
     
     public ReproductionImpl(double mutationRate, double recombinationRate, 
             int recombinationSplit){
-        this.mutationRate = mutationRate;
         this.recombinationRate = recombinationRate;
         this.recombinationSplit = recombinationSplit;
     }
 
     @Override
-    public Object mutation(Object genotype) throws Exception{
+    public Object mutation(Object genotype, double mutationRate) throws Exception{
         
         //We need a string to manipulate here, throw exception if wrong
         if(!(genotype instanceof String)){

@@ -13,7 +13,7 @@ import evolalgo.IIndividual;
 public class IndividualImpl implements IIndividual{
     
     private Object genotype;
-    private Object[] phenotype;
+    private Object phenotype;
     private int age;
     private double fitness;
     
@@ -24,12 +24,12 @@ public class IndividualImpl implements IIndividual{
     }
 
     @Override
-    public void setPhenotype(Object[] phenotype) {
+    public void setPhenotype(Object phenotype) {
         this.phenotype = phenotype;
     }
 
     @Override
-    public Object[] phenotype(){
+    public Object phenotype(){
         return phenotype;
     }
 

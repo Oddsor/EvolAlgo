@@ -11,37 +11,34 @@ import java.util.Map;
  * This is the evolutionary loop.
  * @author Odd
  */
-public class EvolutionaryLoop {
+public class Evolution {
     
     private int numChildren;
     private IAdultSelection adSel;
     private IParentSelection parSel;
-    private IProblem devMethod;
-    private IFitnessEval fit;
+    private IProblem problem;
     private IReproduction rep;
     
-    public EvolutionaryLoop(int numChildren, IReproduction rep,
+    public Evolution(int numChildren, IReproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
-            IProblem devMethod, IFitnessEval fit){
+            IProblem problem){
         this.rep = rep;
         this.numChildren = numChildren;
         this.adSel = adSel;
         this.parSel = parSel;
-        this.devMethod = devMethod;
-        this.fit = fit;
+        this.problem = problem;
     }
     
     public Map loop(List<IIndividual> individuals) throws Exception{        
         //Make phenotypes
         for(int i = 0; i < individuals.size(); i++){
             individuals.get(i).setPhenotype(
-                    devMethod.developPheno(individuals.get(i).getGenes()));
+                    problem.developPheno(individuals.get(i).getGenes()));
         }
         
         //Finding fitness
-        individuals = fit.calculateFitness(individuals);
-            
-        
+        individuals = problem.calculateFitness(individuals);
+
         //Try replacing the generation
         try{
             individuals = adSel.getAdults(individuals);
@@ -64,10 +61,6 @@ public class EvolutionaryLoop {
                 statistics.put("minFitness", minFitness);
             }
         }statistics.put("avgFitness", countFitness / individuals.size());
-        
-        /*System.out.println("Average fitness: " + (countFitness / individuals.size()) 
-                + ". Maximum fitness: " + maxFitness + ". Minimum fitness: " + minFitness);*/
-        
         //Start producing children.
         List<IIndividual> children = new ArrayList<IIndividual>();
         //System.out.println("Creating children");

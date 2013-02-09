@@ -317,7 +317,7 @@ public class GUIBlotto extends javax.swing.JFrame {
             parSel = new Tournament(10, 0.3);
         }
         
-        EvolutionaryLoop evoLoop = new EvolutionaryLoop(
+        Evolution evoLoop = new Evolution(
                 inumChildren, 
                 reproductor, adSel, parSel, dev, fit);
         
