@@ -1,12 +1,14 @@
 
 package evolalgo;
 
+import java.util.List;
+
 /**
  * Interface for development methods. All methods that want to develop a genotype
  * need to implement this method
  * @author Odd
  */
-public interface IDevelopMethod {
+public interface IProblem {
     
     /**
      * Converts the input genotype to a phenotype that suits the problem
@@ -18,4 +20,7 @@ public interface IDevelopMethod {
      * @throws Exception 
      */
     public Object[] developPheno(Object geno) throws Exception;
+    
+    public List<IIndividual> calculateFitness(List<IIndividual> population) 
+            throws Exception;
 }

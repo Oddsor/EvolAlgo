@@ -1,7 +1,7 @@
 
-package devmethods;
+package problem;
 
-import evolalgo.IDevelopMethod;
+import evolalgo.IProblem;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,9 +9,9 @@ import java.util.logging.Logger;
  * Development method for the Blotto Strategies
  * @author Odd
  */
-public class BlottoDev implements IDevelopMethod{
+public class BlottoStrats implements IProblem{
     
-    public BlottoDev(){
+    public BlottoStrats(){
         
     }
 
@@ -47,7 +47,7 @@ public class BlottoDev implements IDevelopMethod{
     }
     
     public static void main(String[] args){
-        BlottoDev blot = new BlottoDev();
+        BlottoStrats blot = new BlottoStrats();
         Object[] pheno;
         try {
             pheno = blot.developPheno("11110001011001011001");
@@ -58,7 +58,7 @@ public class BlottoDev implements IDevelopMethod{
             }
             System.out.println("Total: " + count);
         } catch (Exception ex) {
-            Logger.getLogger(BlottoDev.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlottoStrats.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

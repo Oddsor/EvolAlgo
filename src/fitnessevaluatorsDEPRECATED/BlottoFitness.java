@@ -1,14 +1,10 @@
-
-package fitnessevaluators;
+/*
+package fitnessevaluatorsDEPRECATED;
 
 import evolalgo.IFitnessEval;
 import evolalgo.IIndividual;
 import java.util.List;
 
-/**
- * Fitness evaluation of the Blotto strategy
- * @author Odd
- */
 public class BlottoFitness implements IFitnessEval{
     
     private double reployFraction;
@@ -19,13 +15,7 @@ public class BlottoFitness implements IFitnessEval{
         this.lossFraction = lossFraction;
     }
 
-    //TODO finish this method
-    /**
-     * Returns the fitness for each phenotype
-     * @param phenotype
-     * @return
-     * @throws Exception 
-     */
+
     @Override
     public List<IIndividual> calculateFitness(List<IIndividual> population) 
             throws Exception {
@@ -76,4 +66,4 @@ public class BlottoFitness implements IFitnessEval{
         
         return population;
     }
-}
+}*/

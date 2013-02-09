@@ -16,13 +16,13 @@ public class EvolutionaryLoop {
     private int numChildren;
     private IAdultSelection adSel;
     private IParentSelection parSel;
-    private IDevelopMethod devMethod;
+    private IProblem devMethod;
     private IFitnessEval fit;
     private IReproduction rep;
     
     public EvolutionaryLoop(int numChildren, IReproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
-            IDevelopMethod devMethod, IFitnessEval fit){
+            IProblem devMethod, IFitnessEval fit){
         this.rep = rep;
         this.numChildren = numChildren;
         this.adSel = adSel;

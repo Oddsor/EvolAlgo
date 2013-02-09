@@ -1,25 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package fitnessevaluators;
 
-import evolalgo.IFitnessEval;
+package problem;
+
+import evolalgo.IProblem;
 import evolalgo.IIndividual;
 import java.util.List;
 
 /**
- *
+ * Development method for bit strings.
  * @author Odd
  */
-public class BitFitness implements IFitnessEval{
-    
-    private Object[] targetString;
-    
-    public BitFitness(Object[] targetString){
-        this.targetString = targetString;
-    }
+public class MaxOne implements IProblem{
 
+    @Override
+    public Object[] developPheno(Object geno){
+        
+        String genostring = geno.toString();
+        Object[] phenotype = new Object[genostring.length()];
+        
+        for(int i = 0; i < phenotype.length; i++){
+            phenotype[i] = genostring.charAt(i);
+        }
+        return phenotype;
+    }
+    
     @Override
     public List<IIndividual> calculateFitness(List<IIndividual> population) throws Exception{
         for(int i = 0; i < population.size(); i++){
@@ -41,5 +44,4 @@ public class BitFitness implements IFitnessEval{
 
         return population;
     }
-    
 }

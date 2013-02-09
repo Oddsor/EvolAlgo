@@ -4,13 +4,13 @@ package evolalgo;
 import adultselectors.FullGenReplacement;
 import adultselectors.GenerationalMixing;
 import adultselectors.OverProduction;
-import devmethods.BitDevMethod;
-import devmethods.BlottoDev;
+import problem.MaxOne;
+import problem.BlottoStrats;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
 import fitnessevaluators.BitFitness;
-import fitnessevaluators.BlottoFitness;
+import fitnessevaluatorsDEPRECATED.BlottoFitness;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -286,7 +286,7 @@ public class GUIBlotto extends javax.swing.JFrame {
                 Double.parseDouble(recombRate.getText()), 
                 4);
         //Selecting a development method (only 1 so far)
-        IDevelopMethod dev = new BlottoDev();
+        IProblem dev = new BlottoStrats();
         
         //Selecting a fitness evaluator (1 so far)
         IFitnessEval fit = null;

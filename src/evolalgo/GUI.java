@@ -4,7 +4,7 @@ package evolalgo;
 import adultselectors.FullGenReplacement;
 import adultselectors.GenerationalMixing;
 import adultselectors.OverProduction;
-import devmethods.BitDevMethod;
+import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
@@ -315,7 +315,7 @@ public class GUI extends javax.swing.JFrame {
                 Double.parseDouble(recombRate.getText()), 
                 Integer.parseInt(recombSplit.getText()));
         //Selecting a development method (only 1 so far)
-        IDevelopMethod dev = new BitDevMethod();
+        IProblem dev = new MaxOne();
         
         //Selecting a fitness evaluator (1 so far)
         IFitnessEval fit = null;
