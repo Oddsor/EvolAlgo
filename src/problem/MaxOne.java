@@ -1,6 +1,7 @@
 
 package problem;
 
+import evolalgo.IPhenotype;
 import evolalgo.IProblem;
 import evolalgo.IIndividual;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MaxOne implements IProblem{
     }
 
     @Override
-    public Object developPheno(Object geno){
+    public Object developPheno(IPhenotype geno){
         
         String genostring = geno.toString();
         int phenotype = new int[genostring.length()];
@@ -50,4 +51,8 @@ public class MaxOne implements IProblem{
         }
         return population;
     }
+}
+
+class Phenotype implements IPhenotype{
+    
 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package evolalgo;
+package GUI;
 
 /**
  * Access menu for part 1a or 1b

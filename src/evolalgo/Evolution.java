@@ -63,7 +63,6 @@ public class Evolution {
         }statistics.put("avgFitness", countFitness / individuals.size());
         //Start producing children.
         List<IIndividual> children = new ArrayList<IIndividual>();
-        //System.out.println("Creating children");
         while(children.size() < numChildren){
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!

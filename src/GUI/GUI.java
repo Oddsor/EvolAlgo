@@ -1,9 +1,16 @@
-package evolalgo;
+package GUI;
 
 
 import adultselectors.FullGenReplacement;
 import adultselectors.GenerationalMixing;
 import adultselectors.OverProduction;
+import evolalgo.Evolution;
+import evolalgo.IAdultSelection;
+import evolalgo.IIndividual;
+import evolalgo.IParentSelection;
+import evolalgo.IPopulation;
+import evolalgo.IProblem;
+import evolalgo.IReproduction;
 import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.PopulationImpl;
