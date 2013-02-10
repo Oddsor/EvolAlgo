@@ -19,7 +19,7 @@ public interface IProblem {
      * and this needs to be implemented on a per problem basis anyway.
      * @throws Exception 
      */
-    public Object[] developPheno(Object geno) throws Exception;
+    public IPhenotype developPheno(Object geno) throws Exception;
     
     public List<IIndividual> calculateFitness(List<IIndividual> population) 
             throws Exception;

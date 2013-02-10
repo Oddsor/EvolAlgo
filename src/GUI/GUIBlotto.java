@@ -11,13 +11,10 @@ import evolalgo.IParentSelection;
 import evolalgo.IPopulation;
 import evolalgo.IProblem;
 import evolalgo.IReproduction;
-import problem.MaxOne;
 import problem.BlottoStrats;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
-import fitnessevaluators.BitFitness;
-import fitnessevaluatorsDEPRECATED.BlottoFitness;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -293,15 +290,8 @@ public class GUIBlotto extends javax.swing.JFrame {
                 Double.parseDouble(recombRate.getText()), 
                 4);
         //Selecting a development method (only 1 so far)
-        IProblem dev = new BlottoStrats();
+        IProblem problem = new BlottoStrats();
         
-        //Selecting a fitness evaluator (1 so far)
-        IFitnessEval fit = null;
-        try {
-            fit = new BlottoFitness(0.0, 0.0);
-        } catch (Exception ex) {
-            Logger.getLogger(GUIBlotto.class.getName()).log(Level.SEVERE, null, ex);
-        }
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());
         //Selecting an adult selector (3 to pick from)
@@ -326,7 +316,7 @@ public class GUIBlotto extends javax.swing.JFrame {
         
         Evolution evoLoop = new Evolution(
                 inumChildren, 
-                reproductor, adSel, parSel, dev, fit);
+                reproductor, adSel, parSel, problem);
         
         List<Map> statistics = new ArrayList<Map>();
         try {

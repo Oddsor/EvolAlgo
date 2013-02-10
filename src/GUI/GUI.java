@@ -15,7 +15,6 @@ import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
-import fitnessevaluators.BitFitness;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -322,15 +321,8 @@ public class GUI extends javax.swing.JFrame {
                 Double.parseDouble(recombRate.getText()), 
                 Integer.parseInt(recombSplit.getText()));
         //Selecting a development method (only 1 so far)
-        IProblem dev = new MaxOne();
+        IProblem problem = new MaxOne("");
         
-        //Selecting a fitness evaluator (1 so far)
-        IFitnessEval fit = null;
-        try {
-            fit = new BitFitness(dev.developPheno(targetBit.getText()));
-        } catch (Exception ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());
         //Selecting an adult selector (3 to pick from)
@@ -355,7 +347,7 @@ public class GUI extends javax.swing.JFrame {
         
         Evolution evoLoop = new Evolution(
                 inumChildren, 
-                reproductor, adSel, parSel, dev, fit);
+                reproductor, adSel, parSel, problem);
         
         List<Map> statistics = new ArrayList<Map>();
         try {

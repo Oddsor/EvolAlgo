@@ -1,7 +1,10 @@
 
 package problem;
 
+import evolalgo.IIndividual;
+import evolalgo.IPhenotype;
 import evolalgo.IProblem;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,43 +26,32 @@ public class BlottoStrats implements IProblem{
      * @throws Exception 
      */
     @Override
-    public Object[] developPheno(Object geno) throws Exception{
-        if(geno instanceof String){
-            int segments = geno.toString().length() / 4;
-            Object[] phenotype = new Object[segments];
-            double total = 0.0;
-            for(int i = 0; i < segments; i++){
-                int location = i * 4;
-                phenotype[i] = geno.toString().substring(location, location + 4);
-                //Convert from binary string to number:
-                phenotype[i] = Integer.parseInt(phenotype[i].toString(), 2);
-                //Count to the total number of forces
-                total += Double.parseDouble(phenotype[i].toString());
-            }
-            double weight = 1 / total;
-            for(int i = 0; i < segments; i++){
-                phenotype[i] = Double.parseDouble(phenotype[i].toString()) * weight;
-            }
-            return phenotype;
-        }else{
-            throw new Exception("Error in genotype");
-        }
+    public IPhenotype developPheno(Object geno) throws Exception{
+        throw new Exception("Not done yet");
+//        if(geno instanceof String){
+//            int segments = geno.toString().length() / 4;
+//            Object[] phenotype = new Object[segments];
+//            double total = 0.0;
+//            for(int i = 0; i < segments; i++){
+//                int location = i * 4;
+//                phenotype[i] = geno.toString().substring(location, location + 4);
+//                //Convert from binary string to number:
+//                phenotype[i] = Integer.parseInt(phenotype[i].toString(), 2);
+//                //Count to the total number of forces
+//                total += Double.parseDouble(phenotype[i].toString());
+//            }
+//            double weight = 1 / total;
+//            for(int i = 0; i < segments; i++){
+//                phenotype[i] = Double.parseDouble(phenotype[i].toString()) * weight;
+//            }
+//            //return phenotype;
+//        }else{
+//            throw new Exception("Error in genotype");
+//        }
     }
-    
-    public static void main(String[] args){
-        BlottoStrats blot = new BlottoStrats();
-        Object[] pheno;
-        try {
-            pheno = blot.developPheno("11110001011001011001");
-            double count = 0.0;
-            for(int i = 0; i < pheno.length; i++){
-                System.out.println(pheno[i]);
-                count += Double.parseDouble(pheno[i].toString());
-            }
-            System.out.println("Total: " + count);
-        } catch (Exception ex) {
-            Logger.getLogger(BlottoStrats.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
+    @Override
+    public List<IIndividual> calculateFitness(List<IIndividual> population) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -15,20 +15,24 @@ public class MaxOne implements IProblem{
     int[] targetArray;
     
     public MaxOne(String targetString){
-        targetArray = new int[targetString.length()];
-        for (int i = 0; i < targetString.length(); i++){
-            targetArray[i] = (int) targetString.charAt(i);
+        if(targetString.equals("")){
+            targetArray = null;
+        }else{
+            targetArray = new int[targetString.length()];
+            for (int i = 0; i < targetString.length(); i++){
+                targetArray[i] = (int) targetString.charAt(i);
+            }
         }
     }
 
     @Override
-    public Object developPheno(IPhenotype geno){
+    public IPhenotype developPheno(Object geno) throws Exception{
         
         String genostring = geno.toString();
-        int phenotype = new int[genostring.length()];
+        Phenotype phenotype = new Phenotype(genostring.length());
         
-        for(int i = 0; i < phenotype.length; i++){
-            phenotype[i] = (int) genostring.charAt(i);
+        for(int i = 0; i < phenotype.pheno.length; i++){
+            phenotype.pheno[i] = (int) genostring.charAt(i);
         }
         return phenotype;
     }
@@ -54,5 +58,9 @@ public class MaxOne implements IProblem{
 }
 
 class Phenotype implements IPhenotype{
+    public int[] pheno;
     
+    public Phenotype(int size){
+        pheno = new int[size];
+    }
 }
