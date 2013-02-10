@@ -16,15 +16,17 @@ public class ReproductionImpl implements IReproduction{
 
     private double recombinationRate;
     private int recombinationSplit;
+    private double mutationRate;
     
     public ReproductionImpl(double mutationRate, double recombinationRate, 
             int recombinationSplit){
         this.recombinationRate = recombinationRate;
         this.recombinationSplit = recombinationSplit;
+        this.mutationRate = mutationRate;
     }
 
     @Override
-    public Object mutation(Object genotype, double mutationRate) throws Exception{
+    public Object mutation(Object genotype) throws Exception{
         
         //We need a string to manipulate here, throw exception if wrong
         if(!(genotype instanceof String)){
