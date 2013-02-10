@@ -41,7 +41,7 @@ public class Tournament implements IParentSelection{
             }
         }
         //When group is full, roll to check if we're picking the best
-        if((1-chanceBestPick) <= Math.random()){
+        if((1.0-chanceBestPick) <= Math.random()){
             return best;
         }else{
             while(true){

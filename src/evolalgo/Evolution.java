@@ -29,11 +29,10 @@ public class Evolution {
         this.problem = problem;
     }
     
-    public Map loop(List<IIndividual> individuals) throws Exception{        
-        //Make phenotypes
+    public Map runGeneration(List<IIndividual> individuals) throws Exception{        
+        //Make phenotypes if they don't already exist.
         for(int i = 0; i < individuals.size(); i++){
-            individuals.get(i).setPhenotype(
-                    problem.developPheno(individuals.get(i).getGenes()));
+            problem.developPheno(individuals.get(i));
         }
         
         //Finding fitness

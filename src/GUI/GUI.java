@@ -353,7 +353,7 @@ public class GUI extends javax.swing.JFrame {
         try {
             for(int i = 0; i < Integer.parseInt(generations.getText()); i++){
             
-                Map stat = evoLoop.loop(individuals);
+                Map stat = evoLoop.runGeneration(individuals);
                 stat.put("generation", i+1);
                 statistics.add(stat);
                 if(Double.parseDouble(stat.get("maxFitness").toString()) == 1.0){

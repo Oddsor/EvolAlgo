@@ -5,6 +5,7 @@ import evolalgo.IIndividual;
 import evolalgo.IReproduction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,22 +34,18 @@ public class ReproductionImpl implements IReproduction{
             throw new Exception(genotype.toString() + "not a string! Input type: " 
                     + genotype.getClass().getName());
         }
+        String genotypeString = (String) genotype;
+        Random rand = new Random();
+        int mutatedBit = rand.nextInt(genotypeString.length());
+        char[] genoArray = genotypeString.toCharArray();
+        if(genoArray[mutatedBit] == '1') genoArray[mutatedBit] = '0';
+        else genoArray[mutatedBit] = '1';
         
-        char[] genoArray = genotype.toString().toCharArray();
         String newGenotype = "";
         for(int i = 0; i < genoArray.length; i++){
-            
-            //If math.random() (random 0.0 - 1.0) smaller than or equals
-            //mutation rate, mutate character.
-            if(Math.random() <= mutationRate){
-                if(genoArray[i] == '1'){
-                    genoArray[i] = '0';
-                }else genoArray[i] = '1';
-            }
             newGenotype += genoArray[i];
             
         }
-        
         return newGenotype;
     }
 
@@ -60,37 +57,60 @@ public class ReproductionImpl implements IReproduction{
         if(Math.random() <= recombinationRate){
             String gene1 = parents.get(0).getGenes().toString();
             String gene2 = parents.get(1).getGenes().toString();
-            
-            for(int i = 0; i < recombined.length; i++){
-                int splitCount = 0;
-                boolean done = false;
-                boolean alternate = false;
-                if(i == 1){
-                    alternate = true;
-                }
-                while(!done){
-                    if(!alternate){
-                        try{
-                            recombined[i] += gene1.substring(splitCount, splitCount + 
-                                recombinationSplit);
-                        }catch(Exception e){
-                            recombined[i] += gene1.substring(splitCount);
-                            done = true;
-                        }
-                    }else if(alternate){
-                        try{
-                            recombined[i] += gene2.substring(splitCount, splitCount + 
-                                recombinationSplit);
-                        }catch(Exception e){
-                            recombined[i] += gene2.substring(splitCount);
-                            done = true;
-                        }
-                    }
-                    splitCount += recombinationSplit;
-                    alternate = !alternate;
-
+            int geneLength = gene1.length();
+            //Find splitpoints first
+            int[] splits = new int[recombinationSplit];
+            Random rand = new Random();
+            int splitsRemaining = recombinationSplit;
+            int genesRemaining = geneLength;
+            for (int i = 0; i < recombinationSplit; i++){
+                int split = 1 + rand.nextInt(genesRemaining - 2); //Must split inside gene, each end never considered.
+                if (splitsRemaining > 0 && split > genesRemaining / 2) split = geneLength - split; //Idea here is to make sure we split off a smaller portion unless we're near the end.
+                genesRemaining -= split;
+                splitsRemaining -= 1;
+                splits[i] = split;
+            }
+            for (int i = 0; i < splits.length; i++){
+                String subgene1 = gene1.substring(splits[i]);
+                String subgene2 = gene2.substring(splits[i]);
+                if (i % 2 == 0){
+                    recombined[0] += subgene1;
+                    recombined[1] += subgene2;
+                }else{
+                    recombined[0] += subgene2;
+                    recombined[1] += subgene1;
                 }
             }
+//            for(int i = 0; i < recombined.length; i++){
+//                int splitCount = 0;
+//                boolean done = false;
+//                boolean alternate = false;
+//                if(i == 1){
+//                    alternate = true;
+//                }
+//                while(!done){
+//                    if(!alternate){
+//                        try{
+//                            recombined[i] += gene1.substring(splitCount, splitCount + 
+//                                recombinationSplit);
+//                        }catch(Exception e){
+//                            recombined[i] += gene1.substring(splitCount);
+//                            done = true;
+//                        }
+//                    }else if(alternate){
+//                        try{
+//                            recombined[i] += gene2.substring(splitCount, splitCount + 
+//                                recombinationSplit);
+//                        }catch(Exception e){
+//                            recombined[i] += gene2.substring(splitCount);
+//                            done = true;
+//                        }
+//                    }
+//                    splitCount += recombinationSplit;
+//                    alternate = !alternate;
+//
+//                }
+//            }
         }else{
             recombined[0] = parents.get(0).getGenes().toString();
             recombined[1] = parents.get(1).getGenes().toString();

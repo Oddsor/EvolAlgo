@@ -2,11 +2,8 @@
 package problem;
 
 import evolalgo.IIndividual;
-import evolalgo.IPhenotype;
 import evolalgo.IProblem;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Development method for the Blotto Strategies
@@ -26,7 +23,7 @@ public class BlottoStrats implements IProblem{
      * @throws Exception 
      */
     @Override
-    public IPhenotype developPheno(Object geno) throws Exception{
+    public void developPheno(IIndividual individual) throws Exception{
         throw new Exception("Not done yet");
 //        if(geno instanceof String){
 //            int segments = geno.toString().length() / 4;
