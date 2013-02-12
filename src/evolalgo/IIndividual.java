@@ -7,9 +7,9 @@ package evolalgo;
  * @author Odd
  */
 public interface IIndividual {
-    public void setPhenotype(Object phenotype);
+    public void setPhenotype(IPhenotype phenotype);
     
-    public Object phenotype();
+    public IPhenotype phenotype();
     
     public Object getGenes();
     

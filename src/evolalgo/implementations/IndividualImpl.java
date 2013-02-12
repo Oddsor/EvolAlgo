@@ -5,6 +5,7 @@
 package evolalgo.implementations;
 
 import evolalgo.IIndividual;
+import evolalgo.IPhenotype;
 
 /**
  *
@@ -13,7 +14,7 @@ import evolalgo.IIndividual;
 public class IndividualImpl implements IIndividual{
     
     private Object genotype;
-    private Object phenotype;
+    private IPhenotype phenotype;
     private int age;
     private double fitness;
     
@@ -24,12 +25,12 @@ public class IndividualImpl implements IIndividual{
     }
 
     @Override
-    public void setPhenotype(Object phenotype) {
+    public void setPhenotype(IPhenotype phenotype) {
         this.phenotype = phenotype;
     }
 
     @Override
-    public Object phenotype(){
+    public IPhenotype phenotype(){
         return phenotype;
     }
 
