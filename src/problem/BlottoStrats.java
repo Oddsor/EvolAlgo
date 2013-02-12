@@ -52,10 +52,8 @@ public class BlottoStrats implements IProblem{
     public List<IIndividual> calculateFitness(List<IIndividual> population) 
             throws Exception {
         //scores table
-        int[][] battleResults = new int[population.size()][population.size()];
         List<Integer> battleScores = new ArrayList<Integer>();
         BlottoPheno pheno = (BlottoPheno) population.get(0).phenotype();
-        
         
         //For number of battles:
         for(int i = 0; i < pheno.pheno.length; i++){
@@ -105,7 +103,9 @@ public class BlottoStrats implements IProblem{
 
 class BlottoPheno implements IPhenotype{
     public double[] pheno;
+    public List<IIndividual> fought;
     public BlottoPheno(double[] pheno){
         this.pheno = pheno;
+        this.fought = new ArrayList<IIndividual>();
     }
 }
