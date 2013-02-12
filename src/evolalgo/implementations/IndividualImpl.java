@@ -22,6 +22,7 @@ public class IndividualImpl implements IIndividual{
         this.genotype = genotype;
         this.age = 0;
         this.fitness = -1.0;
+        this.phenotype = null;
     }
 
     @Override

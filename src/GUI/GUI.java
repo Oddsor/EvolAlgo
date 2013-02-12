@@ -13,13 +13,14 @@ import evolalgo.IProblem;
 import evolalgo.IReproduction;
 import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
-import evolalgo.implementations.PopulationImpl;
+import evolalgo.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.math.plot.Plot2DPanel;
 import parentselectors.FitnessProportionate;
 import parentselectors.SigmaScaling;
 import parentselectors.Tournament;
@@ -319,9 +320,17 @@ public class GUI extends javax.swing.JFrame {
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
         IPopulation pop = new PopulationImpl();
-        List<Object> genotypes = pop.createPopulation(
+        List<Object> genotypes;
+        if(toggleBit.isSelected()){
+            genotypes = pop.createPopulation(
                 Integer.parseInt(popSize.getText()), 
                 Integer.parseInt(bitStringSize.getText()));
+        }else{
+            genotypes = pop.createPopulation(
+                Integer.parseInt(popSize.getText()), 
+                targetBit.getText().length());
+        }
+        
         
         //Setting up list of individuals
         List<IIndividual> individuals = new ArrayList();
@@ -334,9 +343,15 @@ public class GUI extends javax.swing.JFrame {
         IReproduction reproductor = new ReproductionImpl(
                 Double.parseDouble(mutaRate.getText()), 
                 Double.parseDouble(recombRate.getText()), 
-                Integer.parseInt(recombSplit.toString()));
+                recombSplit.getValue());
         //Selecting a development method (only 1 so far)
-        IProblem problem = new MaxOne("");
+        IProblem problem;
+        if(toggleTarget.isSelected()){
+            problem = new MaxOne(targetBit.getText());
+        }else{
+            problem = new MaxOne("");
+        }
+        
         
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());
@@ -384,10 +399,24 @@ public class GUI extends javax.swing.JFrame {
         //outputScreen.setText(EvolAlgo.evolAlgo(input).toString());
         String formattedString = "";
         formattedString += "Generation\tAvg Fitness\tMax fitness\tMin fitness\n";
+        double[] y = new double[Integer.parseInt(generations.getText())];
+        int i = 0;
         for(Map m: statistics){
             formattedString += m.get("generation") + "\t" + m.get("avgFitness")
                     + "\t" + m.get("maxFitness") + "\t" + m.get("minFitness") + "\n";
+            y[i] = Double.parseDouble(m.get("maxFitness").toString());
+            i++;
         }
+        Plot2DPanel plot = new Plot2DPanel();
+        int[] x = new int[Integer.parseInt(generations.getText())];
+        for (int j = 1; i < x.length; i++){
+            x[i-1] = i;
+        }
+        plot.addLinePlot("my plot", y);
+        javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
+        frame.setContentPane(plot);
+        frame.setSize(500, 400);
+        frame.setVisible(true);
         outputScreen.setText(formattedString);
     }//GEN-LAST:event_StartButtonActionPerformed
 

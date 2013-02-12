@@ -13,7 +13,7 @@ import evolalgo.IProblem;
 import evolalgo.IReproduction;
 import problem.BlottoStrats;
 import evolalgo.implementations.IndividualImpl;
-import evolalgo.implementations.PopulationImpl;
+import evolalgo.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
 import java.util.ArrayList;
 import java.util.List;
