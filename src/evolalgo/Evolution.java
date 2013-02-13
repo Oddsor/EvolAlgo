@@ -36,7 +36,7 @@ public class Evolution {
         }
         
         //Finding fitness
-        individuals = problem.calculateFitness(individuals);
+        problem.calculateFitness(individuals);
 
         //Try replacing the generation
         try{

@@ -8,12 +8,10 @@ import evolalgo.Evolution;
 import evolalgo.IAdultSelection;
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;
-import evolalgo.IPopulation;
 import evolalgo.IProblem;
 import evolalgo.IReproduction;
 import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
-import evolalgo.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -319,16 +317,20 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_numChildrenActionPerformed
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
-        IPopulation pop = new PopulationImpl();
+        //Selecting a development method (only 1 so far)
+        IProblem problem;
+        if(toggleTarget.isSelected()){
+            problem = new MaxOne(targetBit.getText(), targetBit.getText().length());
+        }else{
+            problem = new MaxOne("", Integer.parseInt(bitStringSize.getText()));
+        }
         List<Object> genotypes;
         if(toggleBit.isSelected()){
-            genotypes = pop.createPopulation(
-                Integer.parseInt(popSize.getText()), 
-                Integer.parseInt(bitStringSize.getText()));
+            genotypes = problem.createPopulation(
+                Integer.parseInt(popSize.getText()));
         }else{
-            genotypes = pop.createPopulation(
-                Integer.parseInt(popSize.getText()), 
-                targetBit.getText().length());
+            genotypes = problem.createPopulation(
+                Integer.parseInt(popSize.getText()));
         }
         
         
@@ -343,15 +345,7 @@ public class GUI extends javax.swing.JFrame {
         IReproduction reproductor = new ReproductionImpl(
                 Double.parseDouble(mutaRate.getText()), 
                 Double.parseDouble(recombRate.getText()), 
-                recombSplit.getValue());
-        //Selecting a development method (only 1 so far)
-        IProblem problem;
-        if(toggleTarget.isSelected()){
-            problem = new MaxOne(targetBit.getText());
-        }else{
-            problem = new MaxOne("");
-        }
-        
+                recombSplit.getValue());        
         
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());

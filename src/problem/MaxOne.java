@@ -4,7 +4,9 @@ package problem;
 import evolalgo.IPhenotype;
 import evolalgo.IProblem;
 import evolalgo.IIndividual;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Development method for bit strings.
@@ -13,8 +15,10 @@ import java.util.List;
 public class MaxOne implements IProblem{
     
     int[] targetArray;
+    int length;
     
-    public MaxOne(String targetString){
+    public MaxOne(String targetString, int length){
+        this.length = length;
         if(targetString.equals("")){
             targetArray = null;
         }else{
@@ -39,7 +43,7 @@ public class MaxOne implements IProblem{
     }
     
     @Override
-    public List<IIndividual> calculateFitness(List<IIndividual> population) throws Exception{
+    public void calculateFitness(List<IIndividual> population) throws Exception{
         for(int i = 0; i < population.size(); i++){
             try{
                 population.get(i).fitness();
@@ -59,7 +63,21 @@ public class MaxOne implements IProblem{
                 }population.get(i).setFitness((double) fitnessFactor/ (double) phenoArray.length);
             }
         }
-        return population;
+    }
+    
+    @Override
+    public List<Object> createPopulation(int individuals) {
+        List<Object> list = new ArrayList();
+        for(int i = 0; i < individuals; i++){
+            String bitstring = "";
+            Random rand = new Random();
+            for(int j = 0; j < length; j++){
+                if(rand.nextBoolean() == true) bitstring += "1";
+                else bitstring += "0";
+            }
+            list.add(bitstring);
+        }
+        return list;
     }
 }
 

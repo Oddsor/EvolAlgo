@@ -21,6 +21,7 @@ public interface IProblem {
      */
     public void developPheno(IIndividual individual) throws Exception;
     
-    public List<IIndividual> calculateFitness(List<IIndividual> population) 
+    public void calculateFitness(List<IIndividual> population) 
             throws Exception;
+    public List<Object> createPopulation(int individuals);
 }
