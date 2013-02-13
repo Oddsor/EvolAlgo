@@ -52,7 +52,7 @@ public class IndividualImpl implements IIndividual{
     
     @Override
     public String toString(){
-        return "Individual[Genotype: " + genotype.toString();
+        return "I: " + phenotype.toString() + " (" + genotype.toString() + ")";
     }
 
     @Override

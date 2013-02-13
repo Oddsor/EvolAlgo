@@ -19,6 +19,8 @@ public class Evolution {
     private IProblem problem;
     private IReproduction rep;
     
+    List<Map> stats;
+    
     public Evolution(int numChildren, IReproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
             IProblem problem){
@@ -27,9 +29,10 @@ public class Evolution {
         this.adSel = adSel;
         this.parSel = parSel;
         this.problem = problem;
+        stats = new ArrayList<Map>();
     }
     
-    public Map runGeneration(List<IIndividual> individuals) throws Exception{        
+    public void runGeneration(List<IIndividual> individuals) throws Exception{        
         //Make phenotypes if they don't already exist.
         for(int i = 0; i < individuals.size(); i++){
             problem.developPheno(individuals.get(i));
@@ -54,6 +57,7 @@ public class Evolution {
             if(i.fitness() > maxFitness){
                 maxFitness = i.fitness();
                 statistics.put("maxFitness", maxFitness);
+                statistics.put("bestIndividual", i);
             }
             if(i.fitness() < minFitness){
                 minFitness = i.fitness();
@@ -66,31 +70,15 @@ public class Evolution {
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!
             IIndividual firstParent = parSel.getParent(individuals);
-            List<IIndividual> newindividuals = new ArrayList<IIndividual>();
-            individuals.add(firstParent);
-            boolean different = false;
-            IIndividual secondParent;
-            while(!different){
-                int loopProtection = 0;
-                secondParent = 
-                        parSel.getParent(individuals);
-                if(!firstParent.equals(secondParent)){
-                    different = true;
-                    parents.add(firstParent);
-                    parents.add(secondParent);
-                }
-                loopProtection++;
-                if(loopProtection > 10){
-                    System.out.println("Error in parent select loop");
-                    break;
-                }
-            }
+            parents.add(firstParent);
+            List<IIndividual> remainingindividuals = new ArrayList<IIndividual>(individuals);
+            remainingindividuals.remove(firstParent);
+            parents.add(parSel.getParent(remainingindividuals));
             try{
                 Object[] newGenes = rep.reproduce(parents);
                 for(int k = 0; k < newGenes.length; k++){
                     if(children.size() < numChildren){
                         children.add(new IndividualImpl(newGenes[k]));
-                        //System.out.println("New child with genes: " + newGenes[k]);
                     }
                 }
             }catch(Exception e){
@@ -100,6 +88,17 @@ public class Evolution {
         for(IIndividual c: children){
             individuals.add(c);
         }
-        return statistics;
+        
+        stats.add(statistics);
+    }
+    
+    public void loop(int generations, List<IIndividual> individuals) throws Exception{
+        for (int i = 0; i < generations; i++){
+            runGeneration(individuals);
+        }
+    }
+    
+    public List<Map> getStatistics(){
+        return stats;
     }
 }

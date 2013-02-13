@@ -87,4 +87,11 @@ class MaxOnePheno implements IPhenotype{
     public MaxOnePheno(int size){
         pheno = new int[size];
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
+    
+    
 }

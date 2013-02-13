@@ -4,6 +4,7 @@ package problem;
 import evolalgo.IIndividual;
 import evolalgo.IPhenotype;
 import evolalgo.IProblem;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,7 +49,9 @@ public class BlottoStrats implements IProblem{
                 phenotype[i] = Integer.parseInt(binary, 2);
                 total += phenotype[i];
             }
-            double weight = 1 / total;
+            double weight;
+            if (total == 0.0) weight = 0.001;
+            else weight = 1.0 / total;
             for(int i = 0; i < segments; i++){
                 phenotype[i] = phenotype[i] * weight;
             }
@@ -111,7 +114,6 @@ public class BlottoStrats implements IProblem{
                 }
             }
         }
-        double maxFitness = numBattles * 2;
         int topScore = 0;
         for (IIndividual individual: population){
             BlottoPheno ph = (BlottoPheno) individual.phenotype();
@@ -119,9 +121,7 @@ public class BlottoStrats implements IProblem{
         }
         for (IIndividual individual: population){
             BlottoPheno ph = (BlottoPheno) individual.phenotype();
-            
-            individual.setFitness(ph.score / (topScore + 1));
-            
+            individual.setFitness((double)ph.score / (double)topScore);
             ph.fought = null;
         }
     }
@@ -150,5 +150,16 @@ class BlottoPheno implements IPhenotype{
     public BlottoPheno(double[] pheno){
         this.pheno = pheno;
         fought = new ArrayList<IIndividual>();
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("##.##");
+        String output = "";
+        for (int i = 0; i < pheno.length; i++){
+            output += df.format(pheno[i] * 100);
+            if(i != pheno.length - 1) output += ", ";
+        }
+        return output;
     }
 }

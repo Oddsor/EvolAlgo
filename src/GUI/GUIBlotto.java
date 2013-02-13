@@ -13,6 +13,7 @@ import evolalgo.IReproduction;
 import problem.BlottoStrats;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.ReproductionImpl;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,8 @@ public class GUIBlotto extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         lossFraction = new javax.swing.JTextField();
         redeploymentRate = new javax.swing.JTextField();
+        recombSplit = new javax.swing.JSlider();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,6 +165,11 @@ public class GUIBlotto extends javax.swing.JFrame {
 
         redeploymentRate.setText("1.0");
 
+        recombSplit.setMaximum(2);
+        recombSplit.setMinimum(1);
+
+        jLabel13.setText("Recombination Split (1-2)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,18 +183,24 @@ public class GUIBlotto extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(generations, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mutaRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                            .addComponent(popSize, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(recombRate, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(generations, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mutaRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                                    .addComponent(popSize, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(recombRate, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                .addComponent(recombSplit, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel12)
@@ -236,7 +250,6 @@ public class GUIBlotto extends javax.swing.JFrame {
                     .addComponent(generations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(bitStringSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -259,23 +272,28 @@ public class GUIBlotto extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(AdultSelectBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(ParentSelectionBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(numChildren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(adultSpots, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearButton)
-                    .addComponent(StartButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(ParentSelectionBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(recombSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(numChildren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(adultSpots, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearButton)
+                            .addComponent(StartButton)))
+                    .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -312,7 +330,7 @@ public class GUIBlotto extends javax.swing.JFrame {
         IReproduction reproductor = new ReproductionImpl(
                 Double.parseDouble(mutaRate.getText()), 
                 Double.parseDouble(recombRate.getText()), 
-                4);
+                recombSplit.getValue());
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());
         //Selecting an adult selector (3 to pick from)
@@ -338,36 +356,33 @@ public class GUIBlotto extends javax.swing.JFrame {
         Evolution evoLoop = new Evolution(
                 inumChildren, 
                 reproductor, adSel, parSel, problem);
-        
-        List<Map> statistics = new ArrayList<Map>();
         try {
-            for(int i = 0; i < Integer.parseInt(generations.getText()); i++){
-                Map stat = evoLoop.runGeneration(individuals);
-                stat.put("generation", i+1);
-                statistics.add(stat);
-                if(Double.parseDouble(stat.get("maxFitness").toString()) == 1.0){
-                    break;
-                }
-            }
+            evoLoop.loop(Integer.parseInt(generations.getText()), individuals);
         }catch (Exception ex) {
-            Logger.getLogger(GUIBlotto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        
+        List<Map> statistics = evoLoop.getStatistics();
         
         //outputScreen.setText(EvolAlgo.evolAlgo(input).toString());
         String formattedString = "";
-        formattedString += "Generation\tAvg Fitness\tMax fitness\tMin fitness\n";
+        double[] maxfitnessplot = new double[Integer.parseInt(generations.getText())];
+        double[] avgfitnessplot = new double[Integer.parseInt(generations.getText())];
+        double[] minfitnessplot = new double[Integer.parseInt(generations.getText())];
         int i = 0;
-        double[] y = new double[Integer.parseInt(generations.getText())];
         for(Map m: statistics){
-            formattedString += m.get("generation") + "\t" + m.get("avgFitness")
-                    + "\t" + m.get("maxFitness") + "\t" + m.get("minFitness") + "\n";
-            y[i] = Double.parseDouble(m.get("maxFitness").toString());
+            formattedString += "Generation:" + (i+1) + "\t Best: " +
+                    m.get("bestIndividual").toString() + "\n";
+            maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
+            avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
+            minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
-        plot.addLinePlot("my plot", y);
+        plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
+        plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
+        plot.addLinePlot("Minimum fitness", Color.BLUE, minfitnessplot);
+        plot.addLegend("SOUTH");
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);
         frame.setSize(500, 400);
@@ -438,6 +453,7 @@ public class GUIBlotto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -454,6 +470,7 @@ public class GUIBlotto extends javax.swing.JFrame {
     private javax.swing.JTextArea outputScreen;
     private javax.swing.JTextField popSize;
     private javax.swing.JTextField recombRate;
+    private javax.swing.JSlider recombSplit;
     private javax.swing.JTextField redeploymentRate;
     // End of variables declaration//GEN-END:variables
 }

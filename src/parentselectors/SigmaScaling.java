@@ -31,6 +31,7 @@ public class SigmaScaling extends ParentSelectionImpl implements IParentSelectio
             fitnessdata[i] = population.get(i).fitness();
         }
         double deviation = StandardDeviation.standardDeviationCalculate(fitnessdata);
+        if (deviation == 0.0) deviation = 0.000001;
         for(int i = 0; i < population.size(); i++){
             weights[i] = 1 + ((population.get(i).fitness() - avgFitness) 
                     / (2*deviation));

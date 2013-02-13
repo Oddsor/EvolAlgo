@@ -13,6 +13,7 @@ import evolalgo.IReproduction;
 import problem.MaxOne;
 import evolalgo.implementations.IndividualImpl;
 import evolalgo.implementations.ReproductionImpl;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,6 @@ import org.math.plot.Plot2DPanel;
 import parentselectors.FitnessProportionate;
 import parentselectors.SigmaScaling;
 import parentselectors.Tournament;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -372,37 +368,35 @@ public class GUI extends javax.swing.JFrame {
         Evolution evoLoop = new Evolution(
                 inumChildren, 
                 reproductor, adSel, parSel, problem);
-        
-        List<Map> statistics = new ArrayList<Map>();
         try {
-            for(int i = 0; i < Integer.parseInt(generations.getText()); i++){
-            
-                Map stat = evoLoop.runGeneration(individuals);
-                stat.put("generation", i+1);
-                statistics.add(stat);
-                if(Double.parseDouble(stat.get("maxFitness").toString()) == 1.0){
-                    break;
-                }
-            }
+            evoLoop.loop(Integer.parseInt(generations.getText()), individuals);
         }catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        
+        List<Map> statistics = evoLoop.getStatistics();
         
         //outputScreen.setText(EvolAlgo.evolAlgo(input).toString());
         String formattedString = "";
-        formattedString += "Generation\tAvg Fitness\tMax fitness\tMin fitness\n";
-        double[] y = new double[Integer.parseInt(generations.getText())];
+        double[] maxfitnessplot = new double[Integer.parseInt(generations.getText())];
+        double[] avgfitnessplot = new double[Integer.parseInt(generations.getText())];
+        double[] minfitnessplot = new double[Integer.parseInt(generations.getText())];
         int i = 0;
         for(Map m: statistics){
-            formattedString += m.get("generation") + "\t" + m.get("avgFitness")
-                    + "\t" + m.get("maxFitness") + "\t" + m.get("minFitness") + "\n";
-            y[i] = Double.parseDouble(m.get("maxFitness").toString());
+            formattedString += "Generation:" + (i+1) + "\t Best: " +
+                    m.get("bestIndividual").toString() + "\n";
+            maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
+            avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
+            minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
-        plot.addLinePlot("my plot", y);
+        double[] scaler = {1.0};
+        plot.addScatterPlot("", scaler);
+        plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
+        plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
+        plot.addLinePlot("Minimum fitness", Color.BLUE, minfitnessplot);
+        plot.addLegend("SOUTH");
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);
         frame.setSize(500, 400);
