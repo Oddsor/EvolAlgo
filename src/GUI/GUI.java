@@ -402,10 +402,6 @@ public class GUI extends javax.swing.JFrame {
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
-        int[] x = new int[Integer.parseInt(generations.getText())];
-        for (int j = 1; i < x.length; i++){
-            x[i-1] = i;
-        }
         plot.addLinePlot("my plot", y);
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);

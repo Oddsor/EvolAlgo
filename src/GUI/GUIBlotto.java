@@ -8,26 +8,20 @@ import evolalgo.Evolution;
 import evolalgo.IAdultSelection;
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;
-import evolalgo.IPopulation;
 import evolalgo.IProblem;
 import evolalgo.IReproduction;
 import problem.BlottoStrats;
 import evolalgo.implementations.IndividualImpl;
-import evolalgo.PopulationImpl;
 import evolalgo.implementations.ReproductionImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.math.plot.Plot2DPanel;
 import parentselectors.FitnessProportionate;
 import parentselectors.SigmaScaling;
 import parentselectors.Tournament;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -301,10 +295,11 @@ public class GUIBlotto extends javax.swing.JFrame {
     }//GEN-LAST:event_numChildrenActionPerformed
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
-        IPopulation pop = new PopulationImpl();
-        List<Object> genotypes = pop.createPopulation(
-                Integer.parseInt(popSize.getText()), 
-                Integer.parseInt(bitStringSize.getText()) * 4);
+        //Selecting a development method (only 1 so far)
+        IProblem problem = new BlottoStrats(Integer.parseInt(bitStringSize.getText()), 
+                Double.parseDouble(redeploymentRate.getText()), 
+                Double.parseDouble(lossFraction.getText()));
+        List<Object> genotypes = problem.createPopulation(Integer.parseInt(popSize.getText()));
         
         //Setting up list of individuals
         List<IIndividual> individuals = new ArrayList();
@@ -318,9 +313,6 @@ public class GUIBlotto extends javax.swing.JFrame {
                 Double.parseDouble(mutaRate.getText()), 
                 Double.parseDouble(recombRate.getText()), 
                 4);
-        //Selecting a development method (only 1 so far)
-        IProblem problem = new BlottoStrats();
-        
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());
         //Selecting an adult selector (3 to pick from)
@@ -350,7 +342,6 @@ public class GUIBlotto extends javax.swing.JFrame {
         List<Map> statistics = new ArrayList<Map>();
         try {
             for(int i = 0; i < Integer.parseInt(generations.getText()); i++){
-            
                 Map stat = evoLoop.runGeneration(individuals);
                 stat.put("generation", i+1);
                 statistics.add(stat);
@@ -367,10 +358,20 @@ public class GUIBlotto extends javax.swing.JFrame {
         //outputScreen.setText(EvolAlgo.evolAlgo(input).toString());
         String formattedString = "";
         formattedString += "Generation\tAvg Fitness\tMax fitness\tMin fitness\n";
+        int i = 0;
+        double[] y = new double[Integer.parseInt(generations.getText())];
         for(Map m: statistics){
             formattedString += m.get("generation") + "\t" + m.get("avgFitness")
                     + "\t" + m.get("maxFitness") + "\t" + m.get("minFitness") + "\n";
+            y[i] = Double.parseDouble(m.get("maxFitness").toString());
+            i++;
         }
+        Plot2DPanel plot = new Plot2DPanel();
+        plot.addLinePlot("my plot", y);
+        javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
+        frame.setContentPane(plot);
+        frame.setSize(500, 400);
+        frame.setVisible(true);
         outputScreen.setText(formattedString);
     }//GEN-LAST:event_StartButtonActionPerformed
 

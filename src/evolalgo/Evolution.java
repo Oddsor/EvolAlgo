@@ -66,16 +66,23 @@ public class Evolution {
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!
             IIndividual firstParent = parSel.getParent(individuals);
+            List<IIndividual> newindividuals = new ArrayList<IIndividual>();
+            individuals.add(firstParent);
             boolean different = false;
             IIndividual secondParent;
             while(!different){
+                int loopProtection = 0;
                 secondParent = 
                         parSel.getParent(individuals);
-                if(firstParent.getGenes().toString().equals(
-                        secondParent.getGenes().toString())){
+                if(!firstParent.equals(secondParent)){
                     different = true;
                     parents.add(firstParent);
                     parents.add(secondParent);
+                }
+                loopProtection++;
+                if(loopProtection > 10){
+                    System.out.println("Error in parent select loop");
+                    break;
                 }
             }
             try{

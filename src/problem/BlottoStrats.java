@@ -65,19 +65,10 @@ public class BlottoStrats implements IProblem{
         //Have every individual fight every other individual and increase fitness as they score
         for (IIndividual fighter: population){
             BlottoPheno fighterPheno = (BlottoPheno) fighter.phenotype();
-            try{
-                fighter.fitness();
-            }catch (Exception e){
-                fighter.setFitness(0.0);
-            }
+            fighter.setFitness(0.0);
             for(IIndividual opponent: population){
                 if(!fighter.equals(opponent) && !fighterPheno.fought.contains(opponent)){
                     BlottoPheno opponentPheno = (BlottoPheno) opponent.phenotype();
-                    try{
-                        opponent.fitness();
-                    }catch (Exception e){
-                        opponent.setFitness(0.0);
-                    }
                     int fighterWins = 0;
                     int opponentWins = 0;
                     double[] fighterWeights = new double[numBattles];
@@ -106,12 +97,12 @@ public class BlottoStrats implements IProblem{
                         }
                     }
                     if (fighterWins == opponentWins){
-                        fighter.setFitness(fighter.fitness() + 1);
-                        opponent.setFitness(opponent.fitness() + 1);
+                        fighterPheno.score++;
+                        opponentPheno.score++;
                     }else if(fighterWins > opponentWins){
-                        fighter.setFitness(fighter.fitness() + 2);
+                        fighterPheno.score += 2;
                     }else if(fighterWins < opponentWins){
-                        opponent.setFitness(opponent.fitness() + 2);
+                        opponentPheno.score += 2;
                     }
                     
                     //Note that they've fought eachother
@@ -121,8 +112,17 @@ public class BlottoStrats implements IProblem{
             }
         }
         double maxFitness = numBattles * 2;
+        int topScore = 0;
         for (IIndividual individual: population){
-            individual.setFitness(individual.fitness() / maxFitness);
+            BlottoPheno ph = (BlottoPheno) individual.phenotype();
+            if (ph.score > topScore) topScore = ph.score;
+        }
+        for (IIndividual individual: population){
+            BlottoPheno ph = (BlottoPheno) individual.phenotype();
+            
+            individual.setFitness(ph.score / (topScore + 1));
+            
+            ph.fought = null;
         }
     }
     
@@ -145,6 +145,7 @@ public class BlottoStrats implements IProblem{
 class BlottoPheno implements IPhenotype{
     public double[] pheno;
     public List<IIndividual> fought;
+    public int score;
     
     public BlottoPheno(double[] pheno){
         this.pheno = pheno;
