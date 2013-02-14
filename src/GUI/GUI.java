@@ -330,10 +330,16 @@ public class GUI extends javax.swing.JFrame {
         }
         
         //Creating reproduction mechanism
-        IReproduction reproductor = new ReproductionImpl(
-                Double.parseDouble(mutaRate.getText()), 
-                Double.parseDouble(recombRate.getText()), 
-                recombSplit.getValue());        
+        IReproduction reproductor;
+        try{
+            reproductor = new ReproductionImpl(
+                    Double.parseDouble(mutaRate.getText()), 
+                    Double.parseDouble(recombRate.getText()), 
+                    recombSplit.getValue());
+        }catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+            return;
+        }
         
         IAdultSelection adSel = null;
         int inumChildren = Integer.parseInt(numChildren.getText());

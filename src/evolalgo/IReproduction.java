@@ -23,12 +23,12 @@ public interface IReproduction {
      * @param parents List of parent individuals
      * @return Two recombined genotypes, ready to be formed into new individuals
      */
-    Object[] recombination(List<IIndividual> parents);
+    Object[] recombination(List<IIndividual> parents) throws Exception;
     
     /**
      * This class combines recombination and mutation and returns two children
      * @param parents Two parent individuals
      * @return Two recombined and mutated genotypes.
      */
-    Object[] reproduce(List<IIndividual> parents);
+    Object[] reproduce(List<IIndividual> parents) throws Exception;
 }
