@@ -1,6 +1,8 @@
 
 package evolalgo;
 
+import evolalgo.parentselectors.IParentSelection;
+import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
 import java.util.HashMap;

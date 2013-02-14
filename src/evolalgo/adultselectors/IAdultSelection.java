@@ -1,6 +1,7 @@
 
-package evolalgo;
+package evolalgo.adultselectors;
 
+import evolalgo.IIndividual;
 import java.util.List;
 
 /**

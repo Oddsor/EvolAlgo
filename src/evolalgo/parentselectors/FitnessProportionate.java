@@ -5,7 +5,6 @@
 package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
-import evolalgo.IParentSelection;
 import java.util.List;
 
 /**
