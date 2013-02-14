@@ -34,7 +34,7 @@ public class Evolution {
         stats = new ArrayList<Map>();
     }
     
-    public void runGeneration(List<IIndividual> individuals) throws Exception{        
+    public List<IIndividual> runGeneration(List<IIndividual> individuals) throws Exception{        
         //Make phenotypes if they don't already exist.
         for(int i = 0; i < individuals.size(); i++){
             problem.developPheno(individuals.get(i));
@@ -42,7 +42,6 @@ public class Evolution {
         
         //Finding fitness
         problem.calculateFitness(individuals);
-
         //Try replacing the generation
         try{
             individuals = adSel.getAdults(individuals);
@@ -73,9 +72,9 @@ public class Evolution {
             //Try selecting parents!
             IIndividual firstParent = parSel.getParent(individuals);
             parents.add(firstParent);
-            List<IIndividual> remainingindividuals = new ArrayList<IIndividual>(individuals);
-            remainingindividuals.remove(firstParent);
-            parents.add(parSel.getParent(remainingindividuals));
+            List<IIndividual> otherindividuals = new ArrayList<IIndividual>(individuals);
+            otherindividuals.remove(firstParent);
+            parents.add(parSel.getParent(otherindividuals));
             try{
                 Object[] newGenes = rep.reproduce(parents);
                 for(int k = 0; k < newGenes.length; k++){
@@ -87,16 +86,16 @@ public class Evolution {
                 throw new Exception("Error in reproduction?",e);
             }
         }
-        for(IIndividual c: children){
-            individuals.add(c);
-        }
+        
+        individuals.addAll(children);
         
         stats.add(statistics);
+        return individuals;
     }
     
     public void loop(int generations, List<IIndividual> individuals, boolean stop) throws Exception{
         for (int i = 0; i < generations; i++){
-            runGeneration(individuals);
+            individuals = runGeneration(individuals);
             if(stop){
                 Map m = stats.get(stats.size() - 1);
                 if (Double.parseDouble(m.get("maxFitness").toString()) == 1.0){

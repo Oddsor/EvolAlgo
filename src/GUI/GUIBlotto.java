@@ -11,10 +11,8 @@ import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import evolalgo.IReproduction;
 import evolalgo.problem.BlottoStrats;
-import evolalgo.IndividualImpl;
 import evolalgo.ReproductionImpl;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -340,7 +338,7 @@ public class GUIBlotto extends javax.swing.JFrame {
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Gen mixing")){
             adSel = new GenerationalMixing(Integer.parseInt(adultSpots.getText()));
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Over-production")){
-            adSel = new OverProduction(Integer.parseInt(adultSpots.getText()));
+            adSel = new OverProduction();
         }        
         IParentSelection parSel = null;
         //Selecting a parent selector
@@ -355,8 +353,37 @@ public class GUIBlotto extends javax.swing.JFrame {
         Evolution evoLoop = new Evolution(
                 inumChildren, 
                 reproductor, adSel, parSel, problem);
+        int numGenerations = Integer.parseInt(generations.getText());
+        double[] avgEntropy = new double[numGenerations];
+        double[] stdDev = new double[numGenerations];
         try {
-            evoLoop.loop(Integer.parseInt(generations.getText()), individuals, false);
+            for (int i = 0; i < numGenerations; i++){
+                individuals = evoLoop.runGeneration(individuals);
+                double[] fitnesses = new double[Integer.parseInt(popSize.getText())];
+                int numParents = 0;
+                for(IIndividual ind: individuals){
+                    if(ind.age() > 0){
+                        fitnesses[numParents] = ind.fitness();
+                        String pheno = ind.phenotype().toString().trim();
+                        String[] phenosplit = pheno.split(";");
+                        double sum = 0.0;
+                        for (int j = 0; j < phenosplit.length; j++){
+                            phenosplit[j] = phenosplit[j].replace(',', '.');
+                            double value = Double.parseDouble(phenosplit[j].trim());
+                            if (value != 0.0){
+                                double logcalc = (value * (Math.log(value)/Math.log(2.0)));
+                                sum -= logcalc;
+                            }
+                        }
+                        
+                        avgEntropy[i] += sum;
+                        numParents++;
+                    }
+                }
+                avgEntropy[i] = avgEntropy[i] / (double)numParents;
+                stdDev[i] = StandardDeviation.StandardDeviationMean(fitnesses);
+            }
+            
         }catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -367,25 +394,30 @@ public class GUIBlotto extends javax.swing.JFrame {
         String formattedString = "";
         double[] maxfitnessplot = new double[Integer.parseInt(generations.getText())];
         double[] avgfitnessplot = new double[Integer.parseInt(generations.getText())];
-        double[] minfitnessplot = new double[Integer.parseInt(generations.getText())];
         int i = 0;
         for(Map m: statistics){
             formattedString += "Generation:" + (i+1) + "\t Best: " +
                     m.get("bestIndividual").toString() + "\n";
             maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
             avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
-            minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
         plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
         plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
-        plot.addLinePlot("Minimum fitness", Color.BLUE, minfitnessplot);
+        plot.addLinePlot("Standard deviation", Color.BLACK, stdDev);
         plot.addLegend("SOUTH");
+        Plot2DPanel plot2 = new Plot2DPanel();
+        plot2.addLinePlot("Average entropy", Color.BLUE, avgEntropy);
+        plot2.addLegend("SOUTH");
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
+        javax.swing.JFrame frame2 = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);
         frame.setSize(500, 400);
         frame.setVisible(true);
+        frame2.setContentPane(plot2);
+        frame2.setSize(500, 400);
+        frame2.setVisible(true);
         outputScreen.setText(formattedString);
     }//GEN-LAST:event_StartButtonActionPerformed
 
@@ -472,4 +504,54 @@ public class GUIBlotto extends javax.swing.JFrame {
     private javax.swing.JSlider recombSplit;
     private javax.swing.JTextField redeploymentRate;
     // End of variables declaration//GEN-END:variables
+}
+
+
+class StandardDeviation
+{
+
+    public static double StandardDeviationMean ( double[] data )
+    {
+        // sd is sqrt of sum of (values-mean) squared divided by n - 1
+        // Calculate the mean
+        double mean = 0;
+        final int n = data.length;
+        if ( n < 2 )
+        {
+        return Double.NaN;
+        }
+        for ( int i=0; i<n; i++ )
+        {
+        mean += data[i];
+        }
+        mean /= n;
+        // calculate the sum of squares
+        double sum = 0;
+        for ( int i=0; i<n; i++ )
+        {
+        final double v = data[i] - mean;
+        sum += v * v;
+        }
+        // Change to ( n - 1 ) to n if you have complete data instead of a sample.
+        return Math.sqrt( sum / ( n - 1 ) );
+    }
+
+    public static double standardDeviationCalculate ( double[] data )
+    {
+        final int n = data.length;
+        if ( n < 2 )
+        {
+            return Double.NaN;
+        }
+        double avg = data[0];
+        double sum = 0;
+        for ( int i = 1; i < data.length; i++ )
+        {
+            double newavg = avg + ( data[i] - avg ) / ( i + 1 );
+            sum += ( data[i] - avg ) * ( data [i] -newavg ) ;
+            avg = newavg;
+        }
+        // Change to ( n - 1 ) to n if you have complete data instead of a sample.
+        return Math.sqrt( sum / ( n ) );
+    }
 }

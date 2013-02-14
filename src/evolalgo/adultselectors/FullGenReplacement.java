@@ -9,11 +9,11 @@ import java.util.List;
  * This selection protocol kills all adults and lets all children become adults
  * @author Odd
  */
-public class FullGenReplacement extends AdultSelectionImpl implements IAdultSelection{
+public class FullGenReplacement extends AdultSelection implements IAdultSelection{
     @Override
     public List<IIndividual> getAdults(List<IIndividual> population) 
             throws Exception{
-        double[] childAdult = AdultSelectionImpl.findAdultChildRatio(population);
+        int[] childAdult = findAdultChildRatio(population);
         //If we have equal number of adults and children, begin replacement
         if(childAdult[0] == childAdult[1]){
             Iterator<IIndividual> it = population.iterator();
@@ -23,9 +23,9 @@ public class FullGenReplacement extends AdultSelectionImpl implements IAdultSele
                     it.remove();
                 }
             }
-            return AdultSelectionImpl.growPopulation(population);
-        }else if(childAdult[1] == 0.0){
-            return AdultSelectionImpl.growPopulation(population);
+            return growPopulation(population);
+        }else if(childAdult[1] == 0){
+            return growPopulation(population);
         }else throw new Exception("Population has uneven number of children and "
                 + "adults!(" + childAdult[0] + " children, " + childAdult[1] + " adults)");
     }

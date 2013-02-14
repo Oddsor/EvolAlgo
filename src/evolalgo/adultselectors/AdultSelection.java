@@ -1,4 +1,3 @@
-
 package evolalgo.adultselectors;
 
 import evolalgo.IIndividual;
@@ -9,7 +8,7 @@ import java.util.List;
  * Helper class for the adult selectors. Contains helpful methods.
  * @author Odd
  */
-abstract class AdultSelectionImpl{
+abstract class AdultSelection{
     
     /**
      * Ages all members of the population by one generation.
@@ -31,34 +30,32 @@ abstract class AdultSelectionImpl{
      */
     public static List<IIndividual> selectBestFit(List<IIndividual> population, 
             int adultSpots) throws Exception{
-        //TODO fix this. Broken!
         List<IIndividual> newPopulation = new ArrayList<IIndividual>();
         //Loop through and pick best candidates
+        //List<IIndividual> populationcopy = new ArrayList<IIndividual>(population);
         while(newPopulation.size() < adultSpots){
             IIndividual highestIndividual = null;
             for(IIndividual i: population){
                 if(highestIndividual == null){
                     highestIndividual = i;
-                }else if(highestIndividual.fitness() == i.fitness()){
-                    //TODO Two with same fitness, prioritize child?
-                }else if(highestIndividual.fitness() < i.fitness() && 
-                        !newPopulation.contains(i)){
+                }else if(highestIndividual.fitness() < i.fitness()){
                     highestIndividual = i;
                 }
             }
             newPopulation.add(highestIndividual);
+            population.remove(highestIndividual);
         }
-        return growPopulation(newPopulation);
+        return newPopulation;
     }
     
     /**
      * Used to find the ratio of adults and children
      * @param population
-     * @return double[] Number of children and number of adults
+     * @return int[] Number of children and number of adults
      */
-    public static double[] findAdultChildRatio(List<IIndividual> population){        
-        double countChildren = 0.0;
-        double countAdults = 0.0;
+    public static int[] findAdultChildRatio(List<IIndividual> population){        
+        int countChildren = 0;
+        int countAdults = 0;
         for(IIndividual i: population){
             if(i.age() == 0){
                 countChildren++;
@@ -66,7 +63,7 @@ abstract class AdultSelectionImpl{
                 countAdults++;
             }
         }
-        double[] count = {countChildren, countAdults};
+        int[] count = {countChildren, countAdults};
         return count;
     }
 }

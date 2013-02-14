@@ -2,6 +2,7 @@
 package evolalgo.adultselectors;
 
 import evolalgo.IIndividual;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,32 +10,30 @@ import java.util.List;
  * Not properly implemented yet!
  * @author Odd
  */
-public class OverProduction extends AdultSelectionImpl implements IAdultSelection{
+public class OverProduction extends AdultSelection implements IAdultSelection{
     
-    private int adultSpots;
-    
-    public OverProduction(int adultSpots){
-        this.adultSpots = adultSpots;
+    public OverProduction(){
     }
     
     @Override
     public List<IIndividual> getAdults(List<IIndividual> population) 
             throws Exception{
-        //TODO test this method
-        double[] childAdult = findAdultChildRatio(population);
-        if(childAdult[0] <= adultSpots){
-            throw new Exception("N children smaller than or equal to number of "
-                    + "adult spots! Use replacement method or produce more.");
-        }else if(childAdult[0] == 0){
-            throw new Exception("Error, no children found!");
+        int[] childAdult = findAdultChildRatio(population);
+        if(childAdult[1] == 0){
+            return growPopulation(population);
         }
+        if(childAdult[0] <= childAdult[1]){
+            throw new Exception("N children (" + childAdult[0] + ") smaller than or equal to number of "
+                    + "adults (" + childAdult[1] + ")! Use replacement method or produce more.");
+        }
+        List<IIndividual> populationcopy = new ArrayList<IIndividual>();
         //Kill old people
         for(IIndividual i: population){
-            if(i.age() > 0){
-                population.remove(i);
+            if(i.age() == 0){
+                populationcopy.add(i);
             }
         }
         //Use standard selection method after adults are dead
-        return selectBestFit(population, adultSpots);
+        return growPopulation(selectBestFit(populationcopy, childAdult[1]));
     }
 }

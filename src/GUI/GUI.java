@@ -11,10 +11,8 @@ import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import evolalgo.IReproduction;
 import evolalgo.problem.MaxOne;
-import evolalgo.IndividualImpl;
 import evolalgo.ReproductionImpl;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -351,7 +349,7 @@ public class GUI extends javax.swing.JFrame {
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Gen mixing")){
             adSel = new GenerationalMixing(Integer.parseInt(adultSpots.getText()));
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Over-production")){
-            adSel = new OverProduction(Integer.parseInt(adultSpots.getText()));
+            adSel = new OverProduction();
         }        
         IParentSelection parSel = null;
         //Selecting a parent selector
@@ -360,7 +358,7 @@ public class GUI extends javax.swing.JFrame {
         }else if(ParentSelectionBox.getSelectedItem().toString().equals("SigmaScaling")){
             parSel = new SigmaScaling();
         }else if(ParentSelectionBox.getSelectedItem().toString().equals("Tournament")){
-            parSel = new Tournament(10, 0.3);
+            parSel = new Tournament(10, 0.1);
         }
         
         Evolution evoLoop = new Evolution(

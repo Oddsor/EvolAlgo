@@ -27,7 +27,7 @@ public class BlottoStrats implements IProblem{
         redeploymentRate = R;
         defectionRate = L;
     }
-
+    
     /**
      * Creates phenotype
      * @param geno the genotype bitstring, where segments of 4 bits account for
@@ -65,6 +65,7 @@ public class BlottoStrats implements IProblem{
     public void calculateFitness(List<IIndividual> population) 
             throws Exception {
         //Have every individual fight every other individual and increase fitness as they score
+        int warpoints = 0;
         for (IIndividual fighter: population){
             BlottoPheno fighterPheno = (BlottoPheno) fighter.phenotype();
             fighter.setFitness(0.0);
@@ -106,6 +107,7 @@ public class BlottoStrats implements IProblem{
                     }else if(fighterWins < opponentWins){
                         opponentPheno.score += 2;
                     }
+                    warpoints += 2;
                     
                     //Note that they've fought eachother
                     fighterPheno.fought.add(opponent);
@@ -160,11 +162,11 @@ class BlottoPheno implements IPhenotype{
 
     @Override
     public String toString() {
-        DecimalFormat df = new DecimalFormat("##.##");
+        DecimalFormat df = new DecimalFormat("#.##");
         String output = "";
         for (int i = 0; i < pheno.length; i++){
-            output += df.format(pheno[i] * 100);
-            if(i != pheno.length - 1) output += ", ";
+            output += df.format(pheno[i]);
+            if(i != pheno.length - 1) output += "; ";
         }
         return output;
     }
