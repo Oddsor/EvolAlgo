@@ -1,15 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
 import java.util.List;
 
 /**
- * An early and buggy implementation of Sigma Scaling. The values returned from
- * this method has not been tested sufficiently.
+ * This parent selection method uses standard deviation to scale
+ * individuals before they enter the spinning wheel. Uses a standard deviation
+ * function stolen from the internet.
  * @author Odd
  */
 public class SigmaScaling extends ParentSelection implements IParentSelection{
@@ -89,12 +86,5 @@ class StandardDeviation
         }
         // Change to ( n - 1 ) to n if you have complete data instead of a sample.
         return Math.sqrt( sum / ( n ) );
-    }
-
-    public static void main ( String[] args )
-    {
-        double[] data = { 10, 100 , 50};
-        System.out.println(StandardDeviationMean(data));
-        System.out.println(standardDeviationCalculate (data));
     }
 }

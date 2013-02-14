@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
@@ -10,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Finds the strongest parent in a sub-group of the population
+ * Tournament selection finds the strongest parent in a sub-group of the population
  * @author Odd
  */
 public class Tournament implements IParentSelection{

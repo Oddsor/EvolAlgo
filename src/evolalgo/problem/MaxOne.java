@@ -1,4 +1,3 @@
-
 package evolalgo.problem;
 
 import evolalgo.IPhenotype;
