@@ -1,6 +1,7 @@
 
-package evolalgo;
+package evolalgo.problem;
 
+import evolalgo.IIndividual;
 import java.util.List;
 
 /**
@@ -23,5 +24,5 @@ public interface IProblem {
     
     public void calculateFitness(List<IIndividual> population) 
             throws Exception;
-    public List<Object> createPopulation(int individuals);
+    public List<IIndividual> createPopulation(int individuals);
 }

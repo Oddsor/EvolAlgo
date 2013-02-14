@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parentselectors;
+package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;
@@ -13,7 +13,7 @@ import java.util.List;
  * this method has not been tested sufficiently.
  * @author Odd
  */
-public class SigmaScaling extends ParentSelectionImpl implements IParentSelection{
+public class SigmaScaling extends ParentSelection implements IParentSelection{
     @Override
     public IIndividual getParent(List<IIndividual> population) throws Exception{
         double[] weights = new double[population.size()];

@@ -1,6 +1,7 @@
 
-package evolalgo.implementations;
+package evolalgo;
 
+import evolalgo.IndividualImpl;
 import evolalgo.IIndividual;
 import evolalgo.IReproduction;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 
 package evolalgo;
 
-import evolalgo.implementations.IndividualImpl;
+import evolalgo.problem.IProblem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,9 +92,15 @@ public class Evolution {
         stats.add(statistics);
     }
     
-    public void loop(int generations, List<IIndividual> individuals) throws Exception{
+    public void loop(int generations, List<IIndividual> individuals, boolean stop) throws Exception{
         for (int i = 0; i < generations; i++){
             runGeneration(individuals);
+            if(stop){
+                Map m = stats.get(stats.size() - 1);
+                if (Double.parseDouble(m.get("maxFitness").toString()) == 1.0){
+                    break;
+                }
+            }
         }
     }
     

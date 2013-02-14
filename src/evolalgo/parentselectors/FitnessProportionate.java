@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parentselectors;
+package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;
@@ -13,7 +13,7 @@ import java.util.List;
  * by their fitness value
  * @author Odd
  */
-public class FitnessProportionate extends ParentSelectionImpl 
+public class FitnessProportionate extends ParentSelection 
         implements IParentSelection{
     @Override
     public IIndividual getParent(List<IIndividual> population) 

@@ -1,18 +1,18 @@
 package GUI;
 
 
-import adultselectors.FullGenReplacement;
-import adultselectors.GenerationalMixing;
-import adultselectors.OverProduction;
+import evolalgo.adultselectors.FullGenReplacement;
+import evolalgo.adultselectors.GenerationalMixing;
+import evolalgo.adultselectors.OverProduction;
 import evolalgo.Evolution;
 import evolalgo.IAdultSelection;
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;
-import evolalgo.IProblem;
+import evolalgo.problem.IProblem;
 import evolalgo.IReproduction;
-import problem.MaxOne;
-import evolalgo.implementations.IndividualImpl;
-import evolalgo.implementations.ReproductionImpl;
+import evolalgo.problem.MaxOne;
+import evolalgo.IndividualImpl;
+import evolalgo.ReproductionImpl;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.math.plot.Plot2DPanel;
-import parentselectors.FitnessProportionate;
-import parentselectors.SigmaScaling;
-import parentselectors.Tournament;
+import evolalgo.parentselectors.FitnessProportionate;
+import evolalgo.parentselectors.SigmaScaling;
+import evolalgo.parentselectors.Tournament;
 
 /**
  *
@@ -320,21 +320,13 @@ public class GUI extends javax.swing.JFrame {
         }else{
             problem = new MaxOne("", Integer.parseInt(bitStringSize.getText()));
         }
-        List<Object> genotypes;
+        List<IIndividual> individuals;
         if(toggleBit.isSelected()){
-            genotypes = problem.createPopulation(
+            individuals = problem.createPopulation(
                 Integer.parseInt(popSize.getText()));
         }else{
-            genotypes = problem.createPopulation(
+            individuals = problem.createPopulation(
                 Integer.parseInt(popSize.getText()));
-        }
-        
-        
-        //Setting up list of individuals
-        List<IIndividual> individuals = new ArrayList();
-        
-        for(Object o: genotypes){
-            individuals.add(new IndividualImpl(o));
         }
         
         //Creating reproduction mechanism
@@ -369,7 +361,7 @@ public class GUI extends javax.swing.JFrame {
                 inumChildren, 
                 reproductor, adSel, parSel, problem);
         try {
-            evoLoop.loop(Integer.parseInt(generations.getText()), individuals);
+            evoLoop.loop(Integer.parseInt(generations.getText()), individuals, true);
         }catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             return;

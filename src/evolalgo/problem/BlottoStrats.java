@@ -1,9 +1,9 @@
 
-package problem;
+package evolalgo.problem;
 
 import evolalgo.IIndividual;
 import evolalgo.IPhenotype;
-import evolalgo.IProblem;
+import evolalgo.IndividualImpl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +127,8 @@ public class BlottoStrats implements IProblem{
     }
     
     @Override
-    public List<Object> createPopulation(int individuals) {
-        List<Object> list = new ArrayList();
+    public List<IIndividual> createPopulation(int individuals) {
+        List<Object> genotypes = new ArrayList();
         for(int i = 0; i < individuals; i++){
             String bitstring = "";
             Random rand = new Random();
@@ -136,9 +136,16 @@ public class BlottoStrats implements IProblem{
                 if(rand.nextBoolean() == true) bitstring += "1";
                 else bitstring += "0";
             }
-            list.add(bitstring);
+            genotypes.add(bitstring);
         }
-        return list;
+        
+        //Setting up list of individuals
+        List<IIndividual> population = new ArrayList();
+        
+        for(Object o: genotypes){
+            population.add(new IndividualImpl(o));
+        }
+        return population;
     }
 }
 

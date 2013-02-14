@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parentselectors;
+package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
 import evolalgo.IParentSelection;

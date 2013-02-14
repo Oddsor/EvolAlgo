@@ -1,14 +1,14 @@
 
-package parentselectors;
+package evolalgo.parentselectors;
 
 import evolalgo.IIndividual;
 import java.util.List;
 
 /**
- * This class contains various methods used to find parents
+ * This class contains various common methods used to find parents
  * @author Odd
  */
-public class ParentSelectionImpl{
+public class ParentSelection{
     
     IIndividual spinWheel(double[] weights, 
             List<IIndividual> population){
