@@ -89,8 +89,10 @@ public class SpikingNeuron implements IProblem{
                         v = pheno.c;
                         u = u + pheno.d;
                     }
-                    v = (pheno.k * Math.pow(v, 2.0) + 5*v + 140 - u + I) / T;
-                    u = pheno.a / T * (pheno.b * v - u);
+                    double vd = (pheno.k * Math.pow(v, 2.0) + 5*v + 140 - u + I) / T;
+                    double ud = pheno.a / T * (pheno.b * v - u);
+                    v += vd;
+                    u += ud;
                     valueArray[j] = v;
                 }
                 pheno.spiketrain = valueArray;
