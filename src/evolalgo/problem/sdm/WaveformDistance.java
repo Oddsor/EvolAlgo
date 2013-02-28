@@ -18,7 +18,7 @@ public class WaveformDistance implements ISDM {
 			
 		}
 		
-		return sum/smallest;
+		return Math.pow(sum,1.0/p)/smallest;
 	}
 	public double getP() {
 		return p;
