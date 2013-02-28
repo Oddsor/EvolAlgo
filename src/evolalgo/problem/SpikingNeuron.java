@@ -20,7 +20,9 @@ import java.util.logging.Logger;
 import org.math.plot.Plot2DPanel;
 
 /**
- *
+ * The spiking neuron problem simulates a single artificial neuron by using a
+ * formula consisting of 5 parameters. The calculations simulates a "spiking"
+ * pattern.
  * @author Odd
  */
 public class SpikingNeuron implements IProblem{
@@ -29,8 +31,12 @@ public class SpikingNeuron implements IProblem{
     ISDM sdm;
     
     /**
+     * For this problem we need to input a Spike-time Distance Metric to compare
+     * the traits found by evolution against some target data. These methods
+     * must use the ISDM-interface. <br/>
      * 
-     * @param file Training data 1 to 4
+     * The target data is provided in the assignment through four files.
+     * @param file Training data, files [1, 4].
      */
     public SpikingNeuron(int file, ISDM sdm){
         this.sdm = sdm;
@@ -72,8 +78,8 @@ public class SpikingNeuron implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-        final double T = 10;
-        final double I = 10;
+        final double T = 10.0;
+        final double I = 10.0;
         
         for (int i = 0; i < population.size(); i++){
             SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
@@ -87,13 +93,15 @@ public class SpikingNeuron implements IProblem{
                 for (int j = 1; j < target.length; j++){
                     if (v >= 35.0){
                         v = pheno.c;
-                        u = u + pheno.d;
+                        u += pheno.d;
                     }
-                    double vd = (pheno.k * Math.pow(v, 2.0) + 5*v + 140 - u + I) / T;
-                    double ud = pheno.a / T * (pheno.b * v - u);
+                    double vd = (1.0 / T) * (pheno.k * Math.pow(v, 2.0) + 5.0*v + 140.0 - u + I);
+                    double ud = (pheno.a / T) * (pheno.b * v - u);
                     v += vd;
                     u += ud;
-                    valueArray[j] = v;
+                    if(v >= 35.0) valueArray[j] = 35.0;
+                    //else if(v <= -60.0) valueArray[j] = -80.0;
+                    else valueArray[j] = v;
                 }
                 pheno.spiketrain = valueArray;
                 //TODO fitness may need to be scaled somehow.
@@ -141,6 +149,10 @@ public class SpikingNeuron implements IProblem{
     }
 }
 
+/**
+ * The phenotype for this problem is in 
+ * @author Odd
+ */
 class SNPhenotype implements IPhenotype{
     /**
      * How many values do we get from the bit length? For instance a length of
@@ -150,28 +162,28 @@ class SNPhenotype implements IPhenotype{
     /**
      * The parameter a has a valid range of [0.001, 0.2]
      */
-    public double a;
+    public final double a;
     private static final double A_SCALER = (0.2 - 0.001) / BIT_VALUES;
     /**
      * The parameter b has a valid range of [0.01, 0.3]
      */
-    public double b;
+    public final double b;
     private static final double B_SCALER = (0.3 - 0.01) / BIT_VALUES;
     /**
      * The parameter c has a valid range of [-80, -30]
      */
-    public double c;
+    public final double c;
     private static final double C_SCALER = (-30 - -80) / BIT_VALUES;
     private static final double C_MIN = -80;
     /**
      * The parameter d has a valid range of [0.1, 10]
      */
-    public double d;
+    public final double d;
     private static final double D_SCALER = (10 - 0.1) / BIT_VALUES;
     /**
      * The parameter k has a valid range of [0.01, 1.0]
      */
-    public double k;
+    public final double k;
     private static final double K_SCALER = (1.0 - 0.01) / BIT_VALUES;
     
     public double[] spiketrain;
@@ -193,6 +205,10 @@ class SNPhenotype implements IPhenotype{
 
     @Override
     public String toString() {
+        for(int i = 0; i < spiketrain.length; i++){
+            System.out.print(spiketrain[i] + " ");
+        }
+        System.out.println("");
         return "A: " + a + ", B: " + b + ", C: " + c + ", D: " + d + ", K: " + k;
     }
 }
