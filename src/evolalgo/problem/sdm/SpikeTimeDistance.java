@@ -23,13 +23,9 @@ public class SpikeTimeDistance implements ISDM{
         List<Integer> spiketrainSpikes = new ArrayList<Integer>();
        
         for (int i = 0; i < target.length; i++){
-<<<<<<< HEAD
+
             if(spiketrain[i] >= threshold) spiketrainSpikes.add(i);
             if(spiketrain[i] >= threshold) targetSpikes.add(i);
-=======
-            if(spiketrain[i] >= 35.0) spiketrainSpikes.add(i);
-            if(spiketrain[i] >= 35.0) targetSpikes.add(i);
->>>>>>> branch 'master' of https://github.com/Oddsor/EvolAlgo.git
         }
         int N = (targetSpikes.size() < spiketrainSpikes.size()) ? targetSpikes.size() : spiketrainSpikes.size();
         double sum = 0.0;
