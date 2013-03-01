@@ -50,7 +50,7 @@ public class AdultGenMixingPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField adultSpots;
+    public javax.swing.JTextField adultSpots;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

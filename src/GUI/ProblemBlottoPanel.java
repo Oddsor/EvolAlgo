@@ -79,11 +79,11 @@ public class ProblemBlottoPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField battleField;
+    public javax.swing.JTextField battleField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField lossFractionField;
-    private javax.swing.JTextField redeploymentField;
+    public javax.swing.JTextField lossFractionField;
+    public javax.swing.JTextField redeploymentField;
     // End of variables declaration//GEN-END:variables
 }

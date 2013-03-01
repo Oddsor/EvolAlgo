@@ -11,8 +11,10 @@ import java.util.List;
  * @author Odd
  */
 public class OverProduction extends AdultSelection implements IAdultSelection{
+    private double overProductionRate;
     
-    public OverProduction(){
+    public OverProduction(double overProductionRate){
+        this.overProductionRate = overProductionRate;
     }
     
     @Override

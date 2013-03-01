@@ -23,7 +23,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextField1" pref="30" max="32767" attributes="0"/>
+                  <Component id="pickBestField" pref="30" max="32767" attributes="0"/>
                   <Component id="tournamentSizeField" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -38,7 +38,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pickBestField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="PickBestLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -54,12 +54,19 @@
     <Component class="javax.swing.JTextField" name="tournamentSizeField">
       <Properties>
         <Property name="text" type="java.lang.String" value="10"/>
+        <Property name="toolTipText" type="java.lang.String" value="Set the size of the free-for-all arenas that parents get thrown into during parent selection. Happens multiple times, and parents may be thrown into arenas multiple times."/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="pickBestField">
       <Properties>
         <Property name="text" type="java.lang.String" value="30"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="PickBestLabel">
       <Properties>

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Evolution {
     //TODO Number of children in over population should be implicit 
-    private int numChildren;
+    private int populationSize;
     private IAdultSelection adSel;
     private IParentSelection parSel;
     private IProblem problem;
@@ -23,11 +23,11 @@ public class Evolution {
     
     List<Map> stats;
     
-    public Evolution(int numChildren, IReproduction rep,
+    public Evolution(int populationSize, IReproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
             IProblem problem){
         this.rep = rep;
-        this.numChildren = numChildren;
+        this.populationSize = populationSize;
         this.adSel = adSel;
         this.parSel = parSel;
         this.problem = problem;
@@ -67,7 +67,7 @@ public class Evolution {
         }statistics.put("avgFitness", countFitness / individuals.size());
         //Start producing children.
         List<IIndividual> children = new ArrayList<IIndividual>();
-        while(children.size() < numChildren){
+        while(children.size() < populationSize){
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!
             IIndividual firstParent = parSel.getParent(individuals);
@@ -78,7 +78,7 @@ public class Evolution {
             try{
                 Object[] newGenes = rep.reproduce(parents);
                 for(int k = 0; k < newGenes.length; k++){
-                    if(children.size() < numChildren){
+                    if(children.size() < populationSize){
                         children.add(new IndividualImpl(newGenes[k]));
                     }
                 }
@@ -93,7 +93,8 @@ public class Evolution {
         return individuals;
     }
     
-    public void loop(int generations, List<IIndividual> individuals, boolean stop) throws Exception{
+    public void loop(int generations, boolean stop) throws Exception{
+        List<IIndividual> individuals = problem.createPopulation(populationSize);
         for (int i = 0; i < generations; i++){
             individuals = runGeneration(individuals);
             if(stop){

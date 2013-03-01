@@ -28,14 +28,15 @@ public class ParentTournamentPanel extends javax.swing.JPanel {
 
         tournamentSizeLabel = new javax.swing.JLabel();
         tournamentSizeField = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        pickBestField = new javax.swing.JTextField();
         PickBestLabel = new javax.swing.JLabel();
 
         tournamentSizeLabel.setText("Tournament Size:");
 
         tournamentSizeField.setText("10");
+        tournamentSizeField.setToolTipText("Set the size of the free-for-all arenas that parents get thrown into during parent selection. Happens multiple times, and parents may be thrown into arenas multiple times.");
 
-        jTextField1.setText("30");
+        pickBestField.setText("30");
 
         PickBestLabel.setText("Pick best %:");
 
@@ -49,7 +50,7 @@ public class ParentTournamentPanel extends javax.swing.JPanel {
                     .addComponent(PickBestLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(pickBestField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(tournamentSizeField)))
         );
         layout.setVerticalGroup(
@@ -60,14 +61,14 @@ public class ParentTournamentPanel extends javax.swing.JPanel {
                     .addComponent(tournamentSizeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pickBestField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PickBestLabel)))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PickBestLabel;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField tournamentSizeField;
+    public javax.swing.JTextField pickBestField;
+    public javax.swing.JTextField tournamentSizeField;
     private javax.swing.JLabel tournamentSizeLabel;
     // End of variables declaration//GEN-END:variables
 }

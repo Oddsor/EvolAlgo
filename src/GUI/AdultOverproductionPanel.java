@@ -51,6 +51,6 @@ public class AdultOverproductionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField overproductionField;
+    public javax.swing.JTextField overproductionField;
     // End of variables declaration//GEN-END:variables
 }

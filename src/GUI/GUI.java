@@ -25,7 +25,9 @@ import evolalgo.parentselectors.Tournament;
 /**
  *
  * @author Odd
+ * @deprecated Run EvoGUI instead
  */
+@Deprecated
 public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI
@@ -349,7 +351,7 @@ public class GUI extends javax.swing.JFrame {
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Gen mixing")){
             adSel = new GenerationalMixing(Integer.parseInt(adultSpots.getText()));
         }else if(AdultSelectBox.getSelectedItem().toString().equals("Over-production")){
-            adSel = new OverProduction();
+            //adSel = new OverProduction();
         }        
         IParentSelection parSel = null;
         //Selecting a parent selector
@@ -365,7 +367,7 @@ public class GUI extends javax.swing.JFrame {
                 inumChildren, 
                 reproductor, adSel, parSel, problem);
         try {
-            evoLoop.loop(Integer.parseInt(generations.getText()), individuals, true);
+            //evoLoop.loop(Integer.parseInt(generations.getText()), true);
         }catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             return;

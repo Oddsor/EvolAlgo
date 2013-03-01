@@ -88,9 +88,9 @@ public class ProblemMaxOne extends javax.swing.JPanel {
     }//GEN-LAST:event_bitInputButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton bitInputButton;
-    private javax.swing.JRadioButton bitSizeButton;
-    private javax.swing.JTextField maxOneManualField;
-    private javax.swing.JTextField maxOneSizeField;
+    public javax.swing.JRadioButton bitInputButton;
+    public javax.swing.JRadioButton bitSizeButton;
+    public javax.swing.JTextField maxOneManualField;
+    public javax.swing.JTextField maxOneSizeField;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,9 @@ package GUI;
 /**
  * Access menu for part 1a or 1b
  * @author Odd
+ * @deprecated Run EvoGUI instead
  */
+@Deprecated
 public class Main extends javax.swing.JFrame {
 
     /**
