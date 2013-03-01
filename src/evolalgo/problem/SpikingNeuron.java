@@ -74,8 +74,8 @@ public class SpikingNeuron implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-        final double T = 10;
-        final double I = 10;
+        final double T = 10.0;
+        final double I = 10.0;
         
         for (int i = 0; i < population.size(); i++){
             SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
@@ -89,11 +89,14 @@ public class SpikingNeuron implements IProblem{
                 for (int j = 1; j < target.length; j++){
                     if (v >= 35.0){
                         v = pheno.c;
-                        u = u + pheno.d;
+                        u += pheno.d;
                     }
-                    v = (pheno.k * Math.pow(v, 2.0) + 5*v + 140 - u + I) / T;
-                    u = pheno.a / T * (pheno.b * v - u);
-                    valueArray[j] = v;
+                    double vd = (pheno.k * Math.pow(v, 2.0) + 5.0*v + 140.0 - u + I) / T;
+                    double ud = (pheno.a / T) * (pheno.b * v - u);
+                    u += ud;
+                    v += vd;
+                    if (v >= 35.0) valueArray[j] = 35.0;
+                    else valueArray[j] = v;
                 }
                 pheno.spiketrain = valueArray;
                 //TODO fitness may need to be scaled somehow.
@@ -122,7 +125,7 @@ public class SpikingNeuron implements IProblem{
 //        ISDM sdm = new SpikeTimeDistance();
     	ISDM sdm = new WaveformDistance();
         SpikingNeuron sp = new SpikingNeuron(1, sdm);
-//        SpikingNeuron sp1 = new SpikingNeuron(2, sdm);
+        SpikingNeuron sp1 = new SpikingNeuron(2, sdm);
         SpikingNeuron sp2 = new SpikingNeuron(3, sdm);
         SpikingNeuron sp3 = new SpikingNeuron(4, sdm);
         
@@ -140,6 +143,7 @@ public class SpikingNeuron implements IProblem{
         plot.addLinePlot("Spike train", Color.BLUE, sn.spiketrain);
         plot.addLegend("SOUTH");
         plot.addLinePlot("Target 1", Color.RED, sp.target);
+        plot.addLinePlot("Target 2", Color.YELLOW, sp1.target);
         plot.addLinePlot("Target 3", Color.GREEN, sp2.target);
         plot.addLinePlot("Target 4", Color.BLACK, sp3.target);
         plot.addLegend("SOUTH");
@@ -147,6 +151,7 @@ public class SpikingNeuron implements IProblem{
         frame.setContentPane(plot);
         frame.setSize(500, 400);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         
         System.out.println(sdm.calculateDistance(sp.target, sp3.target));
     }
