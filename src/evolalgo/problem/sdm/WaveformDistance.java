@@ -13,10 +13,7 @@ public class WaveformDistance implements ISDM {
 		int smallest = target.length < spiketrain.length ? target.length : spiketrain.length;
 		double sum = 0;
 		for (int i = 0; i < smallest; i++) {
-			
 			sum += Math.pow(Math.abs(spiketrain[i]-target[i]), p);
-	        
-
 		}
 		
 		return Math.pow(sum,1.0/p)/smallest;

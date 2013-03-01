@@ -25,7 +25,7 @@ import org.math.plot.Plot2DPanel;
  */
 public class SpikingNeuron implements IProblem{
     
-    double[] target;
+    public double[] target;
     ISDM sdm;
     /**
      * The length of the bit describing each variable in the problem. This is hardcoded
@@ -64,7 +64,7 @@ public class SpikingNeuron implements IProblem{
         for (int i = 0; i < 5; i++){
             String sub = gene.substring((i * BIT_LENGTH), (i * BIT_LENGTH) + BIT_LENGTH);
             attribs[i] = (double) Integer.parseInt(sub, 2) + 1.0;
-            System.out.println(sub + " = " + (Integer.parseInt(sub, 2) + 1.0));
+            //System.out.println(sub + " = " + (Integer.parseInt(sub, 2) + 1.0));
         }
         individual.setPhenotype(new SNPhenotype(attribs));
     }
@@ -72,7 +72,7 @@ public class SpikingNeuron implements IProblem{
     public void calculateFitness(List<IIndividual> population) throws Exception {
         final double T = 10.0;
         final double I = 10.0;
-        
+        double longestDistance = 0.0;
         for (int i = 0; i < population.size(); i++){
             SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
             try{
@@ -95,11 +95,19 @@ public class SpikingNeuron implements IProblem{
                     else valueArray[j] = v;
                 }
                 pheno.spiketrain = valueArray;
+                pheno.distance = sdm.calculateDistance(target, valueArray);
+                if (pheno.distance > longestDistance) longestDistance = pheno.distance;
                 //TODO fitness may need to be scaled somehow.
-                population.get(i).setFitness(sdm.convertToFitness(sdm.calculateDistance(target, valueArray)));
-                System.out.println("Distance-calc: ");
-                System.out.println(sdm.calculateDistance(target, valueArray));
+                //population.get(i).setFitness(sdm.convertToFitness(sdm.calculateDistance(target, valueArray)));
+                //System.out.println("Distance-calc: ");
+                //System.out.println(sdm.calculateDistance(target, valueArray));
             }
+        }
+        //TODO: Fullfør fitnesskalkulering, denne kan være merkelig!
+        for (int i = 0; i < population.size(); i++){
+            SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
+            double percentDistance = 1.0 - (pheno.distance / longestDistance);
+            population.get(i).setFitness(percentDistance);
         }
     }
 
@@ -186,6 +194,8 @@ class SNPhenotype implements IPhenotype{
     private static final double K_SCALER = (1.0 - 0.01) / BIT_VALUES;
     
     public double[] spiketrain;
+    
+    public double distance;
 
     public SNPhenotype(double a, double b, double c, double d, double k) {
         this.a = a;
@@ -204,6 +214,11 @@ class SNPhenotype implements IPhenotype{
 
     @Override
     public String toString() {
-        return "A: " + a + ", B: " + b + ", C: " + c + ", D: " + d + ", K: " + k;
+        //return "A: " + a + ", B: " + b + ", C: " + c + ", D: " + d + ", K: " + k;
+        String valueString = "";
+        for (int i = 0; i < spiketrain.length; i++){
+            valueString += spiketrain[i] + " ";
+        }
+        return valueString;
     }
 }

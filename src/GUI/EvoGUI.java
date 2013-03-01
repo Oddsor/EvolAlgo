@@ -554,6 +554,22 @@ public class EvoGUI extends javax.swing.JFrame {
                     , Color.BLACK, 0.5, 1.1);
             plot2.addPlotable(title2);
             graphpanel.add(plot2);
+        }else if(problemBox.getSelectedIndex() == 2){
+            //TODO some while-loop to add a bunch of graphs that show neuron development over time
+            for(int j = 0; j < generations; j++){
+                IIndividual ind = (IIndividual) statistics.get(j).get("bestIndividual");
+                String[] valuesArray = ind.phenotype().toString().trim().split(" ");
+                double[] indValues = new double[valuesArray.length];
+                for(int k = 0; k < valuesArray.length; k++){
+                    indValues[k] = Double.parseDouble(valuesArray[k]);
+                }
+                SpikingNeuron sn = (SpikingNeuron) problem;
+                plot = new Plot2DPanel();
+                plot.addLinePlot("Target", Color.RED, sn.target);
+                plot.addLinePlot("Best individual", Color.BLUE, indValues);
+                plot.addLegend("SOUTH");
+                graphpanel.add(plot);
+            }
         }
         CardLayout card = (CardLayout) graphpanel.getLayout();
         card.last(graphpanel);
