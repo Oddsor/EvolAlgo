@@ -20,6 +20,10 @@ import evolalgo.problem.BlottoStrats;
 import evolalgo.problem.IProblem;
 import evolalgo.problem.MaxOne;
 import evolalgo.problem.SpikingNeuron;
+import evolalgo.problem.sdm.ISDM;
+import evolalgo.problem.sdm.SpikeIntervalDistance;
+import evolalgo.problem.sdm.SpikeTimeDistance;
+import evolalgo.problem.sdm.WaveformDistance;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.List;
@@ -47,7 +51,7 @@ public class EvoGUI extends javax.swing.JFrame {
         
         problemPane.add(new ProblemMaxOne());
         problemPane.add(new ProblemBlottoPanel());
-        problemPane.add(new JPanel());
+        problemPane.add(new ProblemSpikingGUI());
         
         parentPane.add(new JPanel());
         parentPane.add(new JPanel());
@@ -382,6 +386,22 @@ public class EvoGUI extends javax.swing.JFrame {
         int blottoRedeployment = Integer.parseInt(blotto.redeploymentField.getText());
         int blottoLoss = Integer.parseInt(blotto.lossFractionField.getText());
         
+        ProblemSpikingGUI spiking = (ProblemSpikingGUI) problemPane.getComponent(2);
+        int spikingTrain = spiking.trainingDataBox.getSelectedIndex() + 1;
+        
+        ISDM sdm = null;
+        switch(spiking.SDMBox.getSelectedIndex()){
+            case 0:
+                sdm = new WaveformDistance();
+                break;
+            case 1:
+                sdm = new SpikeIntervalDistance();
+                break;
+            case 2:
+                sdm = new SpikeTimeDistance();
+                break;
+        }
+        
         IReproduction reproduction = null;
         try {
             reproduction = new ReproductionImpl((double) mutation / 100.0, 
@@ -404,7 +424,7 @@ public class EvoGUI extends javax.swing.JFrame {
                         (double) blottoLoss / 100);
                 break;
             case 2:
-                problem = new SpikingNeuron(1, null);
+                problem = new SpikingNeuron(spikingTrain, sdm);
                 break;
         }
         
