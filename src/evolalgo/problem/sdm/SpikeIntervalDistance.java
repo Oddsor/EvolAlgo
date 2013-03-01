@@ -38,10 +38,4 @@ public class SpikeIntervalDistance extends AbstractSpikePenalty implements ISDM 
         d = Math.pow(sum, 1.0/p) / (double) N-1.0;
         return d;
 	}
-	@Override
-	public double convertToFitness(double distance) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

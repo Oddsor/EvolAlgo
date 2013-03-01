@@ -10,7 +10,6 @@ package evolalgo.problem.sdm;
  */
 public interface ISDM {
     public double calculateDistance(double[] target, double[] spiketrain);
-    public double convertToFitness(double distance);
 }
 
 

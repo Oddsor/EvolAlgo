@@ -31,7 +31,7 @@ public class SpikeTimeDistance extends AbstractSpikePenalty implements ISDM {
         for (int i = 0; i < N; i++){
             sum += Math.pow(Math.abs(targetSpikes.get(i) - spiketrainSpikes.get(i)), P);
         }
-        System.out.println("Penalty: "+calculatePenalty(targetSpikes.size(), spiketrainSpikes.size(), target.length));
+        //System.out.println("Penalty: "+calculatePenalty(targetSpikes.size(), spiketrainSpikes.size(), target.length));
         sum += calculatePenalty(targetSpikes.size(), spiketrainSpikes.size(), target.length);
         d = Math.pow(sum, 1.0/P) / (double) N;
         return d;
@@ -42,10 +42,4 @@ public class SpikeTimeDistance extends AbstractSpikePenalty implements ISDM {
 	public void setThreshold(double threshold) {
 		this.threshold = threshold;
 	}
-	@Override
-	public double convertToFitness(double distance) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-    
 }

@@ -40,6 +40,7 @@ import org.math.plot.plotObjects.BaseLabel;
  */
 public class EvoGUI extends javax.swing.JFrame {
 
+    private IProblem problem;
     /**
      * Creates new form GUI2
      */
@@ -410,7 +411,7 @@ public class EvoGUI extends javax.swing.JFrame {
             Logger.getLogger(EvoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        IProblem problem = null;
+        problem = null;
         switch(problemBox.getSelectedIndex()){
             case 0:
                 if(maxOne.bitSizeButton.isSelected()){
@@ -455,50 +456,26 @@ public class EvoGUI extends javax.swing.JFrame {
         }
         //TODO: Hvordan finner vi ut av populasjon?
         Evolution evo = new Evolution(populationSize, reproduction, adultSelection, parentSelection, problem);
-        double[] avgEntropy = null;
-        double[] stdDev = null;
-        if(!(problem instanceof BlottoStrats)){
-            try {
-                evo.loop(generations, true); //TODO: ikke skyt inn 'individuals' her?
-            }catch (Exception ex) {
-                ex.getMessage();
-            }
-        }else{//Blotto requires some specific changes to accomodate entropy calculations
-            avgEntropy = new double[generations];
-            stdDev = new double[generations];
-            List<IIndividual> individuals = problem.createPopulation(populationSize);
-            try {
-                for (int i = 0; i < generations; i++){
-                    individuals = evo.runGeneration(individuals);
-                    double[] fitnesses = new double[populationSize];
-                    int numParents = 0;
-                    for(IIndividual ind: individuals){
-                        if(ind.age() > 0){
-                            fitnesses[numParents] = ind.fitness();
-                            String pheno = ind.phenotype().toString().trim();
-                            String[] phenosplit = pheno.split(";");
-                            double sum = 0.0;
-                            for (int j = 0; j < phenosplit.length; j++){
-                                phenosplit[j] = phenosplit[j].replace(',', '.');
-                                double value = Double.parseDouble(phenosplit[j].trim());
-                                if (value != 0.0){
-                                    double logcalc = (value * (Math.log(value)/Math.log(2.0)));
-                                    sum -= logcalc;
-                                }
-                            }
+        
+        switch(problemBox.getSelectedIndex()){
+            case 0:
+                runMaxOneProblem(evo);
+                break;
+            case 1:
+                runBlottoProblem(evo);
+                break;
+            case 2:
+                runSpikingProblem(evo);
+                break;
+        }
+    }//GEN-LAST:event_launchButtonActionPerformed
 
-                            avgEntropy[i] += sum;
-                            numParents++;
-                        }
-                    }
-                    avgEntropy[i] = avgEntropy[i] / (double)numParents;
-                    stdDev[i] = StandardDeviation.StandardDeviationMean(fitnesses);
-                }
-
-            }catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                return;
-            }
+    private void runMaxOneProblem(Evolution evo){
+        int generations = Integer.parseInt(generationsField.getText());
+        try {
+            evo.loop(generations, true); //TODO: ikke skyt inn 'individuals' her?
+        }catch (Exception ex) {
+            ex.getMessage();
         }
         List<Map> statistics = evo.getStatistics();
         String formattedString = "";
@@ -515,67 +492,144 @@ public class EvoGUI extends javax.swing.JFrame {
             i++;
         }
         Plot2DPanel plot;
-        if(problemBox.getSelectedIndex() == 0){
-            plot = new Plot2DPanel();
-            double[] scaler = {1.0};
-            plot.addScatterPlot("", scaler);
-            plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
-            plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
-            plot.addLinePlot("Minimum fitness", Color.BLUE, minfitnessplot);
-            plot.addLegend("SOUTH");
-            BaseLabel title = new BaseLabel(problemBox.getSelectedItem().toString() + ", " + 
-                    adultBox.getSelectedItem().toString() + ", " + 
-                    parentBox.getSelectedItem().toString() + ", mutation: " + 
-                    mutation + "%, crossover: " + crossoverRate + "%"
-                    , Color.BLACK, 0.5, 1.1);
-            plot.addPlotable(title);
-            graphpanel.add(plot);
-        }else if(problemBox.getSelectedIndex() == 1){
-            plot = new Plot2DPanel();
-            plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
-            plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
-            plot.addLinePlot("Standard deviation", Color.BLACK, stdDev);
-            plot.addLegend("SOUTH");
-            BaseLabel title = new BaseLabel(problemBox.getSelectedItem().toString() + ", " + 
-                    adultBox.getSelectedItem().toString() + ", " + 
-                    parentBox.getSelectedItem().toString() + ", mutation: " + 
-                    mutation + "%, crossover: " + crossoverRate + "%"
-                    , Color.BLACK, 0.5, 1.1);
-            plot.addPlotable(title);
-            graphpanel.add(plot);
-            Plot2DPanel plot2 = new Plot2DPanel();
-            plot2.addLinePlot("Average entropy", Color.BLUE, avgEntropy);
-            plot2.addLegend("SOUTH");
-            BaseLabel title2 = new BaseLabel("Entropy graph: " + 
-                    problemBox.getSelectedItem().toString() + ", " + 
-                    adultBox.getSelectedItem().toString() + ", " + 
-                    parentBox.getSelectedItem().toString() + ", mutation: " + 
-                    mutation + "%, crossover: " + crossoverRate + "%"
-                    , Color.BLACK, 0.5, 1.1);
-            plot2.addPlotable(title2);
-            graphpanel.add(plot2);
-        }else if(problemBox.getSelectedIndex() == 2){
-            //TODO some while-loop to add a bunch of graphs that show neuron development over time
-            for(int j = 0; j < generations; j++){
-                IIndividual ind = (IIndividual) statistics.get(j).get("bestIndividual");
-                String[] valuesArray = ind.phenotype().toString().trim().split(" ");
-                double[] indValues = new double[valuesArray.length];
-                for(int k = 0; k < valuesArray.length; k++){
-                    indValues[k] = Double.parseDouble(valuesArray[k]);
-                }
-                SpikingNeuron sn = (SpikingNeuron) problem;
-                plot = new Plot2DPanel();
-                plot.addLinePlot("Target", Color.RED, sn.target);
-                plot.addLinePlot("Best individual", Color.BLUE, indValues);
-                plot.addLegend("SOUTH");
-                graphpanel.add(plot);
-            }
-        }
+        plot = new Plot2DPanel();
+        double[] scaler = {1.0};
+        plot.addScatterPlot("", scaler);
+        plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
+        plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
+        plot.addLinePlot("Minimum fitness", Color.BLUE, minfitnessplot);
+        plot.addLegend("SOUTH");
+        BaseLabel title = new BaseLabel(problemBox.getSelectedItem().toString() + ", " + 
+                adultBox.getSelectedItem().toString() + ", " + 
+                parentBox.getSelectedItem().toString() + ", mutation: " + 
+                mutationRateField.getText() + "%, crossover: " + 
+                crossoverRateField.getText() + "%"
+                , Color.BLACK, 0.5, 1.1);
+        plot.addPlotable(title);
+        graphpanel.add(plot);
         CardLayout card = (CardLayout) graphpanel.getLayout();
         card.last(graphpanel);
         outputScreen.setText(formattedString);
-    }//GEN-LAST:event_launchButtonActionPerformed
+    }
+    
+    private void runBlottoProblem(Evolution evo){
+        int generations = Integer.parseInt(generationsField.getText());
+        int populationSize = Integer.parseInt(populationSizeField.getText());
+        double[] avgEntropy = new double[generations];
+        double[] stdDev = new double[generations];
+        List<IIndividual> individuals = problem.createPopulation(populationSize);
+        try {
+            for (int i = 0; i < generations; i++){
+                individuals = evo.runGeneration(individuals);
+                double[] fitnesses = new double[populationSize];
+                int numParents = 0;
+                for(IIndividual ind: individuals){
+                    if(ind.age() > 0){
+                        fitnesses[numParents] = ind.fitness();
+                        String pheno = ind.phenotype().toString().trim();
+                        String[] phenosplit = pheno.split(";");
+                        double sum = 0.0;
+                        for (int j = 0; j < phenosplit.length; j++){
+                            phenosplit[j] = phenosplit[j].replace(',', '.');
+                            double value = Double.parseDouble(phenosplit[j].trim());
+                            if (value != 0.0){
+                                double logcalc = (value * (Math.log(value)/Math.log(2.0)));
+                                sum -= logcalc;
+                            }
+                        }
 
+                        avgEntropy[i] += sum;
+                        numParents++;
+                    }
+                }
+                avgEntropy[i] = avgEntropy[i] / (double)numParents;
+                stdDev[i] = StandardDeviation.StandardDeviationMean(fitnesses);
+            }
+
+        }catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+        List<Map> statistics = evo.getStatistics();
+        String formattedString = "";
+        double[] maxfitnessplot = new double[generations];
+        double[] avgfitnessplot = new double[generations];
+        double[] minfitnessplot = new double[generations];
+        int i = 0;
+        for(Map m: statistics){
+            formattedString += "Generation:" + (i+1) + "\t Best: " +
+                    m.get("bestIndividual").toString() + "\n";
+            maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
+            avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
+            minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
+            i++;
+        }
+        Plot2DPanel plot = new Plot2DPanel();
+        plot.addLinePlot("Max fitness", Color.RED, maxfitnessplot);
+        plot.addLinePlot("Average fitness", Color.ORANGE, avgfitnessplot);
+        plot.addLinePlot("Standard deviation", Color.BLACK, stdDev);
+        plot.addLegend("SOUTH");
+        BaseLabel title = new BaseLabel(problemBox.getSelectedItem().toString() + ", " + 
+                adultBox.getSelectedItem().toString() + ", " + 
+                parentBox.getSelectedItem().toString() + ", mutation: " + 
+                mutationRateField.getText() + "%, crossover: " + crossoverRateField.getText() + "%"
+                , Color.BLACK, 0.5, 1.1);
+        plot.addPlotable(title);
+        graphpanel.add(plot);
+        Plot2DPanel plot2 = new Plot2DPanel();
+        plot2.addLinePlot("Average entropy", Color.BLUE, avgEntropy);
+        plot2.addLegend("SOUTH");
+        BaseLabel title2 = new BaseLabel("Entropy graph: " + 
+                problemBox.getSelectedItem().toString() + ", " + 
+                adultBox.getSelectedItem().toString() + ", " + 
+                parentBox.getSelectedItem().toString() + ", mutation: " + 
+                mutationRateField.getText() + "%, crossover: " + 
+                crossoverRateField.getText() + "%"
+                , Color.BLACK, 0.5, 1.1);
+        plot2.addPlotable(title2);
+        graphpanel.add(plot2);
+        CardLayout card = (CardLayout) graphpanel.getLayout();
+        card.last(graphpanel);
+        outputScreen.setText(formattedString);
+    }
+    
+    private void runSpikingProblem(Evolution evo){
+        int populationSize = Integer.parseInt(populationSizeField.getText());
+        int generations = Integer.parseInt(generationsField.getText());
+        SpikingNeuron sn = (SpikingNeuron) problem;
+        List<IIndividual> individuals = problem.createPopulation(populationSize);
+        try {
+            for (int i = 0; i < generations; i++){
+                individuals = evo.runGeneration(individuals);
+                IIndividual best = individuals.get(0);
+                for (IIndividual ind: individuals){
+                    if(ind.age() > 0){
+                        if (ind.fitness() > best.fitness()){
+                            best = ind;
+                        }
+                    }
+                }
+                String formattedString = outputScreen.getText();
+                formattedString += best.fitness()+ "\n";
+                outputScreen.setText(formattedString);
+                Plot2DPanel plot = new Plot2DPanel();
+                plot.addLinePlot("Target", Color.RED, sn.target);
+                String[] bestValuesString = best.phenotype().toString().trim().split(" ");
+                double[] bestValues = new double[bestValuesString.length];
+                for (int j = 0; j < bestValues.length; j++){
+                    bestValues[j] = Double.parseDouble(bestValuesString[j]);
+                }
+                plot.addLinePlot("Best individual", Color.BLUE, bestValues);
+                plot.addLegend("SOUTH");
+                graphpanel.add(plot);
+                CardLayout card = (CardLayout) graphpanel.getLayout();
+                card.last(graphpanel);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         CardLayout card = (CardLayout) graphpanel.getLayout();
         card.last(graphpanel);

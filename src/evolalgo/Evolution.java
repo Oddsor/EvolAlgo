@@ -39,7 +39,6 @@ public class Evolution {
         for(int i = 0; i < individuals.size(); i++){
             problem.developPheno(individuals.get(i));
         }
-        
         //Finding fitness
         problem.calculateFitness(individuals);
         //Try replacing the generation
@@ -86,13 +85,11 @@ public class Evolution {
                 throw new Exception("Error in reproduction?",e);
             }
         }
-        
         individuals.addAll(children);
-        
         stats.add(statistics);
         return individuals;
     }
-    
+
     public void loop(int generations, boolean stop) throws Exception{
         List<IIndividual> individuals = problem.createPopulation(populationSize);
         for (int i = 0; i < generations; i++){

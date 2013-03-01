@@ -63,8 +63,7 @@ public class SpikingNeuron implements IProblem{
         double[] attribs = new double[5];
         for (int i = 0; i < 5; i++){
             String sub = gene.substring((i * BIT_LENGTH), (i * BIT_LENGTH) + BIT_LENGTH);
-            attribs[i] = (double) Integer.parseInt(sub, 2) + 1.0;
-            //System.out.println(sub + " = " + (Integer.parseInt(sub, 2) + 1.0));
+            attribs[i] = (double) Integer.parseInt(sub, 2);
         }
         individual.setPhenotype(new SNPhenotype(attribs));
     }
@@ -97,10 +96,6 @@ public class SpikingNeuron implements IProblem{
                 pheno.spiketrain = valueArray;
                 pheno.distance = sdm.calculateDistance(target, valueArray);
                 if (pheno.distance > longestDistance) longestDistance = pheno.distance;
-                //TODO fitness may need to be scaled somehow.
-                //population.get(i).setFitness(sdm.convertToFitness(sdm.calculateDistance(target, valueArray)));
-                //System.out.println("Distance-calc: ");
-                //System.out.println(sdm.calculateDistance(target, valueArray));
             }
         }
         //TODO: Fullfør fitnesskalkulering, denne kan være merkelig!
@@ -171,11 +166,13 @@ class SNPhenotype implements IPhenotype{
      */
     public double a;
     private static final double A_SCALER = (0.2 - 0.001) / BIT_VALUES;
+    private static final double A_MIN = 0.001;
     /**
      * The parameter b has a valid range of [0.01, 0.3]
      */
     public double b;
     private static final double B_SCALER = (0.3 - 0.01) / BIT_VALUES;
+    private static final double B_MIN = 0.01;
     /**
      * The parameter c has a valid range of [-80, -30]
      */
@@ -187,11 +184,13 @@ class SNPhenotype implements IPhenotype{
      */
     public double d;
     private static final double D_SCALER = (10.0 - 0.1) / BIT_VALUES;
+    private static final double D_MIN = 0.1;
     /**
      * The parameter k has a valid range of [0.01, 1.0]
      */
     public double k;
     private static final double K_SCALER = (1.0 - 0.01) / BIT_VALUES;
+    private static final double K_MIN = 0.01;
     
     public double[] spiketrain;
     
@@ -205,17 +204,20 @@ class SNPhenotype implements IPhenotype{
         this.k = k;
     }
     public SNPhenotype(double[] attribs){
-        a = A_SCALER * (attribs[0]);
-        b = B_SCALER * (attribs[1]);
+        a = A_MIN + (A_SCALER * (attribs[0]));
+        b = B_MIN + (B_SCALER * (attribs[1]));
         c = C_MIN + C_SCALER * (attribs[2]);
-        d = D_SCALER * (attribs[3]);
-        k = K_SCALER * (attribs[4]);
+        d = D_MIN + (D_SCALER * (attribs[3]));
+        k = K_MIN + (K_SCALER * (attribs[4]));
     }
 
     @Override
     public String toString() {
         //return "A: " + a + ", B: " + b + ", C: " + c + ", D: " + d + ", K: " + k;
         String valueString = "";
+        if(spiketrain == null){
+            System.out.println("Distance, spiketrain is null?!: " + distance);
+        }
         for (int i = 0; i < spiketrain.length; i++){
             valueString += spiketrain[i] + " ";
         }
