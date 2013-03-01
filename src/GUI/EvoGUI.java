@@ -91,6 +91,7 @@ public class EvoGUI extends javax.swing.JFrame {
         previousGraph = new javax.swing.JButton();
         nextGraph = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -185,6 +186,13 @@ public class EvoGUI extends javax.swing.JFrame {
             }
         });
 
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -244,6 +252,8 @@ public class EvoGUI extends javax.swing.JFrame {
                         .addComponent(graphpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(clearButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(previousGraph)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextGraph)
@@ -301,7 +311,8 @@ public class EvoGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(previousGraph)
                     .addComponent(nextGraph)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(clearButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -358,7 +369,6 @@ public class EvoGUI extends javax.swing.JFrame {
         AdultGenMixingPanel genMix = (AdultGenMixingPanel) adultPanel.getComponent(2);
         int adultSpots = Integer.parseInt(genMix.adultSpots.getText());
         
-        //Tournament-parsing
         ParentTournamentPanel tournamentPane = (ParentTournamentPanel) parentPane.getComponent(2);
         int tournamentSize = Integer.parseInt(tournamentPane.tournamentSizeField.getText());
         int pickBest = Integer.parseInt(tournamentPane.pickBestField.getText());
@@ -545,6 +555,11 @@ public class EvoGUI extends javax.swing.JFrame {
         card.previous(graphpanel);
     }//GEN-LAST:event_previousGraphActionPerformed
 
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        graphpanel.removeAll();
+        outputScreen.setText("");
+    }//GEN-LAST:event_clearButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -582,6 +597,7 @@ public class EvoGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox adultBox;
     private javax.swing.JPanel adultPanel;
+    private javax.swing.JButton clearButton;
     public javax.swing.JTextField crossoverRateField;
     private javax.swing.JSlider crossoverSplitSlider;
     public javax.swing.JTextField generationsField;
