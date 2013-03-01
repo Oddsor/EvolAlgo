@@ -1,18 +1,21 @@
-
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
 import java.util.Iterator;
 import java.util.List;
 
+import evolalgo.IIndividual;
+
 /**
- * This selection protocol kills all adults and lets all children become adults
- * @author Odd
+ * 
+ * @author Andreas
+ *
  */
-public class FullGenReplacement extends AdultSelection implements IAdultSelection{
-    @Override
-    public List<IIndividual> getAdults(List<IIndividual> population) 
-            throws Exception{
+public class Mitchell extends AdultSelection implements IAdultSelection {
+
+	@Override
+	public List<IIndividual> getAdults(List<IIndividual> population)
+	
+			throws Exception{
         int[] childAdult = findAdultChildRatio(population);
         //If we have equal number of adults and children, begin replacement
         if(childAdult[0] == childAdult[1]){
@@ -35,4 +38,5 @@ public class FullGenReplacement extends AdultSelection implements IAdultSelectio
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

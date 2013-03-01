@@ -20,4 +20,6 @@ public interface IAdultSelection {
      */
     public List<IIndividual> getAdults(List<IIndividual> population) 
             throws Exception;
+    //TODO Full generational won't care
+    public int getNumberOfChildren();
 }

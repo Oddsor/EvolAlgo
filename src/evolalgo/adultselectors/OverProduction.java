@@ -36,4 +36,10 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
         //Use standard selection method after adults are dead
         return growPopulation(selectBestFit(populationcopy, childAdult[1]));
     }
+
+	@Override
+	public int getNumberOfChildren() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
