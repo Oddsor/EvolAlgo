@@ -145,6 +145,7 @@ public class SpikingNeuron implements IProblem{
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);
         frame.setSize(500, 400);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
