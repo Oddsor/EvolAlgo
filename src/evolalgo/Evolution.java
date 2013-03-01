@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Odd
  */
 public class Evolution {
-    
+    //TODO Number of children in over population should be implicit 
     private int numChildren;
     private IAdultSelection adSel;
     private IParentSelection parSel;

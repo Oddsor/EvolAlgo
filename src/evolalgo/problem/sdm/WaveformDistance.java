@@ -15,7 +15,8 @@ public class WaveformDistance implements ISDM {
 		for (int i = 0; i < smallest; i++) {
 			
 			sum += Math.pow(Math.abs(spiketrain[i]-target[i]), p);
-			
+	        
+
 		}
 		
 		return Math.pow(sum,1.0/p)/smallest;
@@ -25,6 +26,11 @@ public class WaveformDistance implements ISDM {
 	}
 	public void setP(double p) {
 		this.p = p;
+	}
+	@Override
+	public double convertToFitness(double distance) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -41,4 +41,10 @@ public class GenerationalMixing extends AdultSelection implements IAdultSelectio
         System.out.println(adults.size());
         return growPopulation(adults);
     }
+
+	@Override
+	public int getNumberOfChildren() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
