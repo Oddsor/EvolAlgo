@@ -23,8 +23,14 @@ public class SpikeTimeDistance implements ISDM{
         List<Integer> spiketrainSpikes = new ArrayList<Integer>();
        
         for (int i = 0; i < target.length; i++){
+<<<<<<< HEAD
             if(spiketrain[i] >= threshold) spiketrainSpikes.add(i);
             if(spiketrain[i] >= threshold) targetSpikes.add(i);
+=======
+
+            if(spiketrain[i] >= threshold) spiketrainSpikes.add(i);
+            if(spiketrain[i] >= threshold) targetSpikes.add(i);
+>>>>>>> a3ded647bc05db49ca074cb8408200103b9d473d
         }
         int N = (targetSpikes.size() < spiketrainSpikes.size()) ? targetSpikes.size() : spiketrainSpikes.size();
         double sum = 0.0;
