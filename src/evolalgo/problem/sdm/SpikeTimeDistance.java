@@ -13,15 +13,18 @@ import java.util.List;
  */
 public class SpikeTimeDistance implements ISDM{
 
+		
+	private double threshold = 35;
     @Override
     public double calculateDistance(double[] target, double[] spiketrain) {
         double d;
         final double P = 2.0;
         List<Integer> targetSpikes = new ArrayList<Integer>();
         List<Integer> spiketrainSpikes = new ArrayList<Integer>();
+       
         for (int i = 0; i < target.length; i++){
-            if(spiketrain[i] >= 35) spiketrainSpikes.add(i);
-            if(spiketrain[i] >= 35) targetSpikes.add(i);
+            if(spiketrain[i] >= threshold) spiketrainSpikes.add(i);
+            if(spiketrain[i] >= threshold) targetSpikes.add(i);
         }
         int N = (targetSpikes.size() < spiketrainSpikes.size()) ? targetSpikes.size() : spiketrainSpikes.size();
         double sum = 0.0;
@@ -31,5 +34,11 @@ public class SpikeTimeDistance implements ISDM{
         d = Math.pow(sum, 1.0/P) / (double) N;
         return d;
     }
+	public double getThreshold() {
+		return threshold;
+	}
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
+	}
     
 }

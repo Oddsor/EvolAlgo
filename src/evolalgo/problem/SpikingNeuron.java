@@ -5,6 +5,8 @@ import evolalgo.IPhenotype;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.sdm.ISDM;
 import evolalgo.problem.sdm.SpikeTimeDistance;
+import evolalgo.problem.sdm.WaveformDistance;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -104,7 +106,7 @@ public class SpikingNeuron implements IProblem{
 
     @Override
     public List<IIndividual> createPopulation(int individuals) {
-        List<IIndividual> population = new ArrayList<>();
+        List<IIndividual> population = new ArrayList<IIndividual>();
         Random rand = new Random();
         while(population.size() < individuals){
             String gene = "";
@@ -117,8 +119,13 @@ public class SpikingNeuron implements IProblem{
     }
     
     public static void main(String[] args){
-        ISDM sdm = new SpikeTimeDistance();
+//        ISDM sdm = new SpikeTimeDistance();
+    	ISDM sdm = new WaveformDistance();
         SpikingNeuron sp = new SpikingNeuron(1, sdm);
+//        SpikingNeuron sp1 = new SpikingNeuron(2, sdm);
+        SpikingNeuron sp2 = new SpikingNeuron(3, sdm);
+        SpikingNeuron sp3 = new SpikingNeuron(4, sdm);
+        
         List<IIndividual> pop = sp.createPopulation(1);
         try{
             sp.developPheno(pop.get(0));
@@ -132,10 +139,16 @@ public class SpikingNeuron implements IProblem{
         Plot2DPanel plot = new Plot2DPanel();
         plot.addLinePlot("Spike train", Color.BLUE, sn.spiketrain);
         plot.addLegend("SOUTH");
+        plot.addLinePlot("Target 1", Color.RED, sp.target);
+        plot.addLinePlot("Target 3", Color.GREEN, sp2.target);
+        plot.addLinePlot("Target 4", Color.BLACK, sp3.target);
+        plot.addLegend("SOUTH");
         javax.swing.JFrame frame = new javax.swing.JFrame("a plot panel");
         frame.setContentPane(plot);
         frame.setSize(500, 400);
         frame.setVisible(true);
+        
+        System.out.println(sdm.calculateDistance(sp.target, sp3.target));
     }
 }
 
