@@ -95,14 +95,19 @@ public class SpikingNeuron implements IProblem{
                 }
                 pheno.spiketrain = valueArray;
                 pheno.distance = sdm.calculateDistance(target, valueArray);
+                if (pheno.distance < 0) System.out.println("ERROR, distance negative");
                 if (pheno.distance > longestDistance) longestDistance = pheno.distance;
             }
         }
         //TODO: Fullfør fitnesskalkulering, denne kan være merkelig!
         for (int i = 0; i < population.size(); i++){
-            SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
-            double percentDistance = 1.0 - (pheno.distance / longestDistance);
-            population.get(i).setFitness(percentDistance);
+            try{
+                population.get(i).fitness();
+            }catch(Exception e){
+                SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
+                double percentDistance = 1.0 - (pheno.distance / longestDistance);
+                population.get(i).setFitness(percentDistance);
+            }
         }
     }
 

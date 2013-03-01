@@ -594,6 +594,7 @@ public class EvoGUI extends javax.swing.JFrame {
     }
     
     private void runSpikingProblem(Evolution evo){
+        outputScreen.setText("");
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int generations = Integer.parseInt(generationsField.getText());
         SpikingNeuron sn = (SpikingNeuron) problem;
@@ -613,6 +614,13 @@ public class EvoGUI extends javax.swing.JFrame {
                 formattedString += best.fitness()+ "\n";
                 outputScreen.setText(formattedString);
                 Plot2DPanel plot = new Plot2DPanel();
+                BaseLabel title = new BaseLabel("Generation: " + (i+1) + 
+                        problemBox.getSelectedItem().toString() + ", " + 
+                        adultBox.getSelectedItem().toString() + ", " + 
+                        parentBox.getSelectedItem().toString() + ", mutation: " + 
+                        mutationRateField.getText() + "%, crossover: " + crossoverRateField.getText() + "%"
+                        , Color.BLACK, 0.5, 1.1);
+                plot.addPlotable(title);
                 plot.addLinePlot("Target", Color.RED, sn.target);
                 String[] bestValuesString = best.phenotype().toString().trim().split(" ");
                 double[] bestValues = new double[bestValuesString.length];
