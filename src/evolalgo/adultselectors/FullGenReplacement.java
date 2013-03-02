@@ -29,10 +29,11 @@ public class FullGenReplacement extends AdultSelection implements IAdultSelectio
         }else throw new Exception("Population has uneven number of children and "
                 + "adults!(" + childAdult[0] + " children, " + childAdult[1] + " adults)");
     }
-
+    
 	@Override
-	public int getNumberOfChildren() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getNumberOfChildren(List<IIndividual> population) {
+		
+		return population.size();
 	}
+
 }

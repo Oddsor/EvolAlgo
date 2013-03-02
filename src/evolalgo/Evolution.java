@@ -55,7 +55,6 @@ public class Evolution {
         try{
             individuals = adSel.getAdults(individuals);
         }catch(Exception e){
-        	e.printStackTrace();
         	String error = "Error replacing generation using "+adSel.toString();
             throw new Exception(error,e);
         }
@@ -113,8 +112,7 @@ public class Evolution {
     
     private void produceChildren(List<IIndividual> children, List<IIndividual> individuals) throws Exception{
     	
-    	   	
-    	while(children.size() < populationSize){
+    	while(children.size() < adSel.getNumberOfChildren(individuals)){
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!
             IIndividual firstParent = parSel.getParent(individuals);
@@ -125,7 +123,7 @@ public class Evolution {
             try{
                 Object[] newGenes = rep.reproduce(parents);
                 for(int k = 0; k < newGenes.length; k++){
-                    if(children.size() < populationSize){ 
+                    if(children.size() < adSel.getNumberOfChildren(individuals)){ 
                         children.add(new IndividualImpl(newGenes[k]));
                     }
                 }
