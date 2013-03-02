@@ -29,24 +29,21 @@ public class GenerationalMixing extends AdultSelection implements IAdultSelectio
 			if (i.age() > 0) adults.add(i);
 			else children.add(i);
 		}
-		System.out.println("Pop size: " + populationSize);
+		//System.out.println("Pop size: " + populationSize);
 		children = selectBestFit(children, populationSize - adultSpots);
-		System.out.println(children.size());
+		//System.out.println(children.size());
 		adults = selectBestFit(adults, adultSpots);
-		System.out.println(adults.size());
+		//System.out.println(adults.size());
 		//adults.addAll(children);
 		for(IIndividual i: children){
 			adults.add(i);
 		}
-		System.out.println(adults.size());
+		//System.out.println(adults.size());
 		return growPopulation(adults);
 	}
 
-
-
 	@Override
 	public int getNumberOfChildren(List<IIndividual> population) {
-
 		return population.size()-adultSpots;
 	}
 

@@ -32,7 +32,6 @@ public class FullGenReplacement extends AdultSelection implements IAdultSelectio
     
 	@Override
 	public int getNumberOfChildren(List<IIndividual> population) {
-		
 		return population.size();
 	}
 

@@ -54,7 +54,10 @@ public class IndividualImpl implements IIndividual{
     }
 
     @Override
-    public void setFitness(double fitness) {
+    public void setFitness(double fitness) throws Exception{
+        if(fitness < 0.0 || fitness > 1.0) throw new Exception("Error setting "
+                + "fitness, value is out of range! Requires [0.0-1.0], got " + 
+                fitness + ")");
         this.fitness = fitness;
     }
 
@@ -63,7 +66,7 @@ public class IndividualImpl implements IIndividual{
         if(fitness >= 0.0 && fitness <= 1.0){
             return fitness;
         }else{
-            throw new Exception("Fitness undefined!");
+            throw new Exception("Fitness-error! Value is " + fitness +"");
         }
     }
 }

@@ -4,6 +4,7 @@ package evolalgo;
 import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
+import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,9 +86,12 @@ public class Evolution {
     	double countFitness = 0;
     	double maxFitness = 0.0;
     	double minFitness = 10.0;
-
+        System.out.println("New round");
     	for(IIndividual i: individuals){
     		try {
+                    SpikingNeuronPhenotype sn = (SpikingNeuronPhenotype) i.phenotype();
+                    System.out.println(sn.distance);
+                    System.out.println(i.toString());
     			countFitness += i.fitness();
     			if(i.fitness() > maxFitness){
     				maxFitness = i.fitness();

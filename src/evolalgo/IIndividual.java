@@ -17,7 +17,7 @@ public interface IIndividual {
     
     public int age();
     
-    public void setFitness(double fitness);
+    public void setFitness(double fitness) throws Exception;
     
     public double fitness() throws Exception;
     

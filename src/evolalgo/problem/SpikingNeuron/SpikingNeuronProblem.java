@@ -86,14 +86,10 @@ public class SpikingNeuronProblem implements IProblem{
          * then the distance? Perhaps split this into separate tasks?
          */
         for (int i = 0; i < population.size(); i++){
-            try{
-                population.get(i).fitness();
-            }catch(Exception e){
-            	SpikingNeuronPhenotype pheno = (SpikingNeuronPhenotype) population.get(i).phenotype();
-                calculateSpikeTrain(pheno); 
-                double percentDistance = 1.0 - (pheno.distance / longestDistance);
-                population.get(i).setFitness(percentDistance);
-            }
+            SpikingNeuronPhenotype pheno = (SpikingNeuronPhenotype) population.get(i).phenotype();
+            calculateSpikeTrain(pheno); 
+            double percentDistance = 1.0 - (pheno.distance / longestDistance);
+            population.get(i).setFitness(percentDistance);
         }
     }
 

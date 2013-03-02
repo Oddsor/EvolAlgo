@@ -367,8 +367,8 @@ public class EvoGUI extends javax.swing.JFrame {
         //int generations = Integer.parseInt(generationsField.getText());
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int crossoverSplit = crossoverSplitSlider.getValue();
-        int crossoverRate = Integer.parseInt(crossoverRateField.getText());
-        int mutation = Integer.parseInt(mutationRateField.getText());
+        double crossoverRate = Double.parseDouble(crossoverRateField.getText());
+        double mutation = Double.parseDouble(mutationRateField.getText());
         
         AdultOverproductionPanel overproduction = (AdultOverproductionPanel) adultPanel.getComponent(1);
         int overProductionPercent = Integer.parseInt(overproduction.overproductionField.getText());
@@ -407,8 +407,8 @@ public class EvoGUI extends javax.swing.JFrame {
         
         IReproduction reproduction = null;
         try {
-            reproduction = new ReproductionImpl((double) mutation / 100.0, 
-                    (double) crossoverRate / 100.0, crossoverSplit);
+            reproduction = new ReproductionImpl(mutation / 100.0, 
+                    crossoverRate / 100.0, crossoverSplit);
         } catch (Exception ex) {
             Logger.getLogger(EvoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -627,7 +627,7 @@ public class EvoGUI extends javax.swing.JFrame {
                     }
                 }
                 String formattedString = outputScreen.getText();
-                formattedString += best.toString() + "\n";
+                formattedString += "Generation " + (i+1) + ": " + best.toString() + "\n";
                 outputScreen.setText(formattedString);
                 Plot2DPanel plot = new Plot2DPanel();
                 BaseLabel title = new BaseLabel("Generation: " + (i+1) + 
