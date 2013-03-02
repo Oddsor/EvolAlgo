@@ -109,8 +109,8 @@ public class Evolution {
     	return statistics;
     }
     
-    private void produceChildren(List<IIndividual> children, List<IIndividual> individuals) throws Exception{
-    	
+    private void produceChildren(List<IIndividual> individuals) throws Exception{
+    	List<IIndividual> children = new ArrayList<IIndividual>();
     	while(children.size() < adSel.getNumberOfChildren(individuals)){
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!
