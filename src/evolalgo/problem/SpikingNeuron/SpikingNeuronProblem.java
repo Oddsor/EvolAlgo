@@ -88,7 +88,7 @@ public class SpikingNeuronProblem implements IProblem{
         for (int i = 0; i < population.size(); i++){
             SpikingNeuronPhenotype pheno = (SpikingNeuronPhenotype) population.get(i).phenotype();
             calculateSpikeTrain(pheno); 
-            double percentDistance = 1.0 - (pheno.distance / longestDistance);
+            double percentDistance = 1.0 - (Math.log(pheno.distance + 1.0) / Math.log(longestDistance + 1.0));
             population.get(i).setFitness(percentDistance);
         }
     }
