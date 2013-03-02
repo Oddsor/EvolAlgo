@@ -14,7 +14,8 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
     private double overProductionRate;
     
     public OverProduction(double overProductionRate){
-        this.overProductionRate = overProductionRate;
+    		
+    	   this.overProductionRate = overProductionRate;
     }
     
     @Override
@@ -39,13 +40,14 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
         return growPopulation(selectBestFit(populationcopy, childAdult[1]));
     }
 
-	@Override
-	public int getNumberOfChildren() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	public String toString(){
 		return "Overproduction";
+	}
+
+	@Override
+	public int getNumberOfChildren(List<IIndividual> population) {
+		
+		return population.size()+(int)(population.size()*overProductionRate);
 	}
 }
