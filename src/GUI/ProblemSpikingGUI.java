@@ -30,6 +30,7 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
         trainingDataBox = new javax.swing.JComboBox();
         SDMBox = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
+        logarithmicFitness = new javax.swing.JCheckBox();
 
         jLabel1.setText("Training data:");
 
@@ -38,6 +39,8 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
         SDMBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Waveform", "Spike Interval", "Spike Time" }));
 
         jLabel2.setText("Distance measure:");
+
+        logarithmicFitness.setText("Logarithmic fitness");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -51,6 +54,7 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SDMBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(trainingDataBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(logarithmicFitness)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -61,13 +65,16 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SDMBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logarithmicFitness))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox SDMBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    public javax.swing.JCheckBox logarithmicFitness;
     public javax.swing.JComboBox trainingDataBox;
     // End of variables declaration//GEN-END:variables
 }

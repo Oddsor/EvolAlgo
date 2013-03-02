@@ -27,6 +27,7 @@ public class SpikingNeuronProblem implements IProblem{
     double longestDistance = 0.0; //Is it a bad idea to compare fitness values to the longest EVER detected distance metric?
     public double[] target;
     ISDM sdm;
+    private boolean logarithmic;
     /**
      * The length of the bit describing each variable in the problem. This is hardcoded
      * because I don't see much use in letting it be changed once I feel I've struck
@@ -38,8 +39,10 @@ public class SpikingNeuronProblem implements IProblem{
      * 
      * @param file Training data 1 to 4
      */
-    public SpikingNeuronProblem(int file, ISDM sdm){
+    public SpikingNeuronProblem(int file, ISDM sdm, boolean logarithmic){
         this.sdm = sdm;
+        this.logarithmic = logarithmic;
+        
         Path path = FileSystems.getDefault().getPath("libs/trainingdata", 
                 "izzy-train" + file + ".dat");
         BufferedReader reader = null;

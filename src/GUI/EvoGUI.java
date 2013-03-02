@@ -405,6 +405,7 @@ public class EvoGUI extends javax.swing.JFrame {
         
         ProblemSpikingGUI spiking = (ProblemSpikingGUI) problemPane.getComponent(2);
         int spikingTrain = spiking.trainingDataBox.getSelectedIndex() + 1;
+        boolean spikingLogarithmic = spiking.logarithmicFitness.isSelected();
         
         ISDM sdm = null;
         switch(spiking.SDMBox.getSelectedIndex()){
@@ -441,7 +442,7 @@ public class EvoGUI extends javax.swing.JFrame {
                         (double) blottoLoss / 100);
                 break;
             case 2:
-                problem = new SpikingNeuronProblem(spikingTrain, sdm);
+                problem = new SpikingNeuronProblem(spikingTrain, sdm, spikingLogarithmic);
                 break;
         }
         
