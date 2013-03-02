@@ -555,14 +555,14 @@ public class EvoGUI extends javax.swing.JFrame {
         String formattedString = "";
         double[] maxfitnessplot = new double[generations];
         double[] avgfitnessplot = new double[generations];
-        double[] minfitnessplot = new double[generations];
+        //double[] minfitnessplot = new double[generations];
         int i = 0;
         for(Map m: statistics){
             formattedString += "Generation:" + (i+1) + "\t Best: " +
                     m.get("bestIndividual").toString() + "\n";
             maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
             avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
-            minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
+            //(minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
@@ -612,7 +612,7 @@ public class EvoGUI extends javax.swing.JFrame {
                     }
                 }
                 String formattedString = outputScreen.getText();
-                formattedString += best.fitness()+ "\n";
+                formattedString += best.toString() + "\n";
                 outputScreen.setText(formattedString);
                 Plot2DPanel plot = new Plot2DPanel();
                 BaseLabel title = new BaseLabel("Generation: " + (i+1) + 
