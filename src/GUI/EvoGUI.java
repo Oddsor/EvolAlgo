@@ -16,6 +16,7 @@ import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
+import evolalgo.problem.BlottoStrats.BlottoPhenotype;
 import evolalgo.problem.BlottoStrats.BlottoStratsProblem;
 import evolalgo.problem.IProblem;
 import evolalgo.problem.MaxOne.MaxOneProblem;
@@ -363,7 +364,7 @@ public class EvoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_problemBoxActionPerformed
 
     private void launchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchButtonActionPerformed
-        int generations = Integer.parseInt(generationsField.getText());
+        //int generations = Integer.parseInt(generationsField.getText());
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int crossoverSplit = crossoverSplitSlider.getValue();
         int crossoverRate = Integer.parseInt(crossoverRateField.getText());
@@ -471,6 +472,12 @@ public class EvoGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_launchButtonActionPerformed
 
+    /**
+     * The maxOne problem is simple and relies on values that we choose to map
+     * in the evolution class, such as maximum, average and minimum fitness, as
+     * well as the best individual in the population.
+     * @param evo 
+     */
     private void runMaxOneProblem(Evolution evo){
         int generations = Integer.parseInt(generationsField.getText());
         try {
@@ -513,9 +520,15 @@ public class EvoGUI extends javax.swing.JFrame {
         outputScreen.setText(formattedString);
     }
     
+    /**
+     * The blotto problem needs some particular calculations in order to
+     * create a plot for entropy, thus we cannot simply do a regular loop.
+     * @param evo 
+     */
     private void runBlottoProblem(Evolution evo){
         int generations = Integer.parseInt(generationsField.getText());
         int populationSize = Integer.parseInt(populationSizeField.getText());
+        
         double[] avgEntropy = new double[generations];
         double[] stdDev = new double[generations];
         List<IIndividual> individuals = problem.createPopulation(populationSize);
@@ -527,12 +540,10 @@ public class EvoGUI extends javax.swing.JFrame {
                 for(IIndividual ind: individuals){
                     if(ind.age() > 0){
                         fitnesses[numParents] = ind.fitness();
-                        String pheno = ind.phenotype().toString().trim();
-                        String[] phenosplit = pheno.split(";");
+                        BlottoPhenotype pheno = (BlottoPhenotype) ind.phenotype();
                         double sum = 0.0;
-                        for (int j = 0; j < phenosplit.length; j++){
-                            phenosplit[j] = phenosplit[j].replace(',', '.');
-                            double value = Double.parseDouble(phenosplit[j].trim());
+                        for (int j = 0; j < pheno.pheno.length; j++){
+                            double value = pheno.pheno[j];
                             if (value != 0.0){
                                 double logcalc = (value * (Math.log(value)/Math.log(2.0)));
                                 sum -= logcalc;
@@ -555,14 +566,12 @@ public class EvoGUI extends javax.swing.JFrame {
         String formattedString = "";
         double[] maxfitnessplot = new double[generations];
         double[] avgfitnessplot = new double[generations];
-        //double[] minfitnessplot = new double[generations];
         int i = 0;
         for(Map m: statistics){
             formattedString += "Generation:" + (i+1) + "\t Best: " +
                     m.get("bestIndividual").toString() + "\n";
             maxfitnessplot[i] = Double.parseDouble(m.get("maxFitness").toString());
             avgfitnessplot[i] = Double.parseDouble(m.get("avgFitness").toString());
-            //(minfitnessplot[i] = Double.parseDouble(m.get("minFitness").toString());
             i++;
         }
         Plot2DPanel plot = new Plot2DPanel();
@@ -594,6 +603,12 @@ public class EvoGUI extends javax.swing.JFrame {
         outputScreen.setText(formattedString);
     }
     
+    /**
+     * The spiking problem is yet another different approach, where we want
+     * to see the development in the spiketrain over time graphically, as opposed
+     * to the other problems where we want to see the increase in fitness over time.
+     * @param evo 
+     */
     private void runSpikingProblem(Evolution evo){
         outputScreen.setText("");
         int populationSize = Integer.parseInt(populationSizeField.getText());

@@ -1,6 +1,7 @@
 package evolalgo.problem.SpikingNeuron;
 
 import evolalgo.IPhenotype;
+import java.text.DecimalFormat;
 
 public class SpikingNeuronPhenotype implements IPhenotype{
     /**
@@ -60,7 +61,10 @@ public class SpikingNeuronPhenotype implements IPhenotype{
 
     @Override
     public String toString() {
-        return "A: " + a + ", B: " + b + ", C: " + c + ", D: " + d + ", K: " + k;
+        DecimalFormat df = new DecimalFormat("#.###");
+        df.setMinimumFractionDigits(3);
+        return "A: " + df.format(a) + ", B: " + df.format(b) + ", C: " + 
+                df.format(c) + ", D: " + df.format(d) + ", K: " + df.format(k);
         /*String valueString = "";
         if(spiketrain == null){
             System.out.println("Distance, spiketrain is null?!: " + distance);

@@ -107,4 +107,14 @@ public class ReproductionImpl implements IReproduction{
         }
         return genoTypes;
     }
+
+    @Override
+    public double getMutationRate() {
+        return mutationRate;
+    }
+
+    @Override
+    public void setMutationRate(double mutationRate) {
+        this.mutationRate = mutationRate;
+    }
 }

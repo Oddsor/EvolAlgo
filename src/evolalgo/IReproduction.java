@@ -31,4 +31,8 @@ public interface IReproduction {
      * @return Two recombined and mutated genotypes.
      */
     Object[] reproduce(List<IIndividual> parents) throws Exception;
+    
+    double getMutationRate();
+    
+    void setMutationRate(double mutationRate);
 }

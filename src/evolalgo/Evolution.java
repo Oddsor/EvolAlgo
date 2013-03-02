@@ -62,8 +62,7 @@ public class Evolution {
         
        Map statistics = fitnessCalculations(individuals);
         //Start producing children.
-        List<IIndividual> children = new ArrayList<IIndividual>();
-        produceChildren(children, individuals);
+        produceChildren(individuals);
         stats.add(statistics);
         return individuals;
     }
@@ -111,9 +110,8 @@ public class Evolution {
     	return statistics;
     }
     
-    private void produceChildren(List<IIndividual> children, List<IIndividual> individuals) throws Exception{
-    	
-    	   	
+    private void produceChildren(List<IIndividual> individuals) throws Exception{
+        List<IIndividual> children = new ArrayList<IIndividual>();
     	while(children.size() < populationSize){
             List<IIndividual> parents = new ArrayList<IIndividual>();
             //Try selecting parents!

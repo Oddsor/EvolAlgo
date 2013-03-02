@@ -1,6 +1,8 @@
 
 package evolalgo;
 
+import java.text.DecimalFormat;
+
 /**
  * Implementation of individual.
  * @author Odd
@@ -46,7 +48,9 @@ public class IndividualImpl implements IIndividual{
     
     @Override
     public String toString(){
-        return "I: " + phenotype.toString() + " (" + genotype.toString() + ")";
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setMinimumFractionDigits(2);
+        return "Individual (fitness "+ df.format(fitness) +"): " + phenotype.toString() + " (" + genotype.toString() + ")";
     }
 
     @Override

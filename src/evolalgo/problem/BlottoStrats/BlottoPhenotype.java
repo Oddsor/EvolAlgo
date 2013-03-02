@@ -19,9 +19,10 @@ public class BlottoPhenotype implements IPhenotype{
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.##");
+        df.setMinimumFractionDigits(2);
         String output = "";
         for (int i = 0; i < pheno.length; i++){
-            output += df.format(pheno[i]);
+            output += "B" + (i+1) + ": " + df.format(pheno[i]);
             if(i != pheno.length - 1) output += "; ";
         }
         return output;
