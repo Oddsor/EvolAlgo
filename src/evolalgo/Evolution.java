@@ -24,7 +24,9 @@ public class Evolution {
     private IProblem problem;
     private IReproduction rep;
     
-    private boolean variable_mutation = false; //TODO implement
+    private double baseMutationRate;
+    
+    private boolean variable_mutation = false;
     
     List<Map> stats;
     
@@ -32,6 +34,7 @@ public class Evolution {
             IAdultSelection adSel, IParentSelection parSel, 
             IProblem problem, int... options){
         this.rep = rep;
+        baseMutationRate = rep.getMutationRate();
         this.populationSize = populationSize;
         this.adSel = adSel;
         this.parSel = parSel;
@@ -40,7 +43,10 @@ public class Evolution {
         
         if(options != null){
             for (int i = 0; i < options.length; i++){
-                
+                if (options[i] == VARIABLE_MUTATION){
+                    variable_mutation = true;
+                    System.out.println("Variable mutation rate activated");
+                }
             }
         }
     }
@@ -50,6 +56,7 @@ public class Evolution {
         for(int i = 0; i < individuals.size(); i++){
             problem.developPheno(individuals.get(i));
         }
+        
         //Finding fitness
         problem.calculateFitness(individuals);
         //Try replacing the generation
@@ -60,7 +67,30 @@ public class Evolution {
             throw new Exception(error,e);
         }
         
-       Map statistics = fitnessCalculations(individuals);
+        Map statistics = fitnessCalculations(individuals);
+        //If the option of variable mutation rate is toggled, increase mutation rate
+        if(variable_mutation && stats.size() > 10){
+            //Check if any max fitness the last few generations has differed greatly. If not increase mutation, if yes then reduce
+            double lastFitness = (double) stats.get(stats.size() - 1).get("maxFitness");
+            boolean thresholdBreached = false;
+            for (int i = 2; i < 6; i++){
+                double someFitness = (double) stats.get(stats.size() - i).get("maxFitness");
+                if (Math.max(lastFitness, someFitness) - 
+                        Math.min(lastFitness, someFitness) > 0.05) thresholdBreached = true;
+            }
+            if(thresholdBreached){
+                if(rep.getMutationRate() - 0.01 > baseMutationRate){
+                    //rep.setMutationRate(rep.getMutationRate() - 0.01);
+                    rep.setMutationRate(baseMutationRate);
+                    System.out.println("Mutation rate reduced to "+ rep.getMutationRate() +"!");
+                }
+            }else{
+                if(rep.getMutationRate() + 0.01 < 1.0){
+                    rep.setMutationRate(rep.getMutationRate() + 0.01);
+                    System.out.println("Mutation rate increased to "+ rep.getMutationRate() +"!");
+                }
+            }
+        }
         //Start producing children.
         produceChildren(individuals);
         stats.add(statistics);
