@@ -10,7 +10,7 @@ import evolalgo.IIndividual;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import evolalgo.IReproduction;
-import evolalgo.problem.MaxOne;
+import evolalgo.problem.MaxOne.MaxOneProblem;
 import evolalgo.ReproductionImpl;
 import java.awt.Color;
 import java.util.List;
@@ -316,9 +316,9 @@ public class GUI extends javax.swing.JFrame {
         //Selecting a development method (only 1 so far)
         IProblem problem;
         if(toggleTarget.isSelected()){
-            problem = new MaxOne(targetBit.getText(), targetBit.getText().length());
+            problem = new MaxOneProblem(targetBit.getText(), targetBit.getText().length());
         }else{
-            problem = new MaxOne("", Integer.parseInt(bitStringSize.getText()));
+            problem = new MaxOneProblem("", Integer.parseInt(bitStringSize.getText()));
         }
         List<IIndividual> individuals;
         if(toggleBit.isSelected()){

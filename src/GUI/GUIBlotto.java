@@ -10,7 +10,7 @@ import evolalgo.IIndividual;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import evolalgo.IReproduction;
-import evolalgo.problem.BlottoStrats;
+import evolalgo.problem.BlottoStrats.BlottoStratsProblem;
 import evolalgo.ReproductionImpl;
 import java.awt.Color;
 import java.util.List;
@@ -314,7 +314,7 @@ public class GUIBlotto extends javax.swing.JFrame {
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
         //Selecting a development method (only 1 so far)
-        IProblem problem = new BlottoStrats(Integer.parseInt(bitStringSize.getText()), 
+        IProblem problem = new BlottoStratsProblem(Integer.parseInt(bitStringSize.getText()), 
                 Double.parseDouble(redeploymentRate.getText()), 
                 Double.parseDouble(lossFraction.getText()));
         List<IIndividual> individuals = problem.createPopulation(Integer.parseInt(popSize.getText()));

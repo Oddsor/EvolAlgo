@@ -1,22 +1,24 @@
-package evolalgo.problem;
+package evolalgo.problem.MaxOne;
 
 import evolalgo.IPhenotype;
 import evolalgo.IIndividual;
 import evolalgo.IndividualImpl;
+import evolalgo.problem.IProblem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 /**
  * Development method for bit strings.
  * @author Odd
  */
-public class MaxOne implements IProblem{
+public class MaxOneProblem implements IProblem{
     
     int[] targetArray;
     int length;
     
-    public MaxOne(String targetString, int length){
+    public MaxOneProblem(String targetString, int length){
         this.length = length;
         if(targetString.equals("")){
             targetArray = null;
@@ -86,7 +88,6 @@ public class MaxOne implements IProblem{
         return population;
     }
 }
-
 class MaxOnePheno implements IPhenotype{
     public int[] pheno;
     
@@ -98,6 +99,4 @@ class MaxOnePheno implements IPhenotype{
     public String toString() {
         return "";
     }
-    
-    
 }

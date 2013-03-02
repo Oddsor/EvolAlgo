@@ -1,4 +1,4 @@
-package evolalgo.problem.sdm;
+package evolalgo.problem.SpikingNeuron.sdm;
 
 public class WaveformDistance implements ISDM {
 

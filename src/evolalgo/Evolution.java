@@ -14,6 +14,8 @@ import java.util.Map;
  * @author Odd
  */
 public class Evolution {
+    public static final int VARIABLE_MUTATION = 1;
+    
     //TODO Number of children in over population should be implicit 
     private int populationSize;
     private IAdultSelection adSel;
@@ -21,17 +23,25 @@ public class Evolution {
     private IProblem problem;
     private IReproduction rep;
     
+    private boolean variable_mutation = false; //TODO implement
+    
     List<Map> stats;
     
     public Evolution(int populationSize, IReproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
-            IProblem problem){
+            IProblem problem, int... options){
         this.rep = rep;
         this.populationSize = populationSize;
         this.adSel = adSel;
         this.parSel = parSel;
         this.problem = problem;
         stats = new ArrayList<Map>();
+        
+        if(options != null){
+            for (int i = 0; i < options.length; i++){
+                
+            }
+        }
     }
     
     public List<IIndividual> runGeneration(List<IIndividual> individuals) throws Exception{        
@@ -126,7 +136,7 @@ public class Evolution {
         individuals.addAll(children);
     }
     
-    //TODO: Påbegynt metode, har en plan her :P
+    //TODO: PÃ¥begynt metode, har en plan her :P
 //    private void overproduceChildren(List<IIndividual> children, List<IIndividual> individuals) throws Exception{
 //    	
 //    	List<IIndividual> parents = new ArrayList<IIndividual>();

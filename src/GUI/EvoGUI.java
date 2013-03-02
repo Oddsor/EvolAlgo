@@ -16,14 +16,15 @@ import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
-import evolalgo.problem.BlottoStrats;
+import evolalgo.problem.BlottoStrats.BlottoStratsProblem;
 import evolalgo.problem.IProblem;
-import evolalgo.problem.MaxOne;
-import evolalgo.problem.SpikingNeuron;
-import evolalgo.problem.sdm.ISDM;
-import evolalgo.problem.sdm.SpikeIntervalDistance;
-import evolalgo.problem.sdm.SpikeTimeDistance;
-import evolalgo.problem.sdm.WaveformDistance;
+import evolalgo.problem.MaxOne.MaxOneProblem;
+import evolalgo.problem.SpikingNeuron.SpikingNeuronProblem;
+import evolalgo.problem.SpikingNeuron.sdm.ISDM;
+import evolalgo.problem.SpikingNeuron.sdm.SpikeIntervalDistance;
+import evolalgo.problem.SpikingNeuron.sdm.SpikeTimeDistance;
+import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
+import evolalgo.problem.SpikingNeuron.sdm.WaveformDistance;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.List;
@@ -415,17 +416,17 @@ public class EvoGUI extends javax.swing.JFrame {
         switch(problemBox.getSelectedIndex()){
             case 0:
                 if(maxOne.bitSizeButton.isSelected()){
-                    problem = new MaxOne("", maxOnebitSize);
+                    problem = new MaxOneProblem("", maxOnebitSize);
                 }else{
-                    problem = new MaxOne(maxOneManualBit, maxOnebitSize);
+                    problem = new MaxOneProblem(maxOneManualBit, maxOnebitSize);
                 }
                 break;
             case 1:
-                problem = new BlottoStrats(blottoBattles, (double) blottoRedeployment / 100.0, 
+                problem = new BlottoStratsProblem(blottoBattles, (double) blottoRedeployment / 100.0, 
                         (double) blottoLoss / 100);
                 break;
             case 2:
-                problem = new SpikingNeuron(spikingTrain, sdm);
+                problem = new SpikingNeuronProblem(spikingTrain, sdm);
                 break;
         }
         
@@ -597,7 +598,7 @@ public class EvoGUI extends javax.swing.JFrame {
         outputScreen.setText("");
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int generations = Integer.parseInt(generationsField.getText());
-        SpikingNeuron sn = (SpikingNeuron) problem;
+        SpikingNeuronProblem sn = (SpikingNeuronProblem) problem;
         List<IIndividual> individuals = problem.createPopulation(populationSize);
         try {
             for (int i = 0; i < generations; i++){
@@ -622,12 +623,8 @@ public class EvoGUI extends javax.swing.JFrame {
                         , Color.BLACK, 0.5, 1.1);
                 plot.addPlotable(title);
                 plot.addLinePlot("Target", Color.RED, sn.target);
-                String[] bestValuesString = best.phenotype().toString().trim().split(" ");
-                double[] bestValues = new double[bestValuesString.length];
-                for (int j = 0; j < bestValues.length; j++){
-                    bestValues[j] = Double.parseDouble(bestValuesString[j]);
-                }
-                plot.addLinePlot("Best individual", Color.BLUE, bestValues);
+                SpikingNeuronPhenotype snPheno = (SpikingNeuronPhenotype) best.phenotype();
+                plot.addLinePlot("Best individual", Color.BLUE, snPheno.spiketrain);
                 plot.addLegend("SOUTH");
                 graphpanel.add(plot);
                 CardLayout card = (CardLayout) graphpanel.getLayout();

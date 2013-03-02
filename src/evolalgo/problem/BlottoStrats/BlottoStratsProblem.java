@@ -1,9 +1,9 @@
-package evolalgo.problem;
+package evolalgo.problem.BlottoStrats;
 
 import evolalgo.IIndividual;
 import evolalgo.IPhenotype;
 import evolalgo.IndividualImpl;
-import java.text.DecimalFormat;
+import evolalgo.problem.IProblem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,7 +12,7 @@ import java.util.Random;
  * Development method for the Blotto Strategies
  * @author Odd
  */
-public class BlottoStrats implements IProblem{
+public class BlottoStratsProblem implements IProblem{
     private int numBattles;
     private double redeploymentRate;
     private double defectionRate;
@@ -22,7 +22,7 @@ public class BlottoStrats implements IProblem{
      * @param R The re-deployment factor when fights are won
      * @param L Defection factor when fights are lost
      */
-    public BlottoStrats(int B, double R, double L){
+    public BlottoStratsProblem(int B, double R, double L){
         numBattles = B;
         redeploymentRate = R;
         defectionRate = L;
@@ -54,7 +54,7 @@ public class BlottoStrats implements IProblem{
             for(int i = 0; i < segments; i++){
                 phenotype[i] = phenotype[i] * weight;
             }
-            IPhenotype pheno = new BlottoPheno(phenotype);
+            IPhenotype pheno = new BlottoPhenotype(phenotype);
             individual.setPhenotype(pheno);
         }else{
             throw new Exception("Error in genotype");
@@ -67,11 +67,11 @@ public class BlottoStrats implements IProblem{
         //Have every individual fight every other individual and increase fitness as they score
         int warpoints = 0;
         for (IIndividual fighter: population){
-            BlottoPheno fighterPheno = (BlottoPheno) fighter.phenotype();
+            BlottoPhenotype fighterPheno = (BlottoPhenotype) fighter.phenotype();
             fighter.setFitness(0.0);
             for(IIndividual opponent: population){
                 if(!fighter.equals(opponent) && !fighterPheno.fought.contains(opponent)){
-                    BlottoPheno opponentPheno = (BlottoPheno) opponent.phenotype();
+                    BlottoPhenotype opponentPheno = (BlottoPhenotype) opponent.phenotype();
                     int fighterWins = 0;
                     int opponentWins = 0;
                     double[] fighterWeights = new double[numBattles];
@@ -117,11 +117,11 @@ public class BlottoStrats implements IProblem{
         }
         int topScore = 0;
         for (IIndividual individual: population){
-            BlottoPheno ph = (BlottoPheno) individual.phenotype();
+            BlottoPhenotype ph = (BlottoPhenotype) individual.phenotype();
             if (ph.score > topScore) topScore = ph.score;
         }
         for (IIndividual individual: population){
-            BlottoPheno ph = (BlottoPheno) individual.phenotype();
+            BlottoPhenotype ph = (BlottoPhenotype) individual.phenotype();
             individual.setFitness((double)ph.score / (double)topScore);
             ph.fought = null;
         }
@@ -147,27 +147,5 @@ public class BlottoStrats implements IProblem{
             population.add(new IndividualImpl(o));
         }
         return population;
-    }
-}
-
-class BlottoPheno implements IPhenotype{
-    public double[] pheno;
-    public List<IIndividual> fought;
-    public int score;
-    
-    public BlottoPheno(double[] pheno){
-        this.pheno = pheno;
-        fought = new ArrayList<IIndividual>();
-    }
-
-    @Override
-    public String toString() {
-        DecimalFormat df = new DecimalFormat("#.##");
-        String output = "";
-        for (int i = 0; i < pheno.length; i++){
-            output += df.format(pheno[i]);
-            if(i != pheno.length - 1) output += "; ";
-        }
-        return output;
     }
 }

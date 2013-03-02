@@ -1,4 +1,4 @@
-package evolalgo.problem.sdm;
+package evolalgo.problem.SpikingNeuron.sdm;
 
 import java.util.ArrayList;
 import java.util.List;
