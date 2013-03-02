@@ -44,4 +44,8 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public String toString(){
+		return "Overproduction";
+	}
 }

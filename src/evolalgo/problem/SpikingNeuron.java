@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
+
 import org.math.plot.Plot2DPanel;
 
 /**
@@ -24,7 +27,10 @@ import org.math.plot.Plot2DPanel;
  * @author Odd
  */
 public class SpikingNeuron implements IProblem{
-    
+    public static final int BIT_LENGTH = 15;
+    final double T = 10.0;
+    final double I = 10.0;
+    double longestDistance = 0.0; //Is it a bad idea to compare fitness values to the longest EVER detected distance metric?
     public double[] target;
     ISDM sdm;
     /**
@@ -33,8 +39,7 @@ public class SpikingNeuron implements IProblem{
      * a good balance: For instance the variable "k" goes from 0.01-1.0 and a bit
      * length of 7 would describe 128 possible values (2^7, [0, 127]).
      */
-    public static final int BIT_LENGTH = 15;
-    
+
     /**
      * 
      * @param file Training data 1 to 4
@@ -69,48 +74,58 @@ public class SpikingNeuron implements IProblem{
     }
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-        final double T = 10.0;
-        final double I = 10.0;
-        double longestDistance = 0.0;
-        for (int i = 0; i < population.size(); i++){
-            SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
-            try{
-                population.get(i).fitness();
-            }catch (Exception e){
-                double v = -60.0;
-                double u = 0.0;
-                double[] valueArray = new double[target.length];
-                valueArray[0] = v;
-                for (int j = 1; j < target.length; j++){
-                    if (v >= 35.0){
-                        v = pheno.c;
-                        u += pheno.d;
-                    }
-                    double vd = ((pheno.k * Math.pow(v, 2.0)) + 5.0*v + 140.0 - u + I) / T;
-                    double ud = (pheno.a / T) * (pheno.b * v - u);
-                    u += ud;
-                    v += vd;
-                    if (v >= 35.0) valueArray[j] = 35.0;
-                    else valueArray[j] = v;
-                }
-                pheno.spiketrain = valueArray;
-                pheno.distance = sdm.calculateDistance(target, valueArray);
-                if (pheno.distance < 0) System.out.println("ERROR, distance negative");
-                if (pheno.distance > longestDistance) longestDistance = pheno.distance;
-            }
-        }
+        
+        
+//        for (int i = 0; i < population.size(); i++){
+//            SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
+//            try{
+//                population.get(i).fitness();
+//            }catch (Exception e){
+//              calculateSpikeTrain(pheno);
+//            }
+//        }
+//        
         //TODO: Fullfør fitnesskalkulering, denne kan være merkelig!
+        /*
+         * If fitness throws exception, spiketrain has not been calculated since
+         * the fitness is set immediately after calculating the spiketrain and 
+         * then the distance? Perhaps split this into separate tasks?
+         */
         for (int i = 0; i < population.size(); i++){
             try{
                 population.get(i).fitness();
             }catch(Exception e){
-                SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
+            	SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
+                calculateSpikeTrain(pheno); 
                 double percentDistance = 1.0 - (pheno.distance / longestDistance);
                 population.get(i).setFitness(percentDistance);
             }
         }
     }
 
+    private void calculateSpikeTrain(SNPhenotype pheno){
+    	  double v = -60.0;
+          double u = 0.0;
+          double[] voltageArray = new double[target.length];
+          voltageArray[0] = v;
+          for (int j = 1; j < target.length; j++){
+              if (v >= 35.0){
+                  v = pheno.c;
+                  u += pheno.d;
+              }
+              double vd = ((pheno.k * Math.pow(v, 2.0)) + 5.0*v + 140.0 - u + I) / T;
+              double ud = (pheno.a / T) * (pheno.b * v - u);
+              u += ud;
+              v += vd;
+              if (v >= 35.0) voltageArray[j] = 35.0;
+              else voltageArray[j] = v;
+          }
+          pheno.spiketrain = voltageArray;
+          pheno.distance = sdm.calculateDistance(target, voltageArray);
+          if (pheno.distance < 0) System.out.println("ERROR, distance negative");
+          if (pheno.distance > longestDistance) longestDistance = pheno.distance;
+    }
+    
     @Override
     public List<IIndividual> createPopulation(int individuals) {
         List<IIndividual> population = new ArrayList<IIndividual>();
@@ -155,7 +170,7 @@ public class SpikingNeuron implements IProblem{
         frame.setContentPane(plot);
         frame.setSize(500, 400);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         System.out.println(sdm.calculateDistance(sp.target, sp3.target));
     }
 }
