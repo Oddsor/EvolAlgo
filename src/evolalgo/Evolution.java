@@ -5,10 +5,15 @@ import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.math.plot.Plot2DPanel;
 
 /**
  * This is the evolutionary loop.
@@ -69,32 +74,42 @@ public class Evolution {
         
         Map statistics = fitnessCalculations(individuals);
         //If the option of variable mutation rate is toggled, increase mutation rate
-        if(variable_mutation && stats.size() > 10){
-            //Check if any max fitness the last few generations has differed greatly. If not increase mutation, if yes then reduce
-            double lastFitness = (double) stats.get(stats.size() - 1).get("maxFitness");
-            boolean thresholdBreached = false;
-            for (int i = 2; i < 6; i++){
-                double someFitness = (double) stats.get(stats.size() - i).get("maxFitness");
-                if (Math.max(lastFitness, someFitness) - 
-                        Math.min(lastFitness, someFitness) > 0.05) thresholdBreached = true;
-            }
-            if(thresholdBreached){
-                if(rep.getMutationRate() - 0.01 > baseMutationRate){
-                    //rep.setMutationRate(rep.getMutationRate() - 0.01);
-                    rep.setMutationRate(baseMutationRate);
-                    System.out.println("Mutation rate reduced to "+ rep.getMutationRate() +"!");
-                }
-            }else{
-                if(rep.getMutationRate() + 0.01 < 1.0){
-                    rep.setMutationRate(rep.getMutationRate() + 0.01);
-                    System.out.println("Mutation rate increased to "+ rep.getMutationRate() +"!");
-                }
-            }
-        }
+        if(variable_mutation && stats.size() > 10) variableMutation();
         //Start producing children.
         produceChildren(individuals);
         stats.add(statistics);
         return individuals;
+    }
+    
+    private void variableMutation(){
+    	
+             //Check if any max fitness the last few generations has differed greatly. If not increase mutation, if yes then reduce
+             HashMap temp = (HashMap) stats.get(stats.size()-1);
+             double lastFitness = (Double) temp.get("maxFitness");
+//           System.out.println("The max fitness pulled out of stats: "+lastFitness+"\n");
+//         	double lastFitness = (double) (stats.get(stats.size() - 1).get("maxFitness"));
+             boolean thresholdBreached = false;
+             for (int i = 2; i < 6; i++){
+             	
+                  double someFitness = (Double) temp.get("maxFitness");
+//             	double someFitness = (double) stats.get(stats.size() - i).get("maxFitness");
+                 if (Math.max(lastFitness, someFitness) - 
+                         Math.min(lastFitness, someFitness) > 0.05) thresholdBreached = true;
+             }
+             if(thresholdBreached){
+                 
+             	if(rep.getMutationRate() - 0.01 > baseMutationRate){
+                     //rep.setMutationRate(rep.getMutationRate() - 0.01);
+                     rep.setMutationRate(baseMutationRate);
+                     System.out.println("Mutation rate reduced to "+ rep.getMutationRate() +"!");
+                 }
+             }else{
+                 if(rep.getMutationRate() + 0.01 < 1.0){
+                     rep.setMutationRate(rep.getMutationRate() + 0.01);
+                     System.out.println("Mutation rate increased to "+ rep.getMutationRate() +"!");
+                 }
+             }
+         
     }
 
     public void loop(int generations, boolean stop) throws Exception{
@@ -104,10 +119,29 @@ public class Evolution {
             if(stop){
                 Map m = stats.get(stats.size() - 1);
                 if (Double.parseDouble(m.get("maxFitness").toString()) == 1.0){
-                    break;
+                  drawBestFitnessPlot();
+                	break;
                 }
             }
         }
+    }
+    
+    public void drawBestFitnessPlot(){
+    	System.out.println("Method called");
+    	double bestOfGenerations[] = new double[stats.size()];
+    	for (int i =0; i < stats.size(); i++) {
+    		HashMap temp = (HashMap) stats.get(i);
+            bestOfGenerations[i] = (Double) temp.get("maxFitness");
+            
+		}
+    	
+    	Plot2DPanel plot = new Plot2DPanel();
+        plot.addLinePlot("Spike train", Color.BLUE, bestOfGenerations);
+        plot.addLegend("SOUTH");
+      javax.swing.JFrame frame = new javax.swing.JFrame("Best of generation");
+      frame.setContentPane(plot);
+      frame.setSize(500, 400);
+      frame.setVisible(true);
     }
     
     private Map fitnessCalculations(List<IIndividual> individuals){
@@ -133,8 +167,10 @@ public class Evolution {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-
-    	}statistics.put("avgFitness", countFitness / individuals.size());
+    		
+    	}
+//    	System.out.println("The Max fitness put into statistics: "+maxFitness);
+    	statistics.put("avgFitness", countFitness / individuals.size());
     	
     	return statistics;
     }
@@ -162,18 +198,6 @@ public class Evolution {
         }
         individuals.addAll(children);
     }
-    
-    //TODO: Påbegynt metode, har en plan her :P
-//    private void overproduceChildren(List<IIndividual> children, List<IIndividual> individuals) throws Exception{
-//    	
-//    	List<IIndividual> parents = new ArrayList<IIndividual>();
-//    	
-//    	for (IIndividual iIndividual : individuals) {
-//			parents.add(parSel.getParent(individuals));
-//		}
-//    	
-//    }
-    
     
     public List<Map> getStatistics(){
         return stats;

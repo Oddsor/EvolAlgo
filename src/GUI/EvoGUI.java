@@ -646,6 +646,7 @@ public class EvoGUI extends javax.swing.JFrame {
                         }
                     }
                 }
+                
                 String formattedString = outputScreen.getText();
                 formattedString += "Generation " + (i+1) + ": " + best.toString() + "\n";
                 outputScreen.setText(formattedString);
@@ -665,6 +666,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 CardLayout card = (CardLayout) graphpanel.getLayout();
                 card.last(graphpanel);
             }
+            evo.drawBestFitnessPlot();
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
