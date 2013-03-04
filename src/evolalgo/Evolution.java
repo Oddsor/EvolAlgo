@@ -128,7 +128,6 @@ public class Evolution {
     }
     
     public void drawBestFitnessPlot(){
-    	System.out.println("Method called");
     	double bestOfGenerations[] = new double[stats.size()];
     	for (int i =0; i < stats.size(); i++) {
     		HashMap temp = (HashMap) stats.get(i);
@@ -137,7 +136,7 @@ public class Evolution {
 		}
     	
     	Plot2DPanel plot = new Plot2DPanel();
-        plot.addLinePlot("Spike train", Color.BLUE, bestOfGenerations);
+        plot.addLinePlot("Fitness of best individual", Color.BLUE, bestOfGenerations);
         plot.addLegend("SOUTH");
       javax.swing.JFrame frame = new javax.swing.JFrame("Best of generation");
       frame.setContentPane(plot);

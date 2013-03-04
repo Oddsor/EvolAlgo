@@ -1,5 +1,10 @@
 package evolalgo.problem.SpikingNeuron.sdm;
 
+/**
+ * 
+ * @author Andreas
+ *
+ */
 public abstract class AbstractSpikePenalty {
 
 	public double calculatePenalty(int N, int M, int L){
@@ -7,7 +12,7 @@ public abstract class AbstractSpikePenalty {
 		double m = (double)Math.min(N, M);
 		double l = (double)L;
 		
-		return ((n-m)*l)/(2*Math.max(1, m));
+		return 10*((n-m)*l)/(2*Math.max(1, m));
 		
 	}
 	

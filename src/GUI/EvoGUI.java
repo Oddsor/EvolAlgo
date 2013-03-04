@@ -39,7 +39,9 @@ import org.math.plot.plotObjects.BaseLabel;
 /**
  *
  * @author Odd
+ * @author Andreas
  */
+@SuppressWarnings("serial")
 public class EvoGUI extends javax.swing.JFrame {
 
     private IProblem problem;

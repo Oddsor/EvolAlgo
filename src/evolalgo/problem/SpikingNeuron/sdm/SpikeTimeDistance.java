@@ -10,6 +10,7 @@ import java.util.List;
 /**
  *
  * @author Odd
+ * @author Andreas
  */
 public class SpikeTimeDistance extends AbstractSpikePenalty implements ISDM {
 
