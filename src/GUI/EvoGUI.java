@@ -663,7 +663,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 formattedString += "Generation " + (i+1) + ": " + best.toString() + "\n";
                 outputScreen.setText(formattedString);
                 Plot2DPanel plot = new Plot2DPanel();
-                BaseLabel title = new BaseLabel("Generation: " + (i+1) + 
+                BaseLabel title = new BaseLabel("Generation: " + (i+1) + ", " + 
                         problemBox.getSelectedItem().toString() + ", " + 
                         adultBox.getSelectedItem().toString() + ", " + 
                         parentBox.getSelectedItem().toString() + ", mutation: " + 

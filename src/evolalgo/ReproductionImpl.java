@@ -31,7 +31,7 @@ public class ReproductionImpl implements IReproduction{
         }
         this.mutationRate = mutationRate;
         
-        if(maxMutations < 0) throw new Exception("Can't have negative mutations!");
+        if(maxMutations < 1) throw new Exception("Can't have 0 or negative mutations!");
         this.maxMutations = maxMutations;
     }
 
@@ -102,8 +102,8 @@ public class ReproductionImpl implements IReproduction{
         
         Object[] genoTypes = recombination(parents);
         try {
-            for (int i = 0; i < maxMutations; i++){
-                if(Math.random() <= mutationRate){
+            if(Math.random() <= mutationRate){
+                for (int i = 0; i < maxMutations; i++){
                     genoTypes[0] = mutation(genoTypes[0]);
                     genoTypes[1] = mutation(genoTypes[1]);
                 }
