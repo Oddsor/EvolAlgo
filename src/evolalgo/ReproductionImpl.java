@@ -14,9 +14,10 @@ public class ReproductionImpl implements IReproduction{
     private double recombinationRate;
     private int recombinationSplit;
     private double mutationRate;
+    private int maxMutations;
     
     public ReproductionImpl(double mutationRate, double recombinationRate, 
-            int recombinationSplit) throws Exception{
+            int recombinationSplit, int maxMutations) throws Exception{
         if(recombinationRate > 1.0 || recombinationRate < 0.0){
             throw new Exception("Crossover rate outside range 0.0-1.0");
         }
@@ -29,6 +30,9 @@ public class ReproductionImpl implements IReproduction{
             throw new Exception("Mutation rate outside range 0.0-1.0");
         }
         this.mutationRate = mutationRate;
+        
+        if(maxMutations < 0) throw new Exception("Can't have negative mutations!");
+        this.maxMutations = maxMutations;
     }
 
     @Override
@@ -98,9 +102,11 @@ public class ReproductionImpl implements IReproduction{
         
         Object[] genoTypes = recombination(parents);
         try {
-            if(Math.random() <= mutationRate){
-                genoTypes[0] = mutation(genoTypes[0]);
-                genoTypes[1] = mutation(genoTypes[1]);
+            for (int i = 0; i < maxMutations; i++){
+                if(Math.random() <= mutationRate){
+                    genoTypes[0] = mutation(genoTypes[0]);
+                    genoTypes[1] = mutation(genoTypes[1]);
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(ReproductionImpl.class.getName()).log(Level.SEVERE, null, ex);

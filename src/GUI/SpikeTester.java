@@ -5,21 +5,17 @@
 package GUI;
 
 import evolalgo.IIndividual;
-import evolalgo.IPhenotype;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronProblem;
 import evolalgo.problem.SpikingNeuron.sdm.ISDM;
 import evolalgo.problem.SpikingNeuron.sdm.WaveformDistance;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 import org.math.plot.Plot2DPanel;
-import org.math.plot.canvas.Plot2DCanvas;
 import org.math.plot.plotObjects.BaseLabel;
 
 /**
@@ -28,11 +24,14 @@ import org.math.plot.plotObjects.BaseLabel;
  */
 public class SpikeTester extends javax.swing.JFrame {
 
+    Plot2DPanel plot;
     /**
      * Creates new form SpikeTester
      */
     public SpikeTester() {
         initComponents();
+        plot = new Plot2DPanel();
+        plotPanel.add(plot);
     }
 
     /**
@@ -312,17 +311,19 @@ public class SpikeTester extends javax.swing.JFrame {
             Logger.getLogger(SpikeTester.class.getName()).log(Level.SEVERE, null, ex);
         }
         SpikingNeuronPhenotype pheno = (SpikingNeuronPhenotype) ind.phenotype();
-        Plot2DPanel plot = new Plot2DPanel();
+        plot.removeAllPlots();
+        plot.removeAllPlotables();
         plot.addLinePlot("Spike train", pheno.spiketrain);
-        BaseLabel title = new BaseLabel(pheno.toString()
-                , Color.BLACK, 0.5, 1.1);
+        BaseLabel title = new BaseLabel(pheno.toString(), Color.BLACK, 0.5, 1.1);
         plot.addPlotable(title);
-        try{
-            System.out.println(plotPanel.getComponents().length);
-            plotPanel.remove(0);
-        }catch(Exception e){
-        }
-        plotPanel.add(plot);
+        
+//        try{
+//            System.out.println(plotPanel.getComponents().length);
+//            plotPanel.remove(0);
+//        }catch(Exception e){
+//        }
+//        plot.changePlotData(0, pheno.spiketrain);
+//        plotPanel.add(plot);
         updateFields(pheno);
     }
     

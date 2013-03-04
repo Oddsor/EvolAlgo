@@ -100,6 +100,8 @@ public class EvoGUI extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
         variableMutation = new javax.swing.JCheckBox();
+        maxMutationsField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,6 +205,10 @@ public class EvoGUI extends javax.swing.JFrame {
 
         variableMutation.setText("Variable Mutation");
 
+        maxMutationsField.setText("1");
+
+        jLabel9.setText("Max number of mutations:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -237,14 +243,6 @@ public class EvoGUI extends javax.swing.JFrame {
                                             .addGap(32, 32, 32)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel7)
-                                                        .addComponent(jLabel8))
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(generationsField)
-                                                        .addComponent(populationSizeField)))
-                                                .addGroup(layout.createSequentialGroup()
                                                     .addComponent(jLabel6)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addComponent(crossoverSplitSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -258,8 +256,18 @@ public class EvoGUI extends javax.swing.JFrame {
                                                         .addComponent(mutationRateField)))
                                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                     .addGap(0, 0, Short.MAX_VALUE)
-                                                    .addComponent(launchButton))))
-                                        .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(launchButton))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel7)
+                                                        .addComponent(jLabel8)
+                                                        .addComponent(jLabel9))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(maxMutationsField)
+                                                        .addComponent(generationsField)
+                                                        .addComponent(populationSizeField)))))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(variableMutation)))))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -279,7 +287,7 @@ public class EvoGUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(problemBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,17 +331,20 @@ public class EvoGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(populationSizeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(launchButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(maxMutationsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(graphpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(graphpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(previousGraph)
                     .addComponent(nextGraph)
                     .addComponent(jButton3)
-                    .addComponent(clearButton))
+                    .addComponent(clearButton)
+                    .addComponent(launchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -383,6 +394,7 @@ public class EvoGUI extends javax.swing.JFrame {
         int crossoverSplit = crossoverSplitSlider.getValue();
         double crossoverRate = Double.parseDouble(crossoverRateField.getText());
         double mutation = Double.parseDouble(mutationRateField.getText());
+        int maxMutations = Integer.parseInt(maxMutationsField.getText());
         
         AdultOverproductionPanel overproduction = (AdultOverproductionPanel) adultPanel.getComponent(1);
         int overProductionPercent = Integer.parseInt(overproduction.overproductionField.getText());
@@ -423,7 +435,7 @@ public class EvoGUI extends javax.swing.JFrame {
         IReproduction reproduction = null;
         try {
             reproduction = new ReproductionImpl(mutation / 100.0, 
-                    crossoverRate / 100.0, crossoverSplit);
+                    crossoverRate / 100.0, crossoverSplit, maxMutations);
         } catch (Exception ex) {
             Logger.getLogger(EvoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -743,10 +755,12 @@ public class EvoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton launchButton;
+    private javax.swing.JTextField maxMutationsField;
     public javax.swing.JTextField mutationRateField;
     private javax.swing.JButton nextGraph;
     private javax.swing.JTextArea outputScreen;
