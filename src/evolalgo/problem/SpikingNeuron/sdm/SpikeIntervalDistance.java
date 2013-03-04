@@ -35,7 +35,7 @@ public class SpikeIntervalDistance extends AbstractSpikePenalty implements ISDM 
             				p);
         }
         sum += calculatePenalty(targetSpikes.size(), spiketrainSpikes.size(), target.length);
-        d = Math.pow(sum, 1.0/p) / Math.max((double) N-1.0, 0.1);
+        d = Math.pow(sum, 1.0/p) / Math.max((double) N-1.0, 0.0001);
         return d;
 	}
 }
