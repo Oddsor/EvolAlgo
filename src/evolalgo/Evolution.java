@@ -101,12 +101,12 @@ public class Evolution {
              	if(rep.getMutationRate() - 0.01 > baseMutationRate){
                      //rep.setMutationRate(rep.getMutationRate() - 0.01);
                      rep.setMutationRate(baseMutationRate);
-                     System.out.println("Mutation rate reduced to "+ rep.getMutationRate() +"!");
+//                     System.out.println("Mutation rate reduced to "+ rep.getMutationRate() +"!");
                  }
              }else{
                  if(rep.getMutationRate() + 0.01 < 1.0){
                      rep.setMutationRate(rep.getMutationRate() + 0.01);
-                     System.out.println("Mutation rate increased to "+ rep.getMutationRate() +"!");
+//                     System.out.println("Mutation rate increased to "+ rep.getMutationRate() +"!");
                  }
              }
          
@@ -127,7 +127,6 @@ public class Evolution {
     }
     
     public void drawBestFitnessPlot(){
-    	System.out.println("Method called");
     	double bestOfGenerations[] = new double[stats.size()];
     	for (int i =0; i < stats.size(); i++) {
     		HashMap temp = (HashMap) stats.get(i);

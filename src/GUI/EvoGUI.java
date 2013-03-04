@@ -635,6 +635,7 @@ public class EvoGUI extends javax.swing.JFrame {
         int generations = Integer.parseInt(generationsField.getText());
         SpikingNeuronProblem sn = (SpikingNeuronProblem) problem;
         List<IIndividual> individuals = problem.createPopulation(populationSize);
+        
         try {
             for (int i = 0; i < generations; i++){
                 individuals = evo.runGeneration(individuals);
@@ -651,11 +652,12 @@ public class EvoGUI extends javax.swing.JFrame {
                 formattedString += "Generation " + (i+1) + ": " + best.toString() + "\n";
                 outputScreen.setText(formattedString);
                 Plot2DPanel plot = new Plot2DPanel();
-                BaseLabel title = new BaseLabel("Generation: " + (i+1) + 
+                String baselabelText = "Generation: " + (i+1) + 
                         problemBox.getSelectedItem().toString() + ", " + 
                         adultBox.getSelectedItem().toString() + ", " + 
                         parentBox.getSelectedItem().toString() + ", mutation: " + 
-                        mutationRateField.getText() + "%, crossover: " + crossoverRateField.getText() + "%"
+                        mutationRateField.getText() + "%, crossover: " + crossoverRateField.getText() + "%";
+                BaseLabel title = new BaseLabel(baselabelText
                         , Color.BLACK, 0.5, 1.1);
                 plot.addPlotable(title);
                 plot.addLinePlot("Target", Color.RED, sn.target);
@@ -665,11 +667,23 @@ public class EvoGUI extends javax.swing.JFrame {
                 graphpanel.add(plot);
                 CardLayout card = (CardLayout) graphpanel.getLayout();
                 card.last(graphpanel);
+               
             }
-            evo.drawBestFitnessPlot();
+           
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+        
+        evo.drawBestFitnessPlot();
+        
+		        String baselabelText = 
+                problemBox.getSelectedItem().toString() + ", " + 
+                adultBox.getSelectedItem().toString() + ", " + 
+                parentBox.getSelectedItem().toString() + ", mutation: " + 
+                mutationRateField.getText() + "%, crossover: " + crossoverRateField.getText() + "%";
+        
+        System.out.println(baselabelText);
+        
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

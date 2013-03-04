@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author Odd
  */
 public class SpikingNeuronProblem implements IProblem{
-    public static final int BIT_LENGTH = 15;
+    public static final int BIT_LENGTH = 20;
     final double T = 10.0;
     final double I = 10.0;
     double longestDistance = 0.0; //Is it a bad idea to compare fitness values to the longest EVER detected distance metric?
@@ -111,6 +111,7 @@ public class SpikingNeuronProblem implements IProblem{
               u += ud;
               v += vd;
               if (v >= 35.0) voltageArray[j] = 35.0;
+//              else if (v == -60+vd) voltageArray[j] = -60;
               else voltageArray[j] = v;
           }
           pheno.spiketrain = voltageArray;
