@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Odd
+ * @author Andreas
  */
 public class SpikingNeuronProblem implements IProblem{
     public static final int BIT_LENGTH = 15;
@@ -72,16 +73,6 @@ public class SpikingNeuronProblem implements IProblem{
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
         
-        
-//        for (int i = 0; i < population.size(); i++){
-//            SNPhenotype pheno = (SNPhenotype) population.get(i).phenotype();
-//            try{
-//                population.get(i).fitness();
-//            }catch (Exception e){
-//              calculateSpikeTrain(pheno);
-//            }
-//        }
-//        
         //TODO: Fullfør fitnesskalkulering, denne kan være merkelig!
         /*
          * If fitness throws exception, spiketrain has not been calculated since
@@ -134,38 +125,5 @@ public class SpikingNeuronProblem implements IProblem{
         }
         return population;
     }
-    
-//    public static void main(String[] args){
-////        ISDM sdm = new SpikeTimeDistance();
-//    	ISDM sdm = new WaveformDistance();
-//        SpikingNeuron sp = new SpikingNeuron(1, sdm);
-//        SpikingNeuron sp1 = new SpikingNeuron(2, sdm);
-//        SpikingNeuron sp2 = new SpikingNeuron(3, sdm);
-//        SpikingNeuron sp3 = new SpikingNeuron(4, sdm);
-//        
-//        List<IIndividual> pop = sp.createPopulation(1);
-//        try{
-//            sp.developPheno(pop.get(0));
-//            sp.calculateFitness(pop);
-//        }catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//        SNPhenotype sn = (SNPhenotype) pop.get(0).phenotype();
-//        System.out.println(sn);
-//        System.out.println(sn.spiketrain[0]);
-//        Plot2DPanel plot = new Plot2DPanel();
-//        plot.addLinePlot("Spike train", Color.BLUE, sn.spiketrain);
-//        plot.addLegend("SOUTH");
-//        plot.addLinePlot("Target 1", Color.RED, sp.target);
-//        plot.addLinePlot("Target 2", Color.YELLOW, sp1.target);
-//        plot.addLinePlot("Target 3", Color.GREEN, sp2.target);
-//        plot.addLinePlot("Target 4", Color.BLACK, sp3.target);
-//        plot.addLegend("SOUTH");
-//        javax.swing.JFrame frame = new javax.swing.JFrame(pop.get(0).phenotype().toString());
-//        frame.setContentPane(plot);
-//        frame.setSize(500, 400);
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        System.out.println(sdm.calculateDistance(sp.target, sp3.target));
-//    }
+
 }

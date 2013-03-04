@@ -18,6 +18,7 @@ import org.math.plot.Plot2DPanel;
 /**
  * This is the evolutionary loop.
  * @author Odd
+ * @author Andreas
  */
 public class Evolution {
     public static final int VARIABLE_MUTATION = 1;
