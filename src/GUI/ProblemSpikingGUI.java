@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 /**
  *
  * @author Odd
@@ -31,6 +34,7 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
         SDMBox = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         logarithmicFitness = new javax.swing.JCheckBox();
+        spikingTester = new javax.swing.JButton();
 
         jLabel1.setText("Training data:");
 
@@ -41,6 +45,13 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
         jLabel2.setText("Distance measure:");
 
         logarithmicFitness.setText("Logarithmic fitness");
+
+        spikingTester.setText("(Launch tester window)");
+        spikingTester.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spikingTesterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -55,6 +66,7 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
                     .addComponent(SDMBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(trainingDataBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addComponent(logarithmicFitness)
+            .addComponent(spikingTester)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,15 +78,25 @@ public class ProblemSpikingGUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SDMBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logarithmicFitness))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logarithmicFitness)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spikingTester))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void spikingTesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spikingTesterActionPerformed
+        SpikeTester st = new SpikeTester();
+        st.setVisible(true);
+        st.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    }//GEN-LAST:event_spikingTesterActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox SDMBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JCheckBox logarithmicFitness;
+    private javax.swing.JButton spikingTester;
     public javax.swing.JComboBox trainingDataBox;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,32 +13,37 @@ public class SpikingNeuronPhenotype implements IPhenotype{
      * The parameter a has a valid range of [0.001, 0.2]
      */
     public double a;
-    private static final double A_SCALER = (0.2 - 0.001) / BIT_VALUES;
-    private static final double A_MIN = 0.001;
+    public static final double A_MIN = 0.001;
+    public static final double A_MAX = 0.02;
+    private static final double A_SCALER = (A_MAX - A_MIN) / BIT_VALUES;
     /**
      * The parameter b has a valid range of [0.01, 0.3]
      */
     public double b;
-    private static final double B_SCALER = (0.3 - 0.01) / BIT_VALUES;
-    private static final double B_MIN = 0.01;
+    public static final double B_MIN = 0.01;
+    public static final double B_MAX = 0.3;
+    private static final double B_SCALER = (B_MAX - B_MIN) / BIT_VALUES;
     /**
      * The parameter c has a valid range of [-80, -30]
      */
     public double c;
-    private static final double C_SCALER = (-30.0 - -80.0) / BIT_VALUES;
-    private static final double C_MIN = -80.0;
+    public static final double C_MIN = -80.0;
+    public static final double C_MAX = -30.0;
+    private static final double C_SCALER = Math.abs((C_MAX - C_MIN) / BIT_VALUES);
     /**
      * The parameter d has a valid range of [0.1, 10]
      */
     public double d;
-    private static final double D_SCALER = (10.0 - 0.1) / BIT_VALUES;
-    private static final double D_MIN = 0.1;
+    public static final double D_MIN = 0.1;
+    public static final double D_MAX = 10.0;
+    private static final double D_SCALER = (D_MAX - D_MIN) / BIT_VALUES;
     /**
      * The parameter k has a valid range of [0.01, 1.0]
      */
     public double k;
-    private static final double K_SCALER = (1.0 - 0.01) / BIT_VALUES;
-    private static final double K_MIN = 0.01;
+    public static final double K_MIN = 0.01;
+    public static final double K_MAX = 1.0;
+    private static final double K_SCALER = (K_MAX - K_MIN) / BIT_VALUES;
     
     public double[] spiketrain;
     
@@ -54,7 +59,7 @@ public class SpikingNeuronPhenotype implements IPhenotype{
     public SpikingNeuronPhenotype(double[] attribs){
         a = A_MIN + (A_SCALER * (attribs[0]));
         b = B_MIN + (B_SCALER * (attribs[1]));
-        c = C_MIN + C_SCALER * (attribs[2]);
+        c = C_MIN + (C_SCALER * (attribs[2]));
         d = D_MIN + (D_SCALER * (attribs[3]));
         k = K_MIN + (K_SCALER * (attribs[4]));
     }
