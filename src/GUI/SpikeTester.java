@@ -336,6 +336,18 @@ public class SpikeTester extends javax.swing.JFrame {
         kField.setText(df.format(pheno.k));
     }
     
+    private boolean fieldsOk(){
+        double[] vals = getFieldValues();
+        boolean ok = true;
+        if (vals[0] < SpikingNeuronPhenotype.A_MIN || vals[0] > SpikingNeuronPhenotype.A_MAX) ok = false;
+        if (vals[1] < SpikingNeuronPhenotype.B_MIN || vals[1] > SpikingNeuronPhenotype.B_MAX) ok = false;
+        if (vals[2] < SpikingNeuronPhenotype.C_MIN || vals[2] > SpikingNeuronPhenotype.C_MAX) ok = false;
+        if (vals[3] < SpikingNeuronPhenotype.C_MIN || vals[3] > SpikingNeuronPhenotype.D_MAX) ok = false;
+        if (vals[4] < SpikingNeuronPhenotype.K_MIN && vals[4] > SpikingNeuronPhenotype.K_MAX) ok = false;
+        
+        return ok;
+    }
+    
     private void RandomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomButtonActionPerformed
         paintPanel();
     }//GEN-LAST:event_RandomButtonActionPerformed
@@ -350,14 +362,16 @@ public class SpikeTester extends javax.swing.JFrame {
 
     private void aFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_aFieldKeyReleased
         double[] vals = getFieldValues();
-        if (vals[0] >= SpikingNeuronPhenotype.A_MIN && vals[0] <= SpikingNeuronPhenotype.A_MAX){
+        if ((vals[0] >= SpikingNeuronPhenotype.A_MIN && vals[0] <= SpikingNeuronPhenotype.A_MAX)
+                && fieldsOk()){
             paintPanel(getFieldValues());
         }
     }//GEN-LAST:event_aFieldKeyReleased
 
     private void bFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFieldActionPerformed
         double[] vals = getFieldValues();
-        if (vals[1] >= SpikingNeuronPhenotype.B_MIN && vals[1] <= SpikingNeuronPhenotype.B_MAX){
+        if ((vals[1] >= SpikingNeuronPhenotype.B_MIN && vals[1] <= SpikingNeuronPhenotype.B_MAX)
+                && fieldsOk()){
             paintPanel(getFieldValues());
         }
     }//GEN-LAST:event_bFieldActionPerformed
@@ -436,21 +450,24 @@ public class SpikeTester extends javax.swing.JFrame {
 
     private void cFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cFieldActionPerformed
         double[] vals = getFieldValues();
-        if (vals[2] >= SpikingNeuronPhenotype.C_MIN && vals[2] <= SpikingNeuronPhenotype.C_MAX){
+        if ((vals[2] >= SpikingNeuronPhenotype.C_MIN && vals[2] <= SpikingNeuronPhenotype.C_MAX)
+                && fieldsOk()){
             paintPanel(getFieldValues());
         }
     }//GEN-LAST:event_cFieldActionPerformed
 
     private void dFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dFieldActionPerformed
         double[] vals = getFieldValues();
-        if (vals[3] >= SpikingNeuronPhenotype.D_MIN && vals[3] <= SpikingNeuronPhenotype.D_MAX){
+        if ((vals[3] >= SpikingNeuronPhenotype.D_MIN && vals[3] <= SpikingNeuronPhenotype.D_MAX) &&
+                fieldsOk()){
             paintPanel(getFieldValues());
         }
     }//GEN-LAST:event_dFieldActionPerformed
 
     private void kFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kFieldActionPerformed
         double[] vals = getFieldValues();
-        if (vals[4] >= SpikingNeuronPhenotype.K_MIN && vals[4] <= SpikingNeuronPhenotype.K_MAX){
+        if ((vals[4] >= SpikingNeuronPhenotype.K_MIN && vals[4] <= SpikingNeuronPhenotype.K_MAX)
+                && fieldsOk()){
             paintPanel(getFieldValues());
         }
     }//GEN-LAST:event_kFieldActionPerformed
