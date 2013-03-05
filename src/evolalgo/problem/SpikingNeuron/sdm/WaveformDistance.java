@@ -1,12 +1,13 @@
 package evolalgo.problem.SpikingNeuron.sdm;
 
+/**
+* Class for computing the Waveform Distance Spike Train Distance Metrics
+* @author Andreas Hagen
+*/
 public class WaveformDistance implements ISDM {
-
-	/**
-	 * Class for computing the Waveform Distance Spike Train Distance Metrics
-	 * @author Andreas
-	 */
+	
 	double p = 2.0;
+        
 	@Override
 	public double calculateDistance(double[] target, double[] spiketrain) {
 		
@@ -18,10 +19,16 @@ public class WaveformDistance implements ISDM {
 		
 		return Math.pow(sum,1.0/p)/smallest;
 	}
+        
 	public double getP() {
+            
 		return p;
+                
 	}
+        
 	public void setP(double p) {
+            
 		this.p = p;
+                
 	}
 }
