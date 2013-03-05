@@ -650,7 +650,8 @@ public class EvoGUI extends javax.swing.JFrame {
         SpikingNeuronProblem sn = (SpikingNeuronProblem) problem;
         List<IIndividual> individuals = problem.createPopulation(populationSize);
         try {
-            for (int i = 0; i < generations; i++){
+        	long startTime = System.nanoTime();
+        	for (int i = 0; i < generations; i++){
                 individuals = evo.runGeneration(individuals);
                 IIndividual best = individuals.get(0);
                 for (IIndividual ind: individuals){
@@ -679,8 +680,35 @@ public class EvoGUI extends javax.swing.JFrame {
                 graphpanel.add(plot);
                 CardLayout card = (CardLayout) graphpanel.getLayout();
                 card.last(graphpanel);
+                if(i % 10 ==0)System.out.println((double)(System.nanoTime()-startTime)/1000000000.0);
             }
             evo.drawBestFitnessPlot();
+            
+            String teXLabel = 	"Generations: "+generations+"\\\\"+"\n"+
+            					"Population: "+populationSize+"\\\\"+"\n"+
+            					"Adult Selection: "+ adultBox.getSelectedItem().toString();
+            
+            if(adultBox.getSelectedItem().toString().equals("Overproduction")){
+            	
+            	teXLabel += "( \\%)\\\\\n";
+            	
+            }
+            else teXLabel += "\\\\\n";
+            
+            if(adultBox.getSelectedItem().toString().equals("Generational Mixing")){
+            	
+            	teXLabel += "( Adult spots: )\n";
+            	
+            }
+            else teXLabel += "\n";
+            
+            
+            
+            teXLabel +=			"Selection Method: "+ parentBox.getSelectedItem().toString()+"\\\\"+"\n"+
+            					"Mutation :" + mutationRateField.getText() + "\\%"+"\\\\"+"\n"+
+            					"Crossover: " + crossoverRateField.getText() + "\\% \\\\"+"\n";
+            System.out.println(teXLabel);					
+            
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

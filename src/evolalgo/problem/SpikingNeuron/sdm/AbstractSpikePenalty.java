@@ -12,7 +12,7 @@ public abstract class AbstractSpikePenalty {
 		double m = (double)Math.min(N, M);
 		double l = (double)L;
 		
-		return 10*((n-m)*l)/(2*Math.max(1, m));
+		return ((n-m)*l)/(2*Math.max(1, m));
 		
 	}
 	
