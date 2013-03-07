@@ -1,4 +1,3 @@
-
 package evolalgo;
 
 import evolalgo.adultselectors.IAdultSelection;
@@ -17,7 +16,6 @@ import org.math.plot.Plot2DPanel;
  * 
  * @author Odd Andreas Sørsæther
  * @author Andreas Hagen
- * @author LoudRobed
  */
 public class Evolution {
     public static final int VARIABLE_MUTATION = 1;
