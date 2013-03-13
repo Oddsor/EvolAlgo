@@ -21,7 +21,15 @@ public class CtrnnProblem implements IProblem{
 
     @Override
     public void developPheno(IIndividual individual) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String gene = (String) individual.getGenes();
+        int[] attributes = new int[4];
+        for (int i = 0; i < attributes.length; i++){
+            int value = Integer.parseInt(gene.substring(i, i + BIT_SIZE), 2);
+            attributes[i] = value;
+        }
+        individual.setPhenotype(new CtrnnPhenotype(attributes));
+        
     }
 
     @Override
@@ -42,5 +50,4 @@ public class CtrnnProblem implements IProblem{
         }
         return population;
     }
-    
 }

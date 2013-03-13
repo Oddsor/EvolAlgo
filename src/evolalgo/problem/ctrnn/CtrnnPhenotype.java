@@ -46,6 +46,27 @@ public class CtrnnPhenotype implements IPhenotype{
             this.gains = gains;
             this.timeconstants = timeconstants;
     }
+    
+    public CtrnnPhenotype(int... attributes){
+        weights = WEIGHTS_MIN;
+        biases = BIASES_MIN;
+        gains = GAINS_MIN;
+        timeconstants = TIMECONSTANTS_MIN;
+        
+        try{
+            double weights_val = (double) attributes[0] / (WEIGHTS_MAX - WEIGHTS_MIN);
+            weights = WEIGHTS_MIN + weights_val;
+            double biases_val = (double) attributes[1] / (BIASES_MAX - BIASES_MIN);
+            biases = BIASES_MIN + biases_val;
+            double gains_val = (double) attributes[2] / (GAINS_MAX - GAINS_MIN);
+            gains = GAINS_MIN + gains_val;
+            double timeconstants_val = (double) attributes[3] / 
+                    (TIMECONSTANTS_MAX - TIMECONSTANTS_MIN);
+            timeconstants = TIMECONSTANTS_MIN + timeconstants_val;
+        }catch(Exception e){
+            //Missing inputs, oh no!
+        }
+    }
 
     public double getWeights() {
         return weights;
