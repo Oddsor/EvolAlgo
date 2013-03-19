@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.problem.ctrnn;
 
 import evolalgo.IIndividual;
@@ -25,7 +21,8 @@ public class CtrnnProblem implements IProblem{
         String gene = (String) individual.getGenes();
         int[] attributes = new int[4];
         for (int i = 0; i < attributes.length; i++){
-            int value = Integer.parseInt(gene.substring(i, i + BIT_SIZE), 2);
+            
+            int value = Integer.parseInt(gene.substring(i * BIT_SIZE, (i * BIT_SIZE) + BIT_SIZE), 2);
             attributes[i] = value;
         }
         individual.setPhenotype(new CtrnnPhenotype(attributes));
