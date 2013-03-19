@@ -7,7 +7,7 @@ import evolalgo.IPhenotype;
  *
  * @author Odd
  */
-public class CtrnnPhenotype implements IPhenotype{
+public class CtrnnPhenotype implements IPhenotype, ITracker{
    private static final double WEIGHTS_MIN = -5.0;
    private static final double WEIGHTS_MAX = 5.0;
    private double weights;
@@ -98,6 +98,12 @@ public class CtrnnPhenotype implements IPhenotype{
 
     public void setTimeconstants(double timeconstants) {
         this.timeconstants = timeconstants;
+    }
+
+    @Override
+    public int getMovement(boolean[] shadowSensors) {
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
