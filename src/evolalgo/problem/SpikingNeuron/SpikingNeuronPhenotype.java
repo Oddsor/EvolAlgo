@@ -3,6 +3,10 @@ package evolalgo.problem.SpikingNeuron;
 import evolalgo.IPhenotype;
 import java.text.DecimalFormat;
 
+/**
+ * 
+ * @author Odd Andreas Sørsæther
+ */
 public class SpikingNeuronPhenotype implements IPhenotype{
     /**
      * How many values do we get from the bit length? For instance a length of
@@ -50,33 +54,31 @@ public class SpikingNeuronPhenotype implements IPhenotype{
     public double distance;
 
     public SpikingNeuronPhenotype(double a, double b, double c, double d, double k) {
+        
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
         this.k = k;
+        
     }
     public SpikingNeuronPhenotype(double[] attribs){
+        
         a = A_MIN + (A_SCALER * (attribs[0]));
         b = B_MIN + (B_SCALER * (attribs[1]));
         c = C_MIN + (C_SCALER * (attribs[2]));
         d = D_MIN + (D_SCALER * (attribs[3]));
         k = K_MIN + (K_SCALER * (attribs[4]));
+        
     }
 
     @Override
     public String toString() {
+        
         DecimalFormat df = new DecimalFormat("#.###");
         df.setMinimumFractionDigits(3);
         return "A: " + df.format(a) + ", B: " + df.format(b) + ", C: " + 
                 df.format(c) + ", D: " + df.format(d) + ", K: " + df.format(k);
-        /*String valueString = "";
-        if(spiketrain == null){
-            System.out.println("Distance, spiketrain is null?!: " + distance);
-        }
-        for (int i = 0; i < spiketrain.length; i++){
-            valueString += spiketrain[i] + " ";
-        }
-        return valueString;*/
+        
     }
 }
