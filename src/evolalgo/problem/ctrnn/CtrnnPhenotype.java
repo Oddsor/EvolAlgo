@@ -2,6 +2,11 @@
 package evolalgo.problem.ctrnn;
 
 import evolalgo.IPhenotype;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -10,94 +15,71 @@ import evolalgo.IPhenotype;
 public class CtrnnPhenotype implements IPhenotype, ITracker{
    private static final double WEIGHTS_MIN = -5.0;
    private static final double WEIGHTS_MAX = 5.0;
-   private double weights;
    
    private static final double BIASES_MIN = -10.0;
    private static final double BIASES_MAX = 0.0;
-   private double biases;
    
    private static final double GAINS_MIN = 1.0;
    private static final double GAINS_MAX = 5.0;
-   private double gains;
    
    private static final double TIMECONSTANTS_MIN = 1.0;
    private static final double TIMECONSTANTS_MAX = 2.0;
-   private double timeconstants;
+   
+   private List<INode> motorLayer;
+   private List<INode> hiddenLayer;
+   private INode biasNode;
 
-    public CtrnnPhenotype(double... attributes) {
-        weights = WEIGHTS_MIN;
-        biases = BIASES_MIN;
-        gains = GAINS_MIN;
-        timeconstants = TIMECONSTANTS_MIN;
-        
-        try{
-            weights = attributes[0];
-            biases = attributes[1];
-            gains = attributes[2];
-            timeconstants = attributes[3];
-        }catch(Exception e){
-            //No input available! using minimum values
+    public CtrnnPhenotype(List<Integer> attributes){
+        try {
+            if (attributes.size() != 34) throw new Exception("Need 34 attributes!");
+        } catch (Exception ex) {
+            Logger.getLogger(CtrnnPhenotype.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-    }
-    public CtrnnPhenotype(double weights, double biases, double gains,
-            double timeconstants) {
-            this.weights = weights;
-            this.biases = biases;
-            this.gains = gains;
-            this.timeconstants = timeconstants;
-    }
-    
-    public CtrnnPhenotype(int... attributes){
-        weights = WEIGHTS_MIN;
-        biases = BIASES_MIN;
-        gains = GAINS_MIN;
-        timeconstants = TIMECONSTANTS_MIN;
+        Iterator<Integer> attributeIt = attributes.iterator();
         
-        try{
-            double weights_val = (double) attributes[0] / (WEIGHTS_MAX - WEIGHTS_MIN);
-            weights = WEIGHTS_MIN + weights_val;
-            double biases_val = (double) attributes[1] / (BIASES_MAX - BIASES_MIN);
-            biases = BIASES_MIN + biases_val;
-            double gains_val = (double) attributes[2] / (GAINS_MAX - GAINS_MIN);
-            gains = GAINS_MIN + gains_val;
-            double timeconstants_val = (double) attributes[3] / 
-                    (TIMECONSTANTS_MAX - TIMECONSTANTS_MIN);
-            timeconstants = TIMECONSTANTS_MIN + timeconstants_val;
-        }catch(Exception e){
-            //Missing inputs, oh no!
+        biasNode = new BiasNode();
+        hiddenLayer = new ArrayList<INode>();
+        motorLayer = new ArrayList<INode>();
+        
+        for(int i = 0; i < 4; i++){
+            INode newNode;
+            if (i < 2){
+                double[] sensorWeights = new double[5];
+                for (int j = 0; j < 5; j++){
+                    sensorWeights[j] = convertWeight(attributeIt.next());
+                }
+                newNode = new HiddenNode(convertGain(attributeIt.next()), 
+                        convertTimeConstant(attributeIt.next()), 
+                        convertWeight(attributeIt.next()),sensorWeights);
+                hiddenLayer.add(newNode);
+            }
+            else {
+                newNode = new MotorNode(convertGain(attributeIt.next()), 
+                        convertTimeConstant(attributeIt.next()),
+                        convertWeight(attributeIt.next()));
+                motorLayer.add(newNode);
+            }
+            newNode.addArc(biasNode, convertBias(attributeIt.next()));
         }
-    }
-
-    public double getWeights() {
-        return weights;
-    }
-
-    public void setWeights(double weights) {
-        this.weights = weights;
-    }
-
-    public double getBiases() {
-        return biases;
-    }
-
-    public void setBiases(double biases) {
-        this.biases = biases;
-    }
-
-    public double getGains() {
-        return gains;
-    }
-
-    public void setGains(double gains) {
-        this.gains = gains;
-    }
-
-    public double getTimeconstants() {
-        return timeconstants;
-    }
-
-    public void setTimeconstants(double timeconstants) {
-        this.timeconstants = timeconstants;
+        //===ALL SENSOR WEIGHTS ADDED=== 10 connections from sensory input to hidden layer
+        //===ALL BIASES ADDED=== 4 connections from bias node to hidden and motor layer
+        //===ALL LOOPS ADDED=== (as selfweight-parameter in constructor) 4 loops
+        
+        hiddenLayer.get(0).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
+        hiddenLayer.get(1).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
+        
+        motorLayer.get(0).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
+        motorLayer.get(0).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
+        motorLayer.get(1).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
+        motorLayer.get(1).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
+        
+        motorLayer.get(0).addArc(motorLayer.get(1), convertWeight(attributeIt.next()));
+        motorLayer.get(1).addArc(motorLayer.get(0), convertWeight(attributeIt.next()));
+        //===ALL HIDDEN AND MOTOR CONNECTIONS ADDED=== 8 connections
+        //===TOTAL CONNECTIONS: 10 + 4 + 4 + 8 = 26
+        //===TOTAL PARAMETERS IN LAYER NODES: 2 * 4 = 8
+        //===TOTAL ATTRIBUTES: 8 + 26 = 34
     }
 
     @Override
@@ -106,5 +88,20 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public double convertWeight(int genomeValue){
+        return WEIGHTS_MIN + ((double) genomeValue / (WEIGHTS_MAX - WEIGHTS_MIN));
+    }
     
+    public double convertBias(int genomeValue){
+        return BIASES_MIN + ((double) genomeValue / (BIASES_MAX - BIASES_MIN));
+    }
+    
+    public double convertGain(int genomeValue){
+        return GAINS_MIN + ((double) genomeValue / (GAINS_MAX - GAINS_MIN));
+    }
+    
+    public double convertTimeConstant(int genomeValue){
+        return TIMECONSTANTS_MIN + ((double) genomeValue / 
+                (TIMECONSTANTS_MAX - TIMECONSTANTS_MIN));
+    }
 }

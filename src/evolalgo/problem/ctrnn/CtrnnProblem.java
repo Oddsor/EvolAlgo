@@ -4,6 +4,7 @@ import evolalgo.IIndividual;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -13,19 +14,19 @@ import java.util.Random;
  */
 public class CtrnnProblem implements IProblem{
     
-    private int BIT_SIZE = 8;
+    private static final int BIT_SIZE = 8;
+    private static final int NUM_ATTRIBUTES = 34;
 
     @Override
     public void developPheno(IIndividual individual) throws Exception {
         
         String gene = (String) individual.getGenes();
-        int[] attributes = new int[4];
-        for (int i = 0; i < attributes.length; i++){
-            
+        List<Integer> attribs = new ArrayList<Integer>();
+        for (int i = 0; i < NUM_ATTRIBUTES; i++){
             int value = Integer.parseInt(gene.substring(i * BIT_SIZE, (i * BIT_SIZE) + BIT_SIZE), 2);
-            attributes[i] = value;
+            attribs.add(value);
         }
-        individual.setPhenotype(new CtrnnPhenotype(attributes));
+        individual.setPhenotype(new CtrnnPhenotype(attribs));
         
     }
 
@@ -40,7 +41,7 @@ public class CtrnnProblem implements IProblem{
         List<IIndividual> population = new ArrayList<IIndividual>();
         for (int i = 0; i < individuals; i++){
             String genome = "";
-            for (int j = 0; j < BIT_SIZE * 4; j++){
+            for (int j = 0; j < BIT_SIZE * NUM_ATTRIBUTES; j++){
                 genome += rand.nextInt(2);
             }
             population.add(new IndividualImpl(genome));
