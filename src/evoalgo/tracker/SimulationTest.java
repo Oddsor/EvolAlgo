@@ -16,6 +16,10 @@ public class SimulationTest {
 		
 		System.out.println("Score: "+sim.simulate(it));
 		
+		ITracker it2 = new randomTracker();
+		Simulation sim2 = new Simulation();
+		
+		System.out.println("Score: "+sim2.simulate(it2));
 		
 	}
 

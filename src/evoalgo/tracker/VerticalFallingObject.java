@@ -10,7 +10,6 @@ public class VerticalFallingObject {
 		size = (int) (Math.random()*7);
 		xPosition = new int[size];
 		int start = (int) (Math.random()*31);
-		System.out.println("\n");
 		for (int i = 0; i < xPosition.length; i++) {
 			xPosition[i] =(start+i)%30;
 		}

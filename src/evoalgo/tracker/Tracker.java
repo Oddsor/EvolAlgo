@@ -32,9 +32,25 @@ public class Tracker {
 	public void updatePosition(boolean[] shadowSensors ){
 		
 		int dx = it.getMovement(shadowSensors);
+		
+		int left = xPosition[0];
+		left = left+dx;
+		if(left<0) left = 30+left;
+		
 		for (int i = 0; i < xPosition.length; i++) {
-			xPosition[i] =(xPosition[i]+dx)%30;
+			xPosition[i] = (left+i)%30;
 		}
+		
+//		for (int i = 0; i < xPosition.length; i++) {
+//			int newX = (xPosition[i]+dx);
+//			if(newX<0) newX = 30-newX;
+//			xPosition[i] = newX%30;
+//		}
+//		System.out.println("Tracker position: ");
+//
+//		for (int b : xPosition) {
+//			System.out.print(b+", ");
+//		}
 	}
 	
 }

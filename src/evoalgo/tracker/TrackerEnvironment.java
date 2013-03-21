@@ -45,6 +45,16 @@ public class TrackerEnvironment {
 
 		}
 	}
+	
+	public int step(){
+		tracker.updatePosition(getShadowVector());
+		VFO.step();
+		int y = VFO.getYPosition();
+		System.out.println("Y: "+y);
+		if(y==0) System.out.println("Score: "+awardPoints());
+		
+		return y;
+	}
 
 	public int run() {
 
