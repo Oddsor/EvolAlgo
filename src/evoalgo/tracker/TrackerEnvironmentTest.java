@@ -9,7 +9,7 @@ public class TrackerEnvironmentTest {
 	@Test
 	public void test() {
 		ITracker it = new passiveTracker();
-		TrackerEnvironment env = new TrackerEnvironment(it);
+		TrackerEnvironment env = new TrackerEnvironment(it, new HitAndAvoidAwarder());
 		
 		int[] pos = {1,2,3,4,5};
 		env.getTracker().setPosition(pos);

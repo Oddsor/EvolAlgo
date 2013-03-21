@@ -7,7 +7,7 @@ public class VerticalFallingObject {
 
 	public VerticalFallingObject(){
 		
-		size = (int) (Math.random()*7);
+		size = 1+(int)(Math.random()*6);
 		xPosition = new int[size];
 		int start = (int) (Math.random()*31);
 		for (int i = 0; i < xPosition.length; i++) {
