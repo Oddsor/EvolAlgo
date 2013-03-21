@@ -316,14 +316,6 @@ public class SpikeTester extends javax.swing.JFrame {
         plot.addLinePlot("Spike train", pheno.spiketrain);
         BaseLabel title = new BaseLabel(pheno.toString(), Color.BLACK, 0.5, 1.1);
         plot.addPlotable(title);
-        
-//        try{
-//            System.out.println(plotPanel.getComponents().length);
-//            plotPanel.remove(0);
-//        }catch(Exception e){
-//        }
-//        plot.changePlotData(0, pheno.spiketrain);
-//        plotPanel.add(plot);
         updateFields(pheno);
     }
     

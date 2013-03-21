@@ -95,7 +95,10 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         
         double left = motorLayer.get(0).getOutput();
         double right = motorLayer.get(1).getOutput();
-        return Math.round((float) -left + (float) right);
+        double total = -left + right;
+        total = total * 4; //Maks 4
+        //System.out.println("TOTAL MOVEMENT: " + total);
+        return Math.round((float) total);
     }
     
     public double convertWeight(int genomeValue){
