@@ -4,7 +4,9 @@
  */
 package evolalgo.problem.ctrnn;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +20,14 @@ public class HiddenNode implements INode{
     private double timeConstant;
     private double selfWeight;
     
-    private Map<INode, Double> connections;
+    private List<Object[]> connections;
     private double[] sensorWeights;
     
     public HiddenNode(double gain, double timeConstant, double selfWeight, double... sensorWeights){
         this.gain = gain;
         this.timeConstant = timeConstant;
         this.selfWeight = selfWeight;
-        connections = new HashMap<INode, Double>();
+        connections = new ArrayList<Object[]>();
         
         if(sensorWeights.length != 5) try {
             throw new Exception("Wrong amount of weights passed to constructor!");
@@ -43,7 +45,8 @@ public class HiddenNode implements INode{
 
     @Override
     public void addArc(INode node, double weight) {
-        connections.put(node, weight);
+        Object[] ob = {node, weight};
+        connections.add(ob);
     }
     
 }

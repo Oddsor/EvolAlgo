@@ -4,7 +4,6 @@ import evolalgo.IIndividual;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 

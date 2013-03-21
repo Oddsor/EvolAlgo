@@ -19,23 +19,29 @@ public class MotorNode implements INode{
     private double timeConstant;
     private double selfWeight;
     
-    private Map<INode, Double> connections;
+    private List<Object[]> connections;
     
     public MotorNode(double gain, double timeConstant, double selfWeight){
         this.gain = gain;
         this.timeConstant = timeConstant;
         this.selfWeight = selfWeight;
-        connections = new HashMap<INode, Double>();
+        connections = new ArrayList<Object[]>();
     }
 
     @Override
     public double getOutput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: Currently looking into this!
+        double s = 0.0;
+        for(Object[] ob:connections){
+            
+        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void addArc(INode node, double weight) {
-        connections.put(node, weight);
+        Object[] ob = {node, weight};
+        connections.add(ob);
     }
     
 }
