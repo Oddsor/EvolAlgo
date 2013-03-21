@@ -66,7 +66,7 @@ public class Evolution {
         try{
             individuals = adSel.getAdults(individuals);
         }catch(Exception e){
-        	String error = "Error replacing generation using "+adSel.toString();
+            String error = "Error replacing generation using "+adSel.toString();
             throw new Exception(error,e);
         }
         

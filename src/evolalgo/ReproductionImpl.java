@@ -17,22 +17,26 @@ public class ReproductionImpl implements IReproduction{
     private int maxMutations;
     
     public ReproductionImpl(double mutationRate, double recombinationRate, 
-            int recombinationSplit, int maxMutations) throws Exception{
-        if(recombinationRate > 1.0 || recombinationRate < 0.0){
-            throw new Exception("Crossover rate outside range 0.0-1.0");
+            int recombinationSplit, int maxMutations){
+        try{
+            if(recombinationRate > 1.0 || recombinationRate < 0.0){
+                throw new Exception("Crossover rate outside range 0.0-1.0");
+            }
+            this.recombinationRate = recombinationRate;
+            if(recombinationSplit > 2 || recombinationSplit < 1){
+                throw new Exception("Crossover split is outside range, accepted values are 1 and 2, got " + recombinationSplit);
+            }
+            this.recombinationSplit = recombinationSplit;
+            if(mutationRate > 1.0 || mutationRate < 0.0){
+                throw new Exception("Mutation rate outside range 0.0-1.0");
+            }
+            this.mutationRate = mutationRate;
+
+            if(maxMutations < 1) throw new Exception("Can't have 0 or negative mutations!");
+            this.maxMutations = maxMutations;
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-        this.recombinationRate = recombinationRate;
-        if(recombinationSplit > 2 || recombinationSplit < 1){
-            throw new Exception("Crossover split is outside range, accepted values are 1 and 2, got " + recombinationSplit);
-        }
-        this.recombinationSplit = recombinationSplit;
-        if(mutationRate > 1.0 || mutationRate < 0.0){
-            throw new Exception("Mutation rate outside range 0.0-1.0");
-        }
-        this.mutationRate = mutationRate;
-        
-        if(maxMutations < 1) throw new Exception("Can't have 0 or negative mutations!");
-        this.maxMutations = maxMutations;
     }
 
     @Override

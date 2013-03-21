@@ -1,8 +1,15 @@
 package evolalgo.problem.ctrnn;
 
 import evoalgo.tracker.Simulation;
+import evolalgo.Evolution;
 import evolalgo.IIndividual;
+import evolalgo.IReproduction;
 import evolalgo.IndividualImpl;
+import evolalgo.ReproductionImpl;
+import evolalgo.adultselectors.FullGenReplacement;
+import evolalgo.adultselectors.IAdultSelection;
+import evolalgo.parentselectors.FitnessProportionate;
+import evolalgo.parentselectors.IParentSelection;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +40,6 @@ public class CtrnnProblem implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         for (IIndividual iIndividual : population) {
 			double score = (double) sim.simulate((ITracker)iIndividual.phenotype());
         	iIndividual.setFitness(score/40.0);
@@ -52,5 +58,20 @@ public class CtrnnProblem implements IProblem{
             population.add(new IndividualImpl(genome));
         }
         return population;
+    }
+    
+    public static void main(String[] args){
+        IReproduction rep = new ReproductionImpl(0.05, 0.8, 1, 1);
+        IAdultSelection adSel = new FullGenReplacement();
+        IParentSelection parSel = new FitnessProportionate();
+        IProblem problem = new CtrnnProblem();
+        Evolution evo = new Evolution(30, rep, adSel, parSel, problem);
+        try{
+            evo.loop(10, true);
+            evo.drawBestFitnessPlot();
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
