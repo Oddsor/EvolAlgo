@@ -1,5 +1,6 @@
 package evolalgo.problem.ctrnn;
 
+import evoalgo.tracker.Simulation;
 import evolalgo.IIndividual;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
@@ -15,6 +16,7 @@ public class CtrnnProblem implements IProblem{
     
     private static final int BIT_SIZE = 8;
     private static final int NUM_ATTRIBUTES = 34;
+    private Simulation sim = new Simulation();
 
     @Override
     public void developPheno(IIndividual individual) throws Exception {
@@ -31,7 +33,11 @@ public class CtrnnProblem implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (IIndividual iIndividual : population) {
+			double score = (double) sim.simulate((ITracker)iIndividual.phenotype());
+        	iIndividual.setFitness(score/40.0);
+		}
     }
 
     @Override
