@@ -1,13 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.problem.ctrnn;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,19 +8,15 @@ import java.util.logging.Logger;
  *
  * @author Odd
  */
-public class HiddenNode implements INode{
-    private double gain;
-    private double timeConstant;
-    private double selfWeight;
+public class HiddenNode extends AbNode implements INode{
     
-    private List<Object[]> connections;
     private double[] sensorWeights;
     
     public HiddenNode(double gain, double timeConstant, double selfWeight, double... sensorWeights){
         this.gain = gain;
         this.timeConstant = timeConstant;
         this.selfWeight = selfWeight;
-        connections = new ArrayList<Object[]>();
+        this.connections = new ArrayList<Object[]>();
         
         if(sensorWeights.length != 5) try {
             throw new Exception("Wrong amount of weights passed to constructor!");
@@ -37,10 +26,12 @@ public class HiddenNode implements INode{
         }
         this.sensorWeights = sensorWeights;
     }
-
+    
+    
+    
     @Override
     public double getOutput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return output();
     }
 
     @Override
@@ -48,5 +39,31 @@ public class HiddenNode implements INode{
         Object[] ob = {node, weight};
         connections.add(ob);
     }
-    
+
+    @Override
+    double s(boolean[] sensorInputs) {
+        int I = 0;
+        for(int i = 0; i < sensorInputs.length; i++){
+            if(sensorInputs[i]) I++;
+        }
+        double s = 0.0;
+        for (int i = 0; i < sensorInputs.length; i++){
+            if(sensorInputs[i]) s += 1 * sensorWeights[i] + I;
+            else s += I;
+        }
+        for (Object[] connection:connections){
+            INode node = (INode) connection[0];
+            double weight = (double) connection[1];
+            s += node.getOutput() * weight;
+        }
+        
+        s += output() * selfWeight + I;
+        
+        return s;
+    }
+
+    @Override
+    public void updateY(boolean[] sensorInputs) {
+        y += dy(s(sensorInputs));
+    }
 }

@@ -10,5 +10,8 @@ package evolalgo.problem.ctrnn;
  */
 public interface INode {
     public double getOutput();
+    
+    public void updateY(boolean[] sensorInputs);
+    
     public void addArc(INode node, double weight);
 }

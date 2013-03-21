@@ -3,6 +3,7 @@ package evolalgo.problem.ctrnn;
 
 import evolalgo.IPhenotype;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
    
    private List<INode> motorLayer;
    private List<INode> hiddenLayer;
+   private Collection<INode> neurons;
    private INode biasNode;
 
     public CtrnnPhenotype(List<Integer> attributes){
@@ -41,6 +43,7 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         biasNode = new BiasNode();
         hiddenLayer = new ArrayList<INode>();
         motorLayer = new ArrayList<INode>();
+        
         
         for(int i = 0; i < 4; i++){
             INode newNode;
@@ -80,12 +83,19 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         //===TOTAL CONNECTIONS: 10 + 4 + 4 + 8 = 26
         //===TOTAL PARAMETERS IN LAYER NODES: 2 * 4 = 8
         //===TOTAL ATTRIBUTES: 8 + 26 = 34
+        neurons = new ArrayList<INode>(motorLayer);
+        neurons.addAll(hiddenLayer);
     }
 
     @Override
     public int getMovement(boolean[] shadowSensors) {
+        for(INode node: neurons){
+            node.updateY(shadowSensors);
+        }
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double left = motorLayer.get(0).getOutput();
+        double right = motorLayer.get(1).getOutput();
+        return Math.round((float) -left + (float) right);
     }
     
     public double convertWeight(int genomeValue){

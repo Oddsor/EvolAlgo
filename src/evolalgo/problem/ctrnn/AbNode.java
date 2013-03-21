@@ -1,24 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.problem.ctrnn;
+
+import java.util.List;
 
 /**
  *
  * @author Odd
  */
 abstract class AbNode {
-    private double gain;
-    private double timeConstant;
+    double gain;
+    double timeConstant;
+    double selfWeight;
     
-    private double bias;
+    int timeStep;
     
-    private double dy(){
+    List<Object[]> connections;
+    
+    double y = 0;
+    
+    double bias;
+    
+    double dy(double s){
         return (1 / timeConstant) * (-y + s + bias);
     }
     
-    private double output(double y){
+    abstract double s(boolean[] sensorInputs);
+    
+    double output(){
         return 1 / (1 + Math.pow(Math.E, -gain * y));
     }
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package evolalgo.problem.ctrnn;
 
 /**
@@ -21,6 +17,11 @@ public class BiasNode implements INode{
     @Override
     public void addArc(INode node, double weight) {
         throw new UnsupportedOperationException("Unused, no connections to Bias node");
+    }
+
+    @Override
+    public void updateY(boolean[] sensorInputs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
