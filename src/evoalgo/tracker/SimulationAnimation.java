@@ -37,12 +37,7 @@ public class SimulationAnimation extends JFrame {
 		dr = new draw();
 		dr.setBackground(Color.black);
 		con.add(dr);
-		//	        board  = new char[30];
-		//	        board[9] = "*".toCharArray()[0];
-		//	        board[10] = "*".toCharArray()[0];
-		//	        board[11] = "*".toCharArray()[0];
-		//	        board[12] = "*".toCharArray()[0];
-		//	        board[13] = "*".toCharArray()[0];
+		
 		loop();
 	}
 
@@ -51,7 +46,8 @@ public class SimulationAnimation extends JFrame {
 		trackerPos = env.getTracker().getPosition();
 		fallPos = env.getFallingObject().getPosition();
 		fallLevel = env.step();
-		if(fallLevel < 0) env.setFallingObject((new VerticalFallingObject()));
+//		if(fallLevel < 0) env.setFallingObject((new VerticalFallingObject()));
+		if(fallLevel < 0) env.setFallingObject((new SidewaysFallingObject()));
 	}
 	
 	void loop(){

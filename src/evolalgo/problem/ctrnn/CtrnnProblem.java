@@ -1,5 +1,6 @@
 package evolalgo.problem.ctrnn;
 
+import evoalgo.tracker.HitAwarder;
 import evoalgo.tracker.Simulation;
 import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
@@ -114,7 +115,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
-                    SimulationAnimation simAn = new SimulationAnimation(tr);
+                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
                     
                     
                 }

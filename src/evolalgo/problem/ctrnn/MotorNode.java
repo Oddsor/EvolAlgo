@@ -32,7 +32,7 @@ public class MotorNode extends AbNode implements INode{
         
         for(Object[] connection: connections){
             INode node = (INode) connection[0];
-            double weight = (double) connection[1];
+            double weight = Double.parseDouble(connection[1].toString());
             s += node.getOutput() * weight;
         }
         s += output() * selfWeight;
