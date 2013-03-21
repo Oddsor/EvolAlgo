@@ -1,5 +1,7 @@
 package evolalgo.problem.ctrnn;
 
+import evoalgo.tracker.HitAwarder;
+import evoalgo.tracker.IPointAwarder;
 import evoalgo.tracker.Simulation;
 import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
@@ -8,6 +10,7 @@ import evolalgo.IReproduction;
 import evolalgo.IndividualImpl;
 import evolalgo.ReproductionImpl;
 import evolalgo.adultselectors.FullGenReplacement;
+import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
@@ -73,13 +76,13 @@ public class CtrnnProblem implements IProblem{
                 @Override
                 public void run() {
                     IReproduction rep = new ReproductionImpl(0.01, 0.8, 1, 1);
-                    IAdultSelection adSel = new FullGenReplacement();
+                    IAdultSelection adSel = new GenerationalMixing(10);
                     IParentSelection parSel = new FitnessProportionate();
                     IProblem problem = new CtrnnProblem();
-                    Evolution evo = new Evolution(75, rep, adSel, parSel, problem);
+                    Evolution evo = new Evolution(20, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
-                    double[] Y = new double[150];
-                    for (int i = 0; i < 150; i++){
+                    double[] Y = new double[15];
+                    for (int i = 0; i < 15; i++){
                         Y[i] = 0;
                     }
                     double[] scale = {1.0};
@@ -92,8 +95,8 @@ public class CtrnnProblem implements IProblem{
                     frame.setContentPane(plot);
                     frame.setSize(500, 400);
                     frame.setVisible(true);
-                    List<IIndividual> pop = problem.createPopulation(75);
-                    for (int j = 0; j < 150; j++){
+                    List<IIndividual> pop = problem.createPopulation(50);
+                    for (int j = 0; j < 15; j++){
                         try{
                             pop = evo.runGeneration(pop);
                             Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
@@ -102,42 +105,22 @@ public class CtrnnProblem implements IProblem{
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-                        System.out.println("Remove plots:");
                         plot.removeAllPlots();
-                        System.out.println("Add scale plots:");
                         plot.addScatterPlot("", scale);
                         plot.addScatterPlot("", scale2);
-                        System.out.println("Add plot:");
                         plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
                     }
                     List<Map> stats = evo.getStatistics();
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
-                    SimulationAnimation simAn = new SimulationAnimation(tr);
                     
-                    
+                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
                 }
-                
             };
             evoT.start();   
         }catch(Exception e){
             e.printStackTrace();
         }
-/*        IReproduction rep = new ReproductionImpl(0.05, 0.8, 1, 1);
-        IAdultSelection adSel = new FullGenReplacement();
-        IParentSelection parSel = new FitnessProportionate();
-        IProblem problem = new CtrnnProblem();
-        Evolution evo = new Evolution(100, rep, adSel, parSel, problem);
-        try {
-            evo.loop(100, true);
-            List<Map> stats = evo.getStatistics();
-            evo.drawBestFitnessPlot();
-            IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
-            
-            
-        } catch (Exception ex) {
-            Logger.getLogger(CtrnnProblem.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 }

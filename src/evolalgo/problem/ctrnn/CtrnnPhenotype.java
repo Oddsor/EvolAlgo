@@ -92,28 +92,31 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         for(INode node: neurons){
             node.updateY(shadowSensors);
         }
-        
         double left = motorLayer.get(0).getOutput();
         double right = motorLayer.get(1).getOutput();
         double total = -left + right;
-        total = total * 4; //Maks 4
-        //System.out.println("TOTAL MOVEMENT: " + total);
-        return Math.round((float) total);
+        total = total * 4.0; //Maks 4
+        int rounded = (int) Math.round(total);
+        if(rounded != 0){
+            System.out.println("TOTAL MOVEMENT: " + total);
+            System.out.println("Rounded: " + rounded);
+        }
+        return rounded;
     }
     
-    public double convertWeight(int genomeValue){
+    private double convertWeight(int genomeValue){
         return WEIGHTS_MIN + ((double) genomeValue / (WEIGHTS_MAX - WEIGHTS_MIN));
     }
     
-    public double convertBias(int genomeValue){
+    private double convertBias(int genomeValue){
         return BIASES_MIN + ((double) genomeValue / (BIASES_MAX - BIASES_MIN));
     }
     
-    public double convertGain(int genomeValue){
+    private double convertGain(int genomeValue){
         return GAINS_MIN + ((double) genomeValue / (GAINS_MAX - GAINS_MIN));
     }
     
-    public double convertTimeConstant(int genomeValue){
+    private double convertTimeConstant(int genomeValue){
         return TIMECONSTANTS_MIN + ((double) genomeValue / 
                 (TIMECONSTANTS_MAX - TIMECONSTANTS_MIN));
     }
