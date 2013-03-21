@@ -1,7 +1,6 @@
 package evolalgo.problem.ctrnn;
 
-import evoalgo.tracker.HitAwarder;
-import evoalgo.tracker.IPointAwarder;
+import evoalgo.tracker.HitAndAvoidAwarder;
 import evoalgo.tracker.Simulation;
 import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
@@ -9,7 +8,6 @@ import evolalgo.IIndividual;
 import evolalgo.IReproduction;
 import evolalgo.IndividualImpl;
 import evolalgo.ReproductionImpl;
-import evolalgo.adultselectors.FullGenReplacement;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.FitnessProportionate;
@@ -20,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.math.plot.Plot2DPanel;
 
 /**
@@ -75,7 +71,7 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new ReproductionImpl(0.01, 0.8, 1, 1);
+                    IReproduction rep = new ReproductionImpl(0.11, 0.8, 1, 5);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     IParentSelection parSel = new FitnessProportionate();
                     IProblem problem = new CtrnnProblem();
@@ -114,9 +110,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
-                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
-                    
-                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
+                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAndAvoidAwarder());
                 }
             };
             evoT.start();   

@@ -25,9 +25,7 @@ public class HiddenNode extends AbNode implements INode{
             ex.printStackTrace();
         }
         this.sensorWeights = sensorWeights;
-    }
-    
-    
+    }    
     
     @Override
     public double getOutput() {
@@ -47,18 +45,17 @@ public class HiddenNode extends AbNode implements INode{
             if(sensorInputs[i]) I++;
         }
         double s = 0.0;
+        s += I;
         for (int i = 0; i < sensorInputs.length; i++){
-            if(sensorInputs[i]) s += 1 * sensorWeights[i] + I;
-            else s += I;
+            if(sensorInputs[i]) s += 1 * sensorWeights[i];
         }
-        for (Object[] connection:connections){
+        for (Object[] connection: connections){
             INode node = (INode) connection[0];
             double weight = Double.parseDouble(connection[1].toString());
             s += node.getOutput() * weight;
         }
         
-        s += output() * selfWeight + I;
-        
+        s += output() * selfWeight;
         return s;
     }
 

@@ -27,7 +27,7 @@ public class MotorNode extends AbNode implements INode{
     }
 
     @Override
-    double s(boolean[]sensorInputs) {
+    double s(boolean[] sensorInputs) {
         double s = 0.0;
         
         for(Object[] connection: connections){
