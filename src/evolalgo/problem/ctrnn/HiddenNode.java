@@ -12,7 +12,7 @@ public class HiddenNode extends AbNode implements INode{
     
     private double[] sensorWeights;
     
-    public HiddenNode(double gain, double timeConstant, double selfWeight, double... sensorWeights){
+    public HiddenNode(double gain, double timeConstant, double bias, double selfWeight, double... sensorWeights){
         this.gain = gain;
         this.timeConstant = timeConstant;
         this.selfWeight = selfWeight;
@@ -54,6 +54,7 @@ public class HiddenNode extends AbNode implements INode{
             double weight = Double.parseDouble(connection[1].toString());
             s += node.getOutput() * weight;
         }
+        s += bias;
         
         s += output() * selfWeight;
         return s;

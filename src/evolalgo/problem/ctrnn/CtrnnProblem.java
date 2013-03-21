@@ -75,10 +75,12 @@ public class CtrnnProblem implements IProblem{
                     IAdultSelection adSel = new GenerationalMixing(10);
                     IParentSelection parSel = new FitnessProportionate();
                     IProblem problem = new CtrnnProblem();
-                    Evolution evo = new Evolution(20, rep, adSel, parSel, problem);
+                    int POPULATION = 100;
+                    int GENERATIONS = 150;
+                    Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
-                    double[] Y = new double[15];
-                    for (int i = 0; i < 15; i++){
+                    double[] Y = new double[GENERATIONS];
+                    for (int i = 0; i < GENERATIONS; i++){
                         Y[i] = 0;
                     }
                     double[] scale = {1.0};
@@ -92,7 +94,7 @@ public class CtrnnProblem implements IProblem{
                     frame.setSize(500, 400);
                     frame.setVisible(true);
                     List<IIndividual> pop = problem.createPopulation(50);
-                    for (int j = 0; j < 15; j++){
+                    for (int j = 0; j < GENERATIONS; j++){
                         try{
                             pop = evo.runGeneration(pop);
                             Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
@@ -113,7 +115,7 @@ public class CtrnnProblem implements IProblem{
                     SimulationAnimation simAn = new SimulationAnimation(tr, new HitAndAvoidAwarder());
                 }
             };
-            evoT.start();   
+            evoT.start();
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class MotorNode extends AbNode implements INode{
     
-    public MotorNode(double gain, double timeConstant, double selfWeight){
+    public MotorNode(double gain, double timeConstant, double bias, double selfWeight){
         this.gain = gain;
         this.timeConstant = timeConstant;
         this.selfWeight = selfWeight;
@@ -36,6 +36,7 @@ public class MotorNode extends AbNode implements INode{
             s += node.getOutput() * weight;
         }
         s += output() * selfWeight;
+        s += bias;
         
         return s;
     }

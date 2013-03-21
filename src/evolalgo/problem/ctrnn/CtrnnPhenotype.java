@@ -29,7 +29,6 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
    private List<INode> motorLayer;
    private List<INode> hiddenLayer;
    private Collection<INode> neurons;
-   private INode biasNode;
 
     public CtrnnPhenotype(List<Integer> attributes){
         try {
@@ -40,13 +39,12 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         }
         Iterator<Integer> attributeIt = attributes.iterator();
         
-        biasNode = new BiasNode();
         hiddenLayer = new ArrayList<INode>();
         motorLayer = new ArrayList<INode>();
         
         
         for(int i = 0; i < 4; i++){
-            INode newNode;
+            INode newNode; 
             if (i < 2){
                 double[] sensorWeights = new double[5];
                 for (int j = 0; j < 5; j++){
@@ -54,16 +52,17 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
                 }
                 newNode = new HiddenNode(convertGain(attributeIt.next()), 
                         convertTimeConstant(attributeIt.next()), 
+                        convertBias(attributeIt.next()),
                         convertWeight(attributeIt.next()),sensorWeights);
                 hiddenLayer.add(newNode);
             }
             else {
                 newNode = new MotorNode(convertGain(attributeIt.next()), 
-                        convertTimeConstant(attributeIt.next()),
+                        convertTimeConstant(attributeIt.next()), 
+                        convertBias(attributeIt.next()),
                         convertWeight(attributeIt.next()));
                 motorLayer.add(newNode);
             }
-            newNode.addArc(biasNode, convertBias(attributeIt.next()));
         }
         //===ALL SENSOR WEIGHTS ADDED=== 10 connections from sensory input to hidden layer
         //===ALL BIASES ADDED=== 4 connections from bias node to hidden and motor layer
@@ -97,10 +96,10 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         double total = -left + right;
         total = total * 4.0; //Maks 4
         int rounded = (int) Math.round(total);
-        if(rounded != 0){
+        /*if(rounded != 0){
             System.out.println("TOTAL MOVEMENT: " + total);
             System.out.println("Rounded: " + rounded);
-        }
+        }*/
         return rounded;
     }
     
