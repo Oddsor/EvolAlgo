@@ -5,7 +5,7 @@ import evolalgo.problem.ctrnn.ITracker;
 public class TrackerEnvironment {
 
 	Tracker tracker;
-	private VerticalFallingObject VFO;  //Only one falling object exists at any given moment.
+	private IFallingObject VFO;  //Only one falling object exists at any given moment.
 	IPointAwarder pa;
 	public TrackerEnvironment(ITracker it,IPointAwarder pa){
 		tracker = new Tracker(it);		
@@ -53,7 +53,6 @@ public class TrackerEnvironment {
 		tracker.updatePosition(getShadowVector());
 		VFO.step();
 		int y = VFO.getYPosition();
-		System.out.println("Y: "+y);
 		if(y==0) System.out.println("Score: "+awardPoints());
 		
 		return y;
@@ -77,11 +76,11 @@ public class TrackerEnvironment {
 		tracker = new Tracker(it);
 	}
 
-	VerticalFallingObject getFallingObject(){
+	IFallingObject getFallingObject(){
 		return VFO;
 	}
 
-	void setFallingObject(VerticalFallingObject obj){
+	void setFallingObject(IFallingObject obj){
 		this.VFO = obj;
 	}	
 

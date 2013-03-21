@@ -114,6 +114,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
+                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
                     
                     SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
                 }
