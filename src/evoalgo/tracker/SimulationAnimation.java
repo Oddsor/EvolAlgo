@@ -21,9 +21,9 @@ public class SimulationAnimation extends JFrame {
 	static final int WIDTH=900;
 	static final int HEIGHT=450+60;
 	TrackerEnvironment env;
-	public SimulationAnimation(ITracker it) {
+	public SimulationAnimation(ITracker it, IPointAwarder pa) {
 
-		env = new TrackerEnvironment(it);
+		env = new TrackerEnvironment(it, pa);
 		env.setFallingObject(new VerticalFallingObject());
 		fallLevel = env.getFallingObject().getYPosition();
 		updateMatrix();
@@ -68,7 +68,7 @@ public class SimulationAnimation extends JFrame {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-		new SimulationAnimation(new randomTracker());
+		new SimulationAnimation(new randomTracker(), new HitAwarder());
 		
 	}
 	class draw extends JPanel { 

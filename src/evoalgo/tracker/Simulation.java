@@ -9,7 +9,7 @@ public class Simulation implements ISimulation
 	@Override
 	public int simulate(ITracker it) {
 		
-		TrackerEnvironment env = new TrackerEnvironment(it);
+		TrackerEnvironment env = new TrackerEnvironment(it, new HitAndAvoidAwarder());
 		
 		int score = 0;
 		

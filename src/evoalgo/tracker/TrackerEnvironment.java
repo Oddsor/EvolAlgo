@@ -6,9 +6,10 @@ public class TrackerEnvironment {
 
 	Tracker tracker;
 	private VerticalFallingObject VFO;  //Only one falling object exists at any given moment.
-	
-	public TrackerEnvironment(ITracker it){
+	IPointAwarder pa;
+	public TrackerEnvironment(ITracker it,IPointAwarder pa){
 		tracker = new Tracker(it);		
+		this.pa = pa;
 	}
 
 	boolean[] getShadowVector(){
@@ -28,22 +29,24 @@ public class TrackerEnvironment {
 	private int awardPoints(){
 		
 		boolean[] sv = getShadowVector();
-
-		if(VFO.getSize()>4){ //Item should be avoided
-			for (boolean b : sv) {
-				if(b) return 0; //If any part is on it, it has not avoided
-			}
-			return 1;
-		}
-		else{ //Tracker should catch it
-			int c = 0;
-			for (boolean b : sv) {
-				if(b) c++;
-			}
-
-			return c == VFO.getSize() ? 1 : 0;
-
-		}
+		
+		return	pa.awardPoints(sv,VFO.getSize());
+	
+//		if(VFO.getSize()>4){ //Item should be avoided
+//			for (boolean b : sv) {
+//				if(b) return 0; //If any part is on it, it has not avoided
+//			}
+//			return 1;
+//		}
+//		else{ //Tracker should catch it
+//			int c = 0;
+//			for (boolean b : sv) {
+//				if(b) c++;
+//			}
+//
+//			return c == VFO.getSize() ? 1 : 0;
+//
+//		}
 	}
 	
 	public int step(){
