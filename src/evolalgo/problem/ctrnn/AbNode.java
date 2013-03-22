@@ -10,7 +10,7 @@ abstract class AbNode {
     double gain;
     double timeConstant;
     double selfWeight;
-    
+    double lastValue;
     int timeStep;
     
     List<Object[]> connections;
@@ -26,6 +26,7 @@ abstract class AbNode {
     abstract double s(boolean[] sensorInputs);
     
     double output(){
-        return 1 / (1 + Math.pow(Math.E, -gain * y));
+        lastValue = 1 / (1 + Math.pow(Math.E, -gain * y));
+    	return lastValue;
     }
 }
