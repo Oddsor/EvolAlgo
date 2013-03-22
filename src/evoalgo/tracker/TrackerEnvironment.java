@@ -58,14 +58,23 @@ public class TrackerEnvironment {
 		return y;
 	}
 
-	public int run() {
-
+	public double run() {
+		
+		double pointsForEffort=0;
+		double rounds = VFO.getYPosition();
 		while(VFO.getYPosition()>0){
+			
+			boolean[] sv = getShadowVector();
+			double move = tracker.updatePosition(sv);
 			tracker.updatePosition(getShadowVector());
+			
+			pointsForEffort += pa.pointsForEffort(sv,move);
+			
 			VFO.step();
 		}
-
-		return awardPoints();
+		boolean[] sv = getShadowVector();
+		int hitPoints = pa.awardPoints(sv, VFO.getSize());
+		return (pointsForEffort/rounds)+hitPoints;
 	}
 
 	Tracker getTracker(){

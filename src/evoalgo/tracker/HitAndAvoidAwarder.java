@@ -23,4 +23,10 @@ public class HitAndAvoidAwarder implements IPointAwarder {
 		
 	}
 
+	@Override
+	public double pointsForEffort(boolean[] sv, double move) {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
 }
