@@ -58,7 +58,7 @@ public class CtrnnProblem implements IProblem{
     public void calculateFitness(List<IIndividual> population) throws Exception {
         for (IIndividual iIndividual : population) {
 			double score = (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder);
-        	iIndividual.setFitness(score/40.0);
+        	iIndividual.setFitness(score);
 		}
     }
 
@@ -86,10 +86,10 @@ public class CtrnnProblem implements IProblem{
                     IAdultSelection adSel = new FullGenReplacement();
                     //IParentSelection parSel = new SigmaScaling();
                     IParentSelection parSel = new Tournament(10, 0.3);
-                    IPointAwarder rewarder = new HitAndAvoidAwarder();
+                    IPointAwarder rewarder = new HitAwarder();
                     IProblem problem = new CtrnnProblem(rewarder);
                     int POPULATION = 100;
-                    int GENERATIONS = 15;
+                    int GENERATIONS = 50;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
                     double[] Y = new double[GENERATIONS];
@@ -126,7 +126,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
-                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAndAvoidAwarder());
+                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
                 }
             };
             evoT.start();

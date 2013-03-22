@@ -46,8 +46,8 @@ public class SimulationAnimation extends JFrame {
 		trackerPos = env.getTracker().getPosition();
 		fallPos = env.getFallingObject().getPosition();
 		fallLevel = env.step();
-//		if(fallLevel < 0) env.setFallingObject((new VerticalFallingObject()));
-		if(fallLevel < 0) env.setFallingObject((new SidewaysFallingObject()));
+		if(fallLevel < 0) env.setFallingObject((new VerticalFallingObject()));
+//		if(fallLevel < 0) env.setFallingObject((new SidewaysFallingObject()));
 	}
 	
 	void loop(){

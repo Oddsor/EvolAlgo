@@ -7,11 +7,11 @@ public class Simulation implements ISimulation
 {
 
 	@Override
-	public int simulate(ITracker it, IPointAwarder awarder) {
+	public double simulate(ITracker it, IPointAwarder awarder) {
 		
 		TrackerEnvironment env = new TrackerEnvironment(it, awarder);
 		
-		int score = 0;
+		double score = 0;
 		
 		for (int i = 0; i < 40; i++) {
 			
@@ -20,7 +20,7 @@ public class Simulation implements ISimulation
 			
 		}
 		
-		return score;
+		return score/80.0;
 	}
 	
 }
