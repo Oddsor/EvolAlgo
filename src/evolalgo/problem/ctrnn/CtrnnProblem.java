@@ -1,6 +1,8 @@
 package evolalgo.problem.ctrnn;
 
 import evoalgo.tracker.HitAndAvoidAwarder;
+import evoalgo.tracker.HitAwarder;
+import evoalgo.tracker.IPointAwarder;
 import evoalgo.tracker.Simulation;
 import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
@@ -12,6 +14,8 @@ import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
+import evolalgo.parentselectors.SigmaScaling;
+import evolalgo.parentselectors.Tournament;
 import evolalgo.problem.IProblem;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -29,6 +33,11 @@ public class CtrnnProblem implements IProblem{
     private static final int BIT_SIZE = 8;
     private static final int NUM_ATTRIBUTES = 34;
     private Simulation sim = new Simulation();
+    private IPointAwarder awarder;
+    
+    public CtrnnProblem(IPointAwarder awarder){
+        this.awarder = awarder;
+    }
 
     @Override
     public void developPheno(IIndividual individual) throws Exception {
@@ -46,7 +55,7 @@ public class CtrnnProblem implements IProblem{
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
         for (IIndividual iIndividual : population) {
-			double score = (double) sim.simulate((ITracker)iIndividual.phenotype());
+			double score = (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder);
         	iIndividual.setFitness(score/40.0);
 		}
     }
@@ -71,12 +80,14 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new ReproductionImpl(0.11, 0.8, 1, 5);
+                    IReproduction rep = new ReproductionImpl(0.15, 0.8, 2, 5);
                     IAdultSelection adSel = new GenerationalMixing(10);
-                    IParentSelection parSel = new FitnessProportionate();
-                    IProblem problem = new CtrnnProblem();
+                    //IParentSelection parSel = new SigmaScaling();
+                    IParentSelection parSel = new Tournament(10, 0.3);
+                    IPointAwarder rewarder = new HitAndAvoidAwarder();
+                    IProblem problem = new CtrnnProblem(rewarder);
                     int POPULATION = 100;
-                    int GENERATIONS = 150;
+                    int GENERATIONS = 15;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
                     double[] Y = new double[GENERATIONS];
@@ -86,8 +97,8 @@ public class CtrnnProblem implements IProblem{
                     double[] scale = {1.0};
                     double[] scale2 = {0.0};
                     plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
-                    plot.addScatterPlot("", scale);
-                    plot.addScatterPlot("", scale2);
+                    //plot.addScatterPlot("", scale);
+                    //plot.addScatterPlot("", scale2);
                     plot.addLegend("SOUTH");
                     javax.swing.JFrame frame = new javax.swing.JFrame("Best of generation");
                     frame.setContentPane(plot);
@@ -104,9 +115,10 @@ public class CtrnnProblem implements IProblem{
                             e.printStackTrace();
                         }
                         plot.removeAllPlots();
-                        plot.addScatterPlot("", scale);
-                        plot.addScatterPlot("", scale2);
+                        //plot.addScatterPlot("", scale);
+                        //plot.addScatterPlot("", scale2);
                         plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
+                        //plot.changePlotData(0, Y);
                     }
                     List<Map> stats = evo.getStatistics();
                     evo.drawBestFitnessPlot();

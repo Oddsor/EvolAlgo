@@ -40,12 +40,12 @@ public class HiddenNode extends AbNode implements INode{
 
     @Override
     double s(boolean[] sensorInputs) {
-        int I = 0;
+        /*int I = 0;
         for(int i = 0; i < sensorInputs.length; i++){
             if(sensorInputs[i]) I++;
-        }
+        }*/
         double s = 0.0;
-        s += I;
+        //s += I;
         for (int i = 0; i < sensorInputs.length; i++){
             if(sensorInputs[i]) s += 1 * sensorWeights[i];
         }

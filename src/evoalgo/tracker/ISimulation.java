@@ -4,6 +4,6 @@ import evolalgo.problem.ctrnn.ITracker;
 
 public interface ISimulation {
 
-	public int simulate(ITracker it);
+	public int simulate(ITracker it, IPointAwarder awarder);
 	
 }

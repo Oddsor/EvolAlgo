@@ -7,9 +7,9 @@ public class Simulation implements ISimulation
 {
 
 	@Override
-	public int simulate(ITracker it) {
+	public int simulate(ITracker it, IPointAwarder awarder) {
 		
-		TrackerEnvironment env = new TrackerEnvironment(it, new HitAndAvoidAwarder());
+		TrackerEnvironment env = new TrackerEnvironment(it, awarder);
 		
 		int score = 0;
 		
@@ -18,7 +18,7 @@ public class Simulation implements ISimulation
 			env.setFallingObject(new VerticalFallingObject());
 			score += env.run();
 			
-		}		
+		}
 		
 		return score;
 	}

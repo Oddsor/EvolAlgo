@@ -37,7 +37,6 @@ public class MotorNode extends AbNode implements INode{
         }
         s += output() * selfWeight;
         s += bias;
-        
         return s;
     }
 
