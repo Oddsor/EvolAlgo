@@ -89,7 +89,7 @@ public class CtrnnProblem implements IProblem{
                     IPointAwarder rewarder = new HitAwarder();
                     IProblem problem = new CtrnnProblem(rewarder);
                     int POPULATION = 100;
-                    int GENERATIONS = 15;
+                    int GENERATIONS = 50;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
                     double[] Y = new double[GENERATIONS];

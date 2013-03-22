@@ -23,7 +23,7 @@ public class HitAwarder implements IPointAwarder {
 	}
 
 	@Override
-	public double pointsForEffort(boolean[] sv, double move) {
+	public double pointsForEffort(boolean[] sv, int move) {
 		
 		//Creates an integer from the bitstring representing sensor values.
 		int sum = binaryToInt(sv);
@@ -31,6 +31,69 @@ public class HitAwarder implements IPointAwarder {
 		if( sum == binaryToInt(new boolean[]{true,true,true,true,true})){
 			
 			return move == 0 ? 1 : 0 ;
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{!true,!true,!true,!true,!true})){
+			
+			return move == 0 ? 0 : 1 ; //Go explore!
+			
+		}
+		
+		if( !sv[0] && !sv[sv.length-1] && (sv[1] || sv[2] || sv[3]) ){
+			
+			return move == 0 ? 1 : 0 ; //Stay put!
+			
+		}
+		
+		
+		
+		if( sum == binaryToInt(new boolean[]{!true,!true,!true,!true,true})){
+			
+			return move > 0 ? 1 : 0 ; //Go right
+			
+		}
+		
+
+		if( sum == binaryToInt(new boolean[]{!true,!true,!true, true,true})){
+			
+			return move > 0 ? 1 : 0 ; //Go right
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{!true,!true, true, true,true})){
+			
+			return move > 0 ? 1 : 0 ; //Go right
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{!true,true, true, true,true})){
+			
+			return move > 0 ? 1 : 0 ; //Go right
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{true,!true,!true,!true,!true})){
+			
+			return move < 0 ? 1 : 0 ; //Go left!
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{true,true,!true,!true,!true})){
+			
+			return move < 0 ? 1 : 0 ; //Go left
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{true,true,true,!true,!true})){
+			
+			return move < 0 ? 1 : 0 ; //Go left
+			
+		}
+		
+		if( sum == binaryToInt(new boolean[]{true,true,true,true,!true})){
+			
+			return move < 0 ? 1 : 0 ; //Go left
 			
 		}
 		
