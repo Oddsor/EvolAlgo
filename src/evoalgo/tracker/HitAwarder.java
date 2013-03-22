@@ -50,14 +50,14 @@ public class HitAwarder implements IPointAwarder {
 		
 		if( sum == binaryToInt(new boolean[]{!true,!true,!true,!true,true})){
 			
-			return move > 0 ? 1 : 0 ; //Go right
+			return move > 2 ? 1 : 0 ; //Go right
 			
 		}
 		
 
 		if( sum == binaryToInt(new boolean[]{!true,!true,!true, true,true})){
 			
-			return move > 0 ? 1 : 0 ; //Go right
+			return move > 1 ? 1 : 0 ; //Go right
 			
 		}
 		
@@ -75,13 +75,13 @@ public class HitAwarder implements IPointAwarder {
 		
 		if( sum == binaryToInt(new boolean[]{true,!true,!true,!true,!true})){
 			
-			return move < 0 ? 1 : 0 ; //Go left!
+			return move < -2 ? 1 : 0 ; //Go left!
 			
 		}
 		
 		if( sum == binaryToInt(new boolean[]{true,true,!true,!true,!true})){
 			
-			return move < 0 ? 1 : 0 ; //Go left
+			return move < -1 ? 1 : 0 ; //Go left
 			
 		}
 		
