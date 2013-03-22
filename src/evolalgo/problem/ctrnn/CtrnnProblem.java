@@ -10,8 +10,10 @@ import evolalgo.IIndividual;
 import evolalgo.IReproduction;
 import evolalgo.IndividualImpl;
 import evolalgo.ReproductionImpl;
+import evolalgo.adultselectors.FullGenReplacement;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
+import evolalgo.adultselectors.OverProduction;
 import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.parentselectors.SigmaScaling;
@@ -80,8 +82,8 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new ReproductionImpl(0.15, 0.8, 2, 5);
-                    IAdultSelection adSel = new GenerationalMixing(10);
+                    IReproduction rep = new ReproductionImpl(0.3, 0.8, 2, 20);
+                    IAdultSelection adSel = new FullGenReplacement();
                     //IParentSelection parSel = new SigmaScaling();
                     IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAndAvoidAwarder();
