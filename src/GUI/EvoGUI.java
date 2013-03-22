@@ -1,9 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI;
 
+import evoalgo.tracker.HitAndAvoidAwarder;
+import evoalgo.tracker.HitAwarder;
+import evoalgo.tracker.IPointAwarder;
+import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.IReproduction;
@@ -26,6 +27,8 @@ import evolalgo.problem.SpikingNeuron.sdm.SpikeIntervalDistance;
 import evolalgo.problem.SpikingNeuron.sdm.SpikeTimeDistance;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
 import evolalgo.problem.SpikingNeuron.sdm.WaveformDistance;
+import evolalgo.problem.ctrnn.CtrnnProblem;
+import evolalgo.problem.ctrnn.ITracker;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.List;
@@ -57,6 +60,7 @@ public class EvoGUI extends javax.swing.JFrame {
         problemPane.add(new ProblemMaxOne());
         problemPane.add(new ProblemBlottoPanel());
         problemPane.add(new ProblemSpikingGUI());
+        problemPane.add(new ProblemCtrnn());
         
         parentPane.add(new JPanel());
         parentPane.add(new JPanel());
@@ -109,7 +113,7 @@ public class EvoGUI extends javax.swing.JFrame {
 
         problemPane.setLayout(new java.awt.CardLayout());
 
-        problemBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Max One", "Blotto Strategies", "Spiking Neuron" }));
+        problemBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Max One", "Blotto Strategies", "Spiking Neuron", "CTRNN" }));
         problemBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 problemBoxActionPerformed(evt);
@@ -391,7 +395,6 @@ public class EvoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_problemBoxActionPerformed
 
     private void launchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchButtonActionPerformed
-        //int generations = Integer.parseInt(generationsField.getText());
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int crossoverSplit = crossoverSplitSlider.getValue();
         double crossoverRate = Double.parseDouble(crossoverRateField.getText());
@@ -434,6 +437,20 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
         }
         
+        ProblemCtrnn ctrnnPanel = (ProblemCtrnn) problemPane.getComponent(3);
+        int ctrnnAwarder = ctrnnPanel.pointawardingBox.getSelectedIndex();
+        IPointAwarder awarder = null;
+        switch(ctrnnAwarder){
+            case 0:
+                awarder = new HitAwarder();
+                break;
+            case 1:
+                awarder = new HitAndAvoidAwarder();
+                break;
+        }
+        int fallingObjects = ctrnnPanel.fallingObjectsBox.getSelectedIndex();
+        
+        
         IReproduction reproduction = null;
         try {
             reproduction = new ReproductionImpl(mutation / 100.0, 
@@ -457,6 +474,9 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
             case 2:
                 problem = new SpikingNeuronProblem(spikingTrain, sdm, spikingLogarithmic);
+                break;
+            case 3:
+                problem = new CtrnnProblem(awarder);
                 break;
         }
         
@@ -502,6 +522,9 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
             case 2:
                 runSpikingProblem(evo);
+                break;
+            case 3:
+                runCtrnnProblem(evo);
                 break;
         }
     }//GEN-LAST:event_launchButtonActionPerformed
@@ -712,6 +735,14 @@ public class EvoGUI extends javax.swing.JFrame {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    
+    public void runCtrnnProblem(Evolution evo){
+        int GENERATIONS = Integer.parseInt(generationsField.getText());
+        int POPULATION = Integer.parseInt(populationSizeField.getText());
+        CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
+        
+        ct.start();
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
