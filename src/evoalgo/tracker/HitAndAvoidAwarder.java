@@ -4,7 +4,7 @@ public class HitAndAvoidAwarder implements IPointAwarder {
 
 	@Override
 	public int awardPoints(boolean[] sv,int objectSize) {
-		
+
 		if(objectSize>sv.length){ 
 			for (boolean b : sv) {
 				if(!b) return 0; //If any part is free of the object
@@ -20,13 +20,6 @@ public class HitAndAvoidAwarder implements IPointAwarder {
 			return c == objectSize ? 1 : 0;
 
 		}
-		
-	}
 
-	@Override
-	public double pointsForEffort(boolean[] sv, int move) {
-		// TODO Auto-generated method stub
-		return 1;
 	}
-
 }

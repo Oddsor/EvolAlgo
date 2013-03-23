@@ -19,7 +19,7 @@ public class Simulation implements ISimulation
 			score += env.run();
 			
 		}
-		
+		if(env.getEffortAwarder()==null) return score/40.0; 
 		return score/80.0;
 	}
 	
