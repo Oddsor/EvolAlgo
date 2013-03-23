@@ -89,7 +89,7 @@ public class CtrnnProblem implements IProblem{
                     //IParentSelection parSel = new SigmaScaling();
                     IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAwarder();
-                    IProblem problem = new CtrnnProblem(rewarder);
+                    IProblem problem = new CtrnnProblem(rewarder, 5);
                     int POPULATION = 100;
                     int GENERATIONS = 50;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);

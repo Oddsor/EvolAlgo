@@ -139,6 +139,23 @@ public class Evolution {
         frame.setVisible(true);
     }
     
+    /**
+     * Return the best overall individual in the entire evolutionary run
+     * @return 
+     */
+    public IIndividual getOverallBest(){
+        double highestFitness = 0.0;
+        IIndividual bestIndividual = null;
+        for (Map genStat: stats){
+            double genFitness = Double.parseDouble(genStat.get("maxFitness").toString());
+            if(genFitness > highestFitness){
+                bestIndividual = (IIndividual) genStat.get("bestIndividual");
+                highestFitness = genFitness;
+            }
+        }
+        return bestIndividual;
+    }
+    
     private Map fitnessCalculations(List<IIndividual> individuals){
     	Map statistics = new HashMap();
     	//Find average fitness and highest/lowest
