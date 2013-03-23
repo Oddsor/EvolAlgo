@@ -9,8 +9,9 @@ public class Simulation implements ISimulation
 	@Override
 	public double simulate(ITracker it, IPointAwarder awarder) {
 		
-		TrackerEnvironment env = new TrackerEnvironment(it, awarder,new ExplorationEffortAwarder());
-		
+//		TrackerEnvironment env = new TrackerEnvironment(it, awarder,new ExplorationEffortAwarder());
+		TrackerEnvironment env = new TrackerEnvironment(it, awarder);
+
 		double score = 0;
 		
 		for (int i = 0; i < 40; i++) {
