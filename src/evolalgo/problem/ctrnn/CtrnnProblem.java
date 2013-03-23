@@ -36,9 +36,11 @@ public class CtrnnProblem implements IProblem{
     private static final int NUM_ATTRIBUTES = 34;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
+    private int trackerWidth;
     
-    public CtrnnProblem(IPointAwarder awarder){
+    public CtrnnProblem(IPointAwarder awarder, int trackerWidth){
         this.awarder = awarder;
+        this.trackerWidth = trackerWidth;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class CtrnnProblem implements IProblem{
             int value = Integer.parseInt(gene.substring(i * BIT_SIZE, (i * BIT_SIZE) + BIT_SIZE), 2);
             attribs.add(value);
         }
-        individual.setPhenotype(new CtrnnPhenotype(attribs));
+        individual.setPhenotype(new CtrnnPhenotype(attribs, trackerWidth));
         
     }
 
