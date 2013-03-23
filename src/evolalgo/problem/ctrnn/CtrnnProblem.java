@@ -33,26 +33,44 @@ import org.math.plot.Plot2DPanel;
 public class CtrnnProblem implements IProblem{
     
     private static final int BIT_SIZE = 8;
-    private static final int NUM_ATTRIBUTES = 34;
+    //private static final int NUM_ATTRIBUTES = 34;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
     private int trackerWidth;
+    private int hiddenNeurons;
     
-    public CtrnnProblem(IPointAwarder awarder, int trackerWidth){
+    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth){
         this.awarder = awarder;
         this.trackerWidth = trackerWidth;
+        this.hiddenNeurons = hiddenNeurons;
+        System.out.println(numAttributes());
     }
 
+    /**
+     * Calculate how many attributes we need to form all weights, gains, biases
+     * and time constants. For example: a tracker width of 5 and 2 hidden neurons
+     * will output 34.
+     * @return 
+     */
+    private int numAttributes(){
+        int numAttributes = trackerWidth * hiddenNeurons; //connections from input layer to hidden layer
+        numAttributes += ((hiddenNeurons + 2) * 4); //Bias, gain, time constant, selfweight for all neurons
+        numAttributes += (hiddenNeurons * (hiddenNeurons - 1)); //Connections between hidden neurons
+        numAttributes += (hiddenNeurons * 2); //Connections from hidden neurons to motors
+        numAttributes += 2; //Two connections between motor neurons.
+        return numAttributes;
+    }
+    
     @Override
     public void developPheno(IIndividual individual) throws Exception {
         
         String gene = (String) individual.getGenes();
         List<Integer> attribs = new ArrayList<Integer>();
-        for (int i = 0; i < NUM_ATTRIBUTES; i++){
+        for (int i = 0; i < numAttributes(); i++){
             int value = Integer.parseInt(gene.substring(i * BIT_SIZE, (i * BIT_SIZE) + BIT_SIZE), 2);
             attribs.add(value);
         }
-        individual.setPhenotype(new CtrnnPhenotype(attribs, trackerWidth));
+        individual.setPhenotype(new CtrnnPhenotype(attribs, hiddenNeurons, trackerWidth));
         
     }
 
@@ -70,7 +88,7 @@ public class CtrnnProblem implements IProblem{
         List<IIndividual> population = new ArrayList<IIndividual>();
         for (int i = 0; i < individuals; i++){
             String genome = "";
-            for (int j = 0; j < BIT_SIZE * NUM_ATTRIBUTES; j++){
+            for (int j = 0; j < BIT_SIZE * numAttributes(); j++){
                 genome += rand.nextInt(2);
             }
             population.add(new IndividualImpl(genome));
@@ -89,7 +107,8 @@ public class CtrnnProblem implements IProblem{
                     //IParentSelection parSel = new SigmaScaling();
                     IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAwarder();
-                    IProblem problem = new CtrnnProblem(rewarder, 5);
+                    IProblem problem = new CtrnnProblem(rewarder, 2, 5);
+
                     int POPULATION = 100;
                     int GENERATIONS = 50;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);

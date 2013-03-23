@@ -476,7 +476,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 problem = new SpikingNeuronProblem(spikingTrain, sdm, spikingLogarithmic);
                 break;
             case 3:
-                problem = new CtrnnProblem(awarder);
+                problem = new CtrnnProblem(awarder, 2, 5);
                 break;
         }
         
