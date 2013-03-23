@@ -88,19 +88,25 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
 
     @Override
     public int getMovement(boolean[] shadowSensors) {
-        for(INode node: neurons){
+        /*for(INode node: neurons){
             node.updateY(shadowSensors);
+        }*/
+        for (INode hiddenNode: hiddenLayer){
+            hiddenNode.calculateNextY(shadowSensors);
+        }
+        for (INode hiddenNode: hiddenLayer){
+            hiddenNode.updateY();
+        }
+        for (INode motorNode: motorLayer){
+            motorNode.calculateNextY(shadowSensors);
+        }
+        for (INode motorNode: motorLayer){
+            motorNode.updateY();
         }
         double left = motorLayer.get(0).getOutput();
         double right = motorLayer.get(1).getOutput();
-        double total = -left + right;
-        total = total * 4.0; //Maks 4
-        int rounded = (int) Math.round(total);
-        /*if(rounded != 0){
-            System.out.println("TOTAL MOVEMENT: " + total);
-            System.out.println("Rounded: " + rounded);
-        }*/
-        return rounded;
+        if(left > right) return (int) -Math.round(left);
+        else return (int) Math.round(right);
     }
     
     private double convertWeight(int genomeValue){

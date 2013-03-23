@@ -39,9 +39,4 @@ public class MotorNode extends AbNode implements INode{
         s += bias;
         return s;
     }
-
-    @Override
-    public void updateY(boolean[] sensorInputs) {
-        y += dy(s(sensorInputs));
-    }
 }

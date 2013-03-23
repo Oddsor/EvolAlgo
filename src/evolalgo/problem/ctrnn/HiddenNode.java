@@ -54,9 +54,4 @@ public class HiddenNode extends AbNode implements INode{
         s += output() * selfWeight;
         return s;
     }
-
-    @Override
-    public void updateY(boolean[] sensorInputs) {
-        y += dy(s(sensorInputs));
-    }
 }

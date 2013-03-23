@@ -10,12 +10,12 @@ abstract class AbNode {
     double gain;
     double timeConstant;
     double selfWeight;
-    double lastValue;
     int timeStep;
     
     List<Object[]> connections;
     
-    double y = 0;
+    double y = 0.0;
+    double nextY = Double.NaN;
     
     double bias;
     
@@ -26,7 +26,15 @@ abstract class AbNode {
     abstract double s(boolean[] sensorInputs);
     
     double output(){
-        lastValue = 1 / (1 + Math.pow(Math.E, -gain * y));
-    	return lastValue;
+    	return 1 / (1 + Math.pow(Math.E, -gain * y));
+    }
+    
+    public void updateY() {
+        y = nextY;
+        nextY = Double.NaN;
+    }
+    
+    public void calculateNextY(boolean[] sensorInputs) {
+        nextY = dy(s(sensorInputs));
     }
 }
