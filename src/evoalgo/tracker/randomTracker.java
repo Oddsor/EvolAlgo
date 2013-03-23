@@ -10,4 +10,10 @@ public class randomTracker implements ITracker {
 		return (int) (Math.random()*8)-4;
 	}
 
+	@Override
+	public int getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

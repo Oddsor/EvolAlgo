@@ -31,7 +31,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         fallingObjectsBox = new javax.swing.JComboBox();
 
-        pointawardingBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Only hit", "Hit and avoid" }));
+        pointawardingBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Catch", "Catch and avoid" }));
 
         jLabel1.setText("Reward:");
 

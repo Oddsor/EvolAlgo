@@ -10,4 +10,10 @@ public class passiveTracker implements ITracker {
 		return 0;
 	}
 
+	@Override
+	public int getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
