@@ -471,7 +471,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
             case 3:
 
-                problem = new CtrnnProblem(awarder, 2, 5);
+                problem = new CtrnnProblem(awarder, 2, 5,0);
 
                 break;
         }
@@ -738,9 +738,9 @@ public class EvoGUI extends javax.swing.JFrame {
         int POPULATION = Integer.parseInt(populationSizeField.getText());
         CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
         CTRNNStatisticThread cst = new CTRNNStatisticThread(GENERATIONS, POPULATION, evo, problem);
-        
+        statisticRun = true;
         if(statisticRun) cst.start();
-        ct.start();
+        else ct.start();
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

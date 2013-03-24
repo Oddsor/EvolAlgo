@@ -61,7 +61,7 @@ public class CTRNNThread extends Thread {
                 Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
                 Double max = Double.parseDouble(m.get("maxFitness").toString());
                 Y[j] = max;        
-               
+               if(max == 1.0) break;
                 System.out.println(j + ", " + Y[j]);
             }catch(Exception e){
                 e.printStackTrace();
@@ -77,11 +77,9 @@ public class CTRNNThread extends Thread {
         IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
         ITracker tr = (ITracker) ind.phenotype();
         
-        Simulation sim = new Simulation();
-        double[] score = new double[20];
-        for(int i=0; i<score.length; i++){
-        	score[i] = sim.simulate(tr, new HitAwarder());
-        }
+        SimulationAnimation sim = new SimulationAnimation(tr, new HitAwarder());
+        
+       
     }
     
 }

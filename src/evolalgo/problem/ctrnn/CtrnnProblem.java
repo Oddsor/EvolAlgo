@@ -1,7 +1,6 @@
 package evolalgo.problem.ctrnn;
 
 import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
-import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
 import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
@@ -10,13 +9,9 @@ import evolalgo.IIndividual;
 import evolalgo.IReproduction;
 import evolalgo.IndividualImpl;
 import evolalgo.BinaryStrings;
-import evolalgo.adultselectors.FullGenReplacement;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
-import evolalgo.adultselectors.OverProduction;
-import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
-import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
 import evolalgo.problem.IProblem;
 import java.awt.Color;
