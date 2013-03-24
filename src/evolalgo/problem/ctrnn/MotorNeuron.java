@@ -16,6 +16,7 @@ public class MotorNeuron extends AbNeuron implements INeuron{
     public MotorNeuron(double gain, double timeConstant, double bias, double selfWeight){
         this.gain = gain;
         this.timeConstant = timeConstant;
+        this.bias = bias;
         this.selfWeight = selfWeight;
         this.connections = new ArrayList<Object[]>();
     }

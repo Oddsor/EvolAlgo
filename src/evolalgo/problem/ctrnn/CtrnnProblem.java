@@ -20,10 +20,13 @@ import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
 import evolalgo.problem.IProblem;
 import java.awt.Color;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import org.math.plot.Plot2DPanel;
 
 /**
@@ -82,9 +85,13 @@ public class CtrnnProblem implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
+        int NUM_RUNS = 3;
         for (IIndividual iIndividual : population) {
-			double score = (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder);
-        	iIndividual.setFitness(score);
+            double score = 0.0;
+                for(int i = 0; i < NUM_RUNS; i++){
+                    score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder);
+                }
+        	iIndividual.setFitness(score/(double) NUM_RUNS);
 		}
     }
 
@@ -108,12 +115,15 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new BinaryStrings(0.1, 0.8, 2, 20);
-                    //IReproduction rep = new BinaryCTRNNStrings(0.1, 0.8, 1);
+                    long start = System.currentTimeMillis();
+                    Date d = new Date(start);
+                    System.out.println("Started run at " + d.toString());
+                    //IReproduction rep = new BinaryStrings(0.15, 0.8, 2, 1);
+                    IReproduction rep = new BinaryCTRNNStrings(0.15, 0.8, 1);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     //IParentSelection parSel = new FitnessProportionate();
-                    //IParentSelection parSel = new SigmaScaling();
-                    IParentSelection parSel = new Tournament(10, 0.3);
+                    IParentSelection parSel = new SigmaScaling();
+                    //IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAndAvoidAwarder();
                     IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR);
 
@@ -121,20 +131,22 @@ public class CtrnnProblem implements IProblem{
                     int GENERATIONS = 200;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
-                    double[] Y = new double[GENERATIONS];
-                    for (int i = 0; i < GENERATIONS; i++){
-                        Y[i] = 0;
-                    }
+                    double[] Y = new double[1];
+                    
                     plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
                     //plot.addScatterPlot("", scale);
                     //plot.addScatterPlot("", scale2);
-                    plot.addLegend("SOUTH");
                     javax.swing.JFrame frame = new javax.swing.JFrame("Best of generation");
                     frame.setContentPane(plot);
                     frame.setSize(500, 400);
                     frame.setVisible(true);
                     List<IIndividual> pop = problem.createPopulation(POPULATION);
                     for (int j = 0; j < GENERATIONS; j++){
+                        double[] newY = new double[j + 1];
+                        for(int k = 0; k < Y.length; k++){
+                            newY[k] = Y[k];
+                        }
+                        Y = newY;
                         try{
                             pop = evo.runGeneration(pop);
                             Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
@@ -143,16 +155,14 @@ public class CtrnnProblem implements IProblem{
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-                        try{
-                            plot.removeAllPlots();
-                        }catch (Exception e){
-                            
-                        }
-                        //plot.addScatterPlot("", scale);
-                        //plot.addScatterPlot("", scale2);
+                        plot.removeAllPlots();
                         plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
-                        //plot.changePlotData(0, Y);
                     }
+                    long end = System.currentTimeMillis();
+                    long time = end - start;
+                    int seconds = (int) time % 1000;
+                    int minutes = seconds % 60;
+                    System.out.println("Time spent: " + minutes + " minutes, " + seconds + "seconds");
                     List<Map> stats = evo.getStatistics();
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
