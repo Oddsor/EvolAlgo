@@ -32,7 +32,7 @@ import org.math.plot.Plot2DPanel;
  */
 public class CtrnnProblem implements IProblem{
     
-    private static final int BIT_SIZE = 8;
+    public static final int BIT_SIZE = 8;
     //private static final int NUM_ATTRIBUTES = 34;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
@@ -97,19 +97,30 @@ public class CtrnnProblem implements IProblem{
     }
     
     public static void main(String[] args){
+        double genomeScale = (5.0 - -5.0) / (Math.pow(2.0, CtrnnProblem.BIT_SIZE));
+        int genomeValue = Integer.parseInt("11111111", 2);
+        double val = -5.0 + (genomeScale * (double) genomeValue);
+        System.out.println(val);
+        genomeValue = Integer.parseInt("00000000", 2);
+        val = -5.0 + (genomeScale * (double) genomeValue);
+        System.out.println(val);
+        genomeValue = Integer.parseInt("00000001", 2);
+        val = -5.0 + (genomeScale * (double) genomeValue);
+        System.out.println(val);
         try{
             Thread evoT = new Thread(){
 
                 @Override
                 public void run() {
-                    IReproduction rep = new BinaryStrings(0.2, 1.0, 2, 1);
+                    IReproduction rep = new BinaryStrings(0.05, 1.0, 2, 5);
                     IAdultSelection adSel = new GenerationalMixing(10);
+                    //IParentSelection parSel = new FitnessProportionate();
                     IParentSelection parSel = new SigmaScaling();
-                    //IParentSelection parSel = new Tournament(10, 0.2);
-                    IPointAwarder rewarder = new HitAwarder();
+                    //IParentSelection parSel = new Tournament(10, 0.3);
+                    IPointAwarder rewarder = new HitAndAvoidAwarder();
                     IProblem problem = new CtrnnProblem(rewarder, 2, 5);
 
-                    int POPULATION = 50;
+                    int POPULATION = 75;
                     int GENERATIONS = 200;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
@@ -117,8 +128,6 @@ public class CtrnnProblem implements IProblem{
                     for (int i = 0; i < GENERATIONS; i++){
                         Y[i] = 0;
                     }
-                    double[] scale = {1.0};
-                    double[] scale2 = {0.0};
                     plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
                     //plot.addScatterPlot("", scale);
                     //plot.addScatterPlot("", scale2);
@@ -127,7 +136,7 @@ public class CtrnnProblem implements IProblem{
                     frame.setContentPane(plot);
                     frame.setSize(500, 400);
                     frame.setVisible(true);
-                    List<IIndividual> pop = problem.createPopulation(50);
+                    List<IIndividual> pop = problem.createPopulation(POPULATION);
                     for (int j = 0; j < GENERATIONS; j++){
                         try{
                             pop = evo.runGeneration(pop);
