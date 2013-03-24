@@ -97,22 +97,12 @@ public class CtrnnProblem implements IProblem{
     }
     
     public static void main(String[] args){
-        double genomeScale = (5.0 - -5.0) / (Math.pow(2.0, CtrnnProblem.BIT_SIZE-1));
-        int genomeValue = Integer.parseInt("11111111", 2);
-        double val = -5.0 + (genomeScale * (double) genomeValue);
-        System.out.println(val);
-        genomeValue = Integer.parseInt("00000000", 2);
-        val = -5.0 + (genomeScale * (double) genomeValue);
-        System.out.println(val);
-        genomeValue = Integer.parseInt("00000001", 2);
-        val = -5.0 + (genomeScale * (double) genomeValue);
-        System.out.println(val);
         try{
             Thread evoT = new Thread(){
 
                 @Override
                 public void run() {
-                    IReproduction rep = new BinaryStrings(0.05, 1.0, 2, 5);
+                    IReproduction rep = new BinaryStrings(0.15, 1.0, 2, 5);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     //IParentSelection parSel = new FitnessProportionate();
                     IParentSelection parSel = new SigmaScaling();
