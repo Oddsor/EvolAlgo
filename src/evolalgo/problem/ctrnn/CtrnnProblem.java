@@ -12,6 +12,7 @@ import evolalgo.BinaryStrings;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
 import evolalgo.parentselectors.IParentSelection;
+import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
 import evolalgo.problem.IProblem;
 import java.awt.Color;

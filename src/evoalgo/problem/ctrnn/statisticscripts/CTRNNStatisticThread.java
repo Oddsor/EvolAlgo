@@ -72,7 +72,8 @@ public class CTRNNStatisticThread extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        	
+        	 long time2 = System.currentTimeMillis()-time;
+             System.out.println("Run time so far: "+((time2/1000)/60)+" minutes and "+ ((time2/1000)%60)+" seconds");
         }
      
     	double score=0;
