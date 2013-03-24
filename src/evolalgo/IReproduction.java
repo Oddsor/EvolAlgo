@@ -23,7 +23,7 @@ public interface IReproduction {
      * @param parents List of parent individuals
      * @return Two recombined genotypes, ready to be formed into new individuals
      */
-    Object[] recombination(List<IIndividual> parents) throws Exception;
+    Object[] crossover(List<IIndividual> parents) throws Exception;
     
     /**
      * This class combines recombination and mutation and returns two children

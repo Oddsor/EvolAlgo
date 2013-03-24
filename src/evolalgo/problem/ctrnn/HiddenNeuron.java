@@ -19,6 +19,7 @@ public class HiddenNeuron extends AbNeuron implements INeuron{
     public HiddenNeuron(double gain, double timeConstant, double bias, double selfWeight, double... sensorWeights){
         this.gain = gain;
         this.timeConstant = timeConstant;
+        this.bias = bias;
         this.selfWeight = selfWeight;
         this.connections = new ArrayList<Object[]>();
         

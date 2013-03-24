@@ -1,5 +1,6 @@
 package evolalgo.problem.ctrnn;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -71,5 +72,19 @@ abstract class AbNeuron {
     public void addArc(INeuron node, double weight) {
         Object[] ob = {node, weight};
         connections.add(ob);
+    }
+
+    @Override
+    public String toString() {
+        String returnString = "";
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setMaximumFractionDigits(3);
+        df.setMinimumFractionDigits(3);
+        
+        returnString += "Bias: " + df.format(bias) + ", Gain: " + df.format(gain) 
+                + ", Time constant: " + df.format(timeConstant) + ".\n";
+        returnString += "connections: " + connections.size() + "\n";
+        
+        return returnString;
     }
 }

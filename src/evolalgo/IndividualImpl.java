@@ -50,7 +50,8 @@ public class IndividualImpl implements IIndividual{
     public String toString(){
         DecimalFormat df = new DecimalFormat("#.##");
         df.setMinimumFractionDigits(2);
-        return "Individual (fitness "+ df.format(fitness) +"): " + phenotype.toString() + " (" + genotype.toString() + ")";
+        return "Individual: Fitness "+ df.format(fitness) +"\nPhenotype:" + 
+                phenotype.toString() + "\nGenome: " + genotype.toString();
     }
 
     @Override
