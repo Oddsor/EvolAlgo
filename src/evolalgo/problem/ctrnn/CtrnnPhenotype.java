@@ -111,10 +111,15 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         for (INeuron motorNode: motorLayer){
             motorNode.updateY();
         }
-        double left = motorLayer.get(0).getOutput();
+
+        /*double left = motorLayer.get(0).getOutput();
         double right = motorLayer.get(1).getOutput();
-        if(left > right) return (int) -Math.round(left);
-        else return (int) Math.round(right);
+        if(left > right) return (int) (-left * 4);
+        else return (int) (right * 4);*/
+        if(Math.abs(motorLayer.get(0).getOutput() - 0.5) > 
+                Math.abs(motorLayer.get(1).getOutput() - 0.5)){
+            return (int) ((motorLayer.get(0).getOutput() - 0.5) * 8);
+        }else return (int) ((motorLayer.get(1).getOutput() - 0.5) * 8);
     }
     
     /**
