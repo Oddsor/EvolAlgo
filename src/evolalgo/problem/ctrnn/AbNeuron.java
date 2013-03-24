@@ -45,8 +45,10 @@ abstract class AbNeuron {
      * updated values from the neuron. Pulls the new y-value from a stored variable
      */
     public void updateY() {
-        y = nextY;
-        nextY = Double.NaN;
+        if(nextY != Double.NaN){
+            y = nextY;
+            nextY = Double.NaN;
+        }
     }
     
     /**

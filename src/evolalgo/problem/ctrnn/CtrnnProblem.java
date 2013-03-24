@@ -102,15 +102,15 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new BinaryStrings(0.3, 0.8, 2, 20);
-                    IAdultSelection adSel = new FullGenReplacement();
-                    //IParentSelection parSel = new SigmaScaling();
-                    IParentSelection parSel = new Tournament(10, 0.3);
+                    IReproduction rep = new BinaryStrings(0.2, 1.0, 2, 1);
+                    IAdultSelection adSel = new GenerationalMixing(10);
+                    IParentSelection parSel = new SigmaScaling();
+                    //IParentSelection parSel = new Tournament(10, 0.2);
                     IPointAwarder rewarder = new HitAwarder();
                     IProblem problem = new CtrnnProblem(rewarder, 2, 5);
 
-                    int POPULATION = 100;
-                    int GENERATIONS = 50;
+                    int POPULATION = 50;
+                    int GENERATIONS = 200;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
                     double[] Y = new double[GENERATIONS];
@@ -137,7 +137,11 @@ public class CtrnnProblem implements IProblem{
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-                        plot.removeAllPlots();
+                        try{
+                            plot.removeAllPlots();
+                        }catch (Exception e){
+                            
+                        }
                         //plot.addScatterPlot("", scale);
                         //plot.addScatterPlot("", scale2);
                         plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);
@@ -147,7 +151,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
-                    SimulationAnimation simAn = new SimulationAnimation(tr, new HitAwarder());
+                    SimulationAnimation simAn = new SimulationAnimation(tr, rewarder);
                 }
             };
             evoT.start();
