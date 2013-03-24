@@ -183,4 +183,18 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
     public int getWidth() {
         return 5;
     }
+
+    @Override
+    public String toString() {
+        String returnString = "Motor type: " + motorType + ". Hidden layer:\n";
+        for(int i = 0; i < hiddenLayer.size(); i++){
+            returnString += "Hidden neuron #" + (i+1) + ":\n ";
+            returnString += hiddenLayer.get(i).toString() + "\n";
+        }for(INeuron neuron: motorLayer){
+            returnString += "Motor neuron:\n";
+            returnString += neuron.toString() + "\n";
+        }
+        
+        return returnString;
+    }
 }

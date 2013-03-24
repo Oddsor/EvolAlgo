@@ -65,7 +65,7 @@ public class BinaryStrings implements IReproduction{
     }
 
     @Override
-    public Object[] recombination(List<IIndividual> parents){
+    public Object[] crossover(List<IIndividual> parents){
         for (IIndividual parent: parents){
             if (!(parent instanceof IIndividual)){
                 try{
@@ -110,7 +110,7 @@ public class BinaryStrings implements IReproduction{
     public Object[] reproduce(List<IIndividual> parents){
         //Recombine to two children and then mutate their genes
         
-        Object[] genoTypes = recombination(parents);
+        Object[] genoTypes = crossover(parents);
         try {
             if(Math.random() <= mutationRate){
                 for (int i = 0; i < maxMutations; i++){

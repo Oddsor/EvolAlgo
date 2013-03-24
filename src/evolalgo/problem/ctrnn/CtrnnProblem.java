@@ -108,7 +108,8 @@ public class CtrnnProblem implements IProblem{
 
                 @Override
                 public void run() {
-                    IReproduction rep = new BinaryStrings(0.15, 1.0, 2, 5);
+                    IReproduction rep = new BinaryStrings(0.1, 0.8, 2, 20);
+                    //IReproduction rep = new BinaryCTRNNStrings(0.1, 0.8, 1);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     //IParentSelection parSel = new FitnessProportionate();
                     //IParentSelection parSel = new SigmaScaling();
@@ -116,7 +117,7 @@ public class CtrnnProblem implements IProblem{
                     IPointAwarder rewarder = new HitAndAvoidAwarder();
                     IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR);
 
-                    int POPULATION = 75;
+                    int POPULATION = 100;
                     int GENERATIONS = 200;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();
@@ -156,6 +157,7 @@ public class CtrnnProblem implements IProblem{
                     evo.drawBestFitnessPlot();
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
+                    System.out.println("Final tracker: " + ind.toString());
                     SimulationAnimation simAn = new SimulationAnimation(tr, rewarder);
                 }
             };
