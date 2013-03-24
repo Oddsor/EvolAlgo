@@ -32,10 +32,14 @@ public class Tracker {
 	public void setPosition(int[] pos){
 		xPosition = pos;
 	}
+	/**
+	 * Updates the tracker position based on the sensory input
+	 * @param shadowVector
+	 * @return
+	 */
+	public int updatePosition(boolean[] shadowVector ){
 
-	public int updatePosition(boolean[] shadowSensors ){
-
-		int dx = it.getMovement(shadowSensors);
+		int dx = it.getMovement(shadowVector);
 
 		int left = xPosition[0];
 		left = left+dx;

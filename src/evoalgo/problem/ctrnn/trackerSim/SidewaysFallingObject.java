@@ -1,5 +1,9 @@
 package evoalgo.problem.ctrnn.trackerSim;
-
+/**
+ * 
+ * @author Andreas
+ *
+ */
 public class SidewaysFallingObject implements IFallingObject{
 	int size;
 	private int yPosition=15;

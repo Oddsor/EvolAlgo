@@ -1,10 +1,10 @@
 
 package GUI;
 
+import evoalgo.problem.ctrnn.statisticscripts.CTRNNStatisticThread;
 import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
 import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
-import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.IReproduction;
@@ -28,13 +28,10 @@ import evolalgo.problem.SpikingNeuron.sdm.SpikeTimeDistance;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
 import evolalgo.problem.SpikingNeuron.sdm.WaveformDistance;
 import evolalgo.problem.ctrnn.CtrnnProblem;
-import evolalgo.problem.ctrnn.ITracker;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.math.plot.Plot2DPanel;
 import org.math.plot.plotObjects.BaseLabel;
@@ -48,6 +45,7 @@ import org.math.plot.plotObjects.BaseLabel;
 public class EvoGUI extends javax.swing.JFrame {
 
     private IProblem problem;
+    private boolean statisticRun = true;
     /**
      * Creates new form GUI2
      */
@@ -739,7 +737,9 @@ public class EvoGUI extends javax.swing.JFrame {
         int GENERATIONS = Integer.parseInt(generationsField.getText());
         int POPULATION = Integer.parseInt(populationSizeField.getText());
         CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
+        CTRNNStatisticThread cst = new CTRNNStatisticThread(GENERATIONS, POPULATION, evo, problem);
         
+        if(statisticRun) cst.start();
         ct.start();
     }
     

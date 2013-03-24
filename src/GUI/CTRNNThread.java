@@ -5,6 +5,8 @@
 package GUI;
 
 import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
+import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
+import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
@@ -57,7 +59,9 @@ public class CTRNNThread extends Thread {
             try{
                 pop = evo.runGeneration(pop);
                 Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
-                Y[j] = Double.parseDouble(m.get("maxFitness").toString());
+                Double max = Double.parseDouble(m.get("maxFitness").toString());
+                Y[j] = max;        
+               
                 System.out.println(j + ", " + Y[j]);
             }catch(Exception e){
                 e.printStackTrace();
@@ -72,7 +76,12 @@ public class CTRNNThread extends Thread {
         evo.drawBestFitnessPlot();
         IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
         ITracker tr = (ITracker) ind.phenotype();
-        SimulationAnimation simAn = new SimulationAnimation(tr, new HitAndAvoidAwarder());
+        
+        Simulation sim = new Simulation();
+        double[] score = new double[20];
+        for(int i=0; i<score.length; i++){
+        	score[i] = sim.simulate(tr, new HitAwarder());
+        }
     }
     
 }

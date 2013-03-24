@@ -1,7 +1,5 @@
 package evoalgo.problem.ctrnn.trackerSim;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import evolalgo.problem.ctrnn.ITracker;

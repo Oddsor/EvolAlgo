@@ -6,14 +6,16 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import evolalgo.problem.ctrnn.ITracker;
-
+/**
+ * Animates a simulation.
+ * @author Andreas
+ *
+ */
 @SuppressWarnings("serial")
 public class SimulationAnimation extends JFrame {
 
-
 	private JFrame frame;
 	private draw dr;
-	private char[] board;
 	private int[] trackerPos;
 	private int[] fallPos;
 	private int fallLevel;
@@ -21,13 +23,18 @@ public class SimulationAnimation extends JFrame {
 	static final int WIDTH=900;
 	static final int HEIGHT=450+60;
 	TrackerEnvironment env;
+	/**
+	 * 
+	 * @param it
+	 * @param pa
+	 */
 	public SimulationAnimation(ITracker it, IPointAwarder pa) {
 
 		env = new TrackerEnvironment(it, pa);
 		env.setFallingObject(new VerticalFallingObject());
 		fallLevel = env.getFallingObject().getYPosition();
 		updateMatrix();
-		frame = new JFrame("StixRPG");
+		frame = new JFrame("Tracker Animation");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setResizable(false);
