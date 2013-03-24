@@ -33,15 +33,16 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
    private static final double TIMECONSTANTS_MIN = 1.0;
    private static final double TIMECONSTANTS_MAX = 2.0;
    
-   
+   private int motorType;
    private List<INeuron> motorLayer;
    private List<INeuron> hiddenLayer;
 
-    public CtrnnPhenotype(List<Integer> attributes, int numHiddenNeurons, int sensors){
+    public CtrnnPhenotype(List<Integer> attributes, int numHiddenNeurons, int sensors, int motorType){
         Iterator<Integer> attributeIt = attributes.iterator();
         
         hiddenLayer = new ArrayList<INeuron>();
         motorLayer = new ArrayList<INeuron>();
+        this.motorType = motorType;
         
         
         for(int i = 0; i < numHiddenNeurons; i++){
@@ -112,14 +113,21 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
             motorNode.updateY();
         }
 
-        /*double left = motorLayer.get(0).getOutput();
+        double left = motorLayer.get(0).getOutput();
         double right = motorLayer.get(1).getOutput();
-        if(left > right) return (int) (-left * 4);
-        else return (int) (right * 4);*/
-        if(Math.abs(motorLayer.get(0).getOutput() - 0.5) > 
-                Math.abs(motorLayer.get(1).getOutput() - 0.5)){
-            return (int) ((motorLayer.get(0).getOutput() - 0.5) * 8);
-        }else return (int) ((motorLayer.get(1).getOutput() - 0.5) * 8);
+        int movement = 0;
+        if(motorType == CtrnnProblem.MOTOR_MOSTEAGER_SEPARATE){
+            if(left > right) movement = (int) (-left * 4);
+            else movement = (int) (right * 4);
+        }else if(motorType == CtrnnProblem.MOTOR_TUGOFWAR){
+            movement = (int) ((-left + right) * 4.0);
+        }else if(motorType == CtrnnProblem.MOTOR_MOSTEAGER_BIDIRECTIONAL){
+            if(Math.abs(motorLayer.get(0).getOutput() - 0.5) > 
+                    Math.abs(motorLayer.get(1).getOutput() - 0.5)){
+                movement = (int) ((motorLayer.get(0).getOutput() - 0.5) * 8);
+            }else movement = (int) ((motorLayer.get(1).getOutput() - 0.5) * 8);
+        }
+        return movement;
     }
     
     /**

@@ -33,17 +33,23 @@ import org.math.plot.Plot2DPanel;
 public class CtrnnProblem implements IProblem{
     
     public static final int BIT_SIZE = 8;
-    //private static final int NUM_ATTRIBUTES = 34;
+    
+    public static final int MOTOR_TUGOFWAR = 0;
+    public static final int MOTOR_MOSTEAGER_BIDIRECTIONAL = 1;
+    public static final int MOTOR_MOSTEAGER_SEPARATE = 2;
+    
+    private int motorType;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
     private int trackerWidth;
     private int hiddenNeurons;
     
-    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth){
+    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth, int motorType){
         this.awarder = awarder;
         this.trackerWidth = trackerWidth;
         this.hiddenNeurons = hiddenNeurons;
-        System.out.println(numAttributes());
+        
+        this.motorType = motorType;
     }
 
     /**
@@ -70,7 +76,7 @@ public class CtrnnProblem implements IProblem{
             int value = Integer.parseInt(gene.substring(i * BIT_SIZE, (i * BIT_SIZE) + BIT_SIZE), 2);
             attribs.add(value);
         }
-        individual.setPhenotype(new CtrnnPhenotype(attribs, hiddenNeurons, trackerWidth));
+        individual.setPhenotype(new CtrnnPhenotype(attribs, hiddenNeurons, trackerWidth, motorType));
         
     }
 
@@ -105,10 +111,10 @@ public class CtrnnProblem implements IProblem{
                     IReproduction rep = new BinaryStrings(0.15, 1.0, 2, 5);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     //IParentSelection parSel = new FitnessProportionate();
-                    IParentSelection parSel = new SigmaScaling();
-                    //IParentSelection parSel = new Tournament(10, 0.3);
+                    //IParentSelection parSel = new SigmaScaling();
+                    IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAndAvoidAwarder();
-                    IProblem problem = new CtrnnProblem(rewarder, 2, 5);
+                    IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR);
 
                     int POPULATION = 75;
                     int GENERATIONS = 200;
