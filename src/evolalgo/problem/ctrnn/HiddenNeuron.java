@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * 
  * @author Odd
  */
-public class HiddenNeuron extends AbNode implements INeuron{
+public class HiddenNeuron extends AbNeuron implements INeuron{
     
     private double[] sensorWeights;
     

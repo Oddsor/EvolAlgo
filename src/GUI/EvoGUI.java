@@ -8,7 +8,7 @@ import evoalgo.tracker.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.IReproduction;
-import evolalgo.ReproductionImpl;
+import evolalgo.BinaryStrings;
 import evolalgo.adultselectors.FullGenReplacement;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
@@ -452,12 +452,8 @@ public class EvoGUI extends javax.swing.JFrame {
         
         
         IReproduction reproduction = null;
-        try {
-            reproduction = new ReproductionImpl(mutation / 100.0, 
-                    crossoverRate / 100.0, crossoverSplit, maxMutations);
-        } catch (Exception ex) {
-            Logger.getLogger(EvoGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        reproduction = new BinaryStrings(mutation / 100.0, 
+                crossoverRate / 100.0, crossoverSplit, maxMutations);
         
         problem = null;
         switch(problemBox.getSelectedIndex()){
@@ -476,7 +472,9 @@ public class EvoGUI extends javax.swing.JFrame {
                 problem = new SpikingNeuronProblem(spikingTrain, sdm, spikingLogarithmic);
                 break;
             case 3:
-                problem = new CtrnnProblem(awarder,5);
+
+                problem = new CtrnnProblem(awarder, 2, 5);
+
                 break;
         }
         

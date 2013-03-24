@@ -33,58 +33,52 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
    private static final double TIMECONSTANTS_MIN = 1.0;
    private static final double TIMECONSTANTS_MAX = 2.0;
    
-   private final int width;
    
    private List<INeuron> motorLayer;
    private List<INeuron> hiddenLayer;
-   private Collection<INeuron> neurons;
 
-    public CtrnnPhenotype(List<Integer> attributes, int width){
-        this.width = width;
-        try {
-            if (attributes.size() != 34) throw new Exception("Need 34 attributes!");
-        } catch (Exception ex) {
-            Logger.getLogger(CtrnnPhenotype.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
+    public CtrnnPhenotype(List<Integer> attributes, int numHiddenNeurons, int sensors){
         Iterator<Integer> attributeIt = attributes.iterator();
         
         hiddenLayer = new ArrayList<INeuron>();
         motorLayer = new ArrayList<INeuron>();
         
         
-        for(int i = 0; i < 4; i++){
-            INeuron newNode; 
-            if (i < 2){
-                double[] sensorWeights = new double[5];
-                for (int j = 0; j < 5; j++){
-                    sensorWeights[j] = convertWeight(attributeIt.next());
-                }
-                newNode = new HiddenNeuron(convertGain(attributeIt.next()), 
-                        convertTimeConstant(attributeIt.next()), 
-                        convertBias(attributeIt.next()),
-                        convertWeight(attributeIt.next()),sensorWeights);
-                hiddenLayer.add(newNode);
+        for(int i = 0; i < numHiddenNeurons; i++){
+            double[] sensorWeights = new double[sensors];
+            for (int j = 0; j < sensors; j++){
+                sensorWeights[j] = convertWeight(attributeIt.next());
             }
-            else {
-                newNode = new MotorNeuron(convertGain(attributeIt.next()), 
-                        convertTimeConstant(attributeIt.next()), 
-                        convertBias(attributeIt.next()),
-                        convertWeight(attributeIt.next()));
-                motorLayer.add(newNode);
-            }
+            HiddenNeuron hidden = new HiddenNeuron(convertGain(attributeIt.next()), 
+                    convertTimeConstant(attributeIt.next()), 
+                    convertBias(attributeIt.next()),
+                    convertWeight(attributeIt.next()),sensorWeights);
+            hiddenLayer.add(hidden);
+        }
+        for(int i = 0; i < 2; i++){
+            MotorNeuron motor = new MotorNeuron(convertGain(attributeIt.next()), 
+                    convertTimeConstant(attributeIt.next()), 
+                    convertBias(attributeIt.next()),
+                    convertWeight(attributeIt.next()));
+            motorLayer.add(motor);
         }
         //===ALL SENSOR WEIGHTS ADDED=== 10 connections from sensory input to hidden layer
         //===ALL BIASES ADDED=== 4 connections from bias node to hidden and motor layer
         //===ALL LOOPS ADDED=== (as selfweight-parameter in constructor) 4 loops
         
-        hiddenLayer.get(0).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
-        hiddenLayer.get(1).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
+        for(INeuron hiddenNeuron: hiddenLayer){
+            ArrayList<INeuron> otherHiddens = new ArrayList<INeuron>(hiddenLayer);
+            otherHiddens.remove(hiddenNeuron);
+            for(INeuron otherNeuron: otherHiddens){
+                hiddenNeuron.addArc(otherNeuron, convertWeight(attributeIt.next()));
+            }
+        }
         
-        motorLayer.get(0).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
-        motorLayer.get(0).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
-        motorLayer.get(1).addArc(hiddenLayer.get(0), convertWeight(attributeIt.next()));
-        motorLayer.get(1).addArc(hiddenLayer.get(1), convertWeight(attributeIt.next()));
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < numHiddenNeurons; j++){
+                motorLayer.get(i).addArc(hiddenLayer.get(j), convertWeight(attributeIt.next()));
+            }
+        }
         
         motorLayer.get(0).addArc(motorLayer.get(1), convertWeight(attributeIt.next()));
         motorLayer.get(1).addArc(motorLayer.get(0), convertWeight(attributeIt.next()));
@@ -92,8 +86,6 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         //===TOTAL CONNECTIONS: 10 + 4 + 4 + 8 = 26
         //===TOTAL PARAMETERS IN LAYER NODES: 2 * 4 = 8
         //===TOTAL ATTRIBUTES: 8 + 26 = 34
-        neurons = new ArrayList<INeuron>(motorLayer);
-        neurons.addAll(hiddenLayer);
     }
 
     /**

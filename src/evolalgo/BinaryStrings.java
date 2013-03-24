@@ -2,21 +2,19 @@ package evolalgo;
 
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * Reproduction implementation for crossover and mutation of bitstrings
+ * Implementation for crossover and mutation of binary strings
  * @author Odd
  */
-public class ReproductionImpl implements IReproduction{
+public class BinaryStrings implements IReproduction{
 
     private double recombinationRate;
     private int recombinationSplit;
     private double mutationRate;
     private int maxMutations;
     
-    public ReproductionImpl(double mutationRate, double recombinationRate, 
+    public BinaryStrings(double mutationRate, double recombinationRate, 
             int recombinationSplit, int maxMutations){
         try{
             if(recombinationRate > 1.0 || recombinationRate < 0.0){
@@ -40,12 +38,16 @@ public class ReproductionImpl implements IReproduction{
     }
 
     @Override
-    public Object mutation(Object genotype) throws Exception{
+    public Object mutation(Object genotype){
         
         //We need a string to manipulate here, throw exception if wrong
         if(!(genotype instanceof String)){
-            throw new Exception(genotype.getClass().getSimpleName() + "not a string! Input type: " 
+            try{
+                throw new Exception(genotype.getClass().getSimpleName() + "not a string! Input type: " 
                     + genotype.getClass().getSimpleName());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         String genotypeString = (String) genotype;
         Random rand = new Random();
@@ -63,10 +65,14 @@ public class ReproductionImpl implements IReproduction{
     }
 
     @Override
-    public Object[] recombination(List<IIndividual> parents) throws Exception{
+    public Object[] recombination(List<IIndividual> parents){
         for (IIndividual parent: parents){
-            if (!(parent instanceof IIndividual)){ 
-                throw new Exception("Parent incorrect class?");
+            if (!(parent instanceof IIndividual)){
+                try{
+                    throw new Exception("Parent incorrect class?");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         String[] recombined = new String[2];
@@ -101,7 +107,7 @@ public class ReproductionImpl implements IReproduction{
     }
 
     @Override
-    public Object[] reproduce(List<IIndividual> parents) throws Exception{
+    public Object[] reproduce(List<IIndividual> parents){
         //Recombine to two children and then mutate their genes
         
         Object[] genoTypes = recombination(parents);
@@ -113,7 +119,7 @@ public class ReproductionImpl implements IReproduction{
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(ReproductionImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return genoTypes;
     }

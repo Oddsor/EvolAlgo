@@ -9,7 +9,7 @@ import java.util.List;
  * thus needs to calculate the standard equation <i>s</i> slightly differently.
  * @author Odd Andreas (osorseth@gmail.com)
  */
-abstract class AbNode {
+abstract class AbNeuron {
     double gain;
     double timeConstant;
     double bias;

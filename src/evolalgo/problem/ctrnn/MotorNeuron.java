@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * weight of the connection and the shadow sensor input is ignored.
  * @author Odd
  */
-public class MotorNeuron extends AbNode implements INeuron{
+public class MotorNeuron extends AbNeuron implements INeuron{
     
     public MotorNeuron(double gain, double timeConstant, double bias, double selfWeight){
         this.gain = gain;
