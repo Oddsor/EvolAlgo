@@ -16,14 +16,22 @@ public class TrackerEnvironment {
 		tracker = new Tracker(it);		
 		this.pa = pa;
 	}
-	
+	/**
+	 * Alternative constructor for fitness calculations with an EffortAwarder
+	 * @param it
+	 * @param pa
+	 * @param ea
+	 */
 	public TrackerEnvironment(ITracker it,IPointAwarder pa, IEffortAwarder ea){
 		tracker = new Tracker(it);		
 		this.pa = pa;
 		this.ea = ea;
 	}
 	
-
+	/**
+	 * 
+	 * @return A boolean vector representing the sensor values of the tracker
+	 */
 	boolean[] getShadowVector(){
 
 		int[] trackerPos = tracker.getPosition();
@@ -37,7 +45,10 @@ public class TrackerEnvironment {
 		return shadowVector;
 
 	}
-	
+	/**
+	 * Performs one timestep in a simulation
+	 * @return
+	 */
 	public int step(){
 		tracker.updatePosition(getShadowVector());
 		VFO.step();
@@ -46,7 +57,10 @@ public class TrackerEnvironment {
 		
 		return y;
 	}
-
+	/**
+	 * Drops one object on the tracker
+	 * @return the score according to IPointAwarder and IEffortAwarder
+	 */
 	public double run() {
 		
 		double pointsForEffort=0;
@@ -56,7 +70,6 @@ public class TrackerEnvironment {
 			
 			boolean[] sv = getShadowVector();
 			int move = tracker.updatePosition(sv);
-			tracker.updatePosition(getShadowVector());
 			
 			if(ea != null) pointsForEffort += ea.pointsForEffort(sv,move);
 			VFO.step();

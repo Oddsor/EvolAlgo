@@ -6,6 +6,7 @@ import evolalgo.problem.ctrnn.ITracker;
 
 public class TrackerEnvironmentTest {
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void test() {
 		ITracker it = new passiveTracker();

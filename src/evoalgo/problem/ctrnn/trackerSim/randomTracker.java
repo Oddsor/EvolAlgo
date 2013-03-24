@@ -1,7 +1,11 @@
 package evoalgo.problem.ctrnn.trackerSim;
 
 import evolalgo.problem.ctrnn.ITracker;
-
+/**
+ * Moves randomly, used as a baseline and debugging of simulation/animation
+ * @author Andreas
+ *
+ */
 public class randomTracker implements ITracker {
 
 	@Override
