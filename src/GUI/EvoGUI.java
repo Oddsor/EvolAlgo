@@ -45,7 +45,7 @@ import org.math.plot.plotObjects.BaseLabel;
 public class EvoGUI extends javax.swing.JFrame {
 
     private IProblem problem;
-    private boolean statisticRun = true;
+    private boolean statisticRun = false;
     /**
      * Creates new form GUI2
      */

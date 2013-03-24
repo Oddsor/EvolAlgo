@@ -97,7 +97,7 @@ public class CtrnnProblem implements IProblem{
     }
     
     public static void main(String[] args){
-        double genomeScale = (5.0 - -5.0) / (Math.pow(2.0, CtrnnProblem.BIT_SIZE));
+        double genomeScale = (5.0 - -5.0) / (Math.pow(2.0, CtrnnProblem.BIT_SIZE-1));
         int genomeValue = Integer.parseInt("11111111", 2);
         double val = -5.0 + (genomeScale * (double) genomeValue);
         System.out.println(val);
