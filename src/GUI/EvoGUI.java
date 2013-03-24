@@ -1,10 +1,10 @@
 
 package GUI;
 
-import evoalgo.tracker.HitAndAvoidAwarder;
-import evoalgo.tracker.HitAwarder;
-import evoalgo.tracker.IPointAwarder;
-import evoalgo.tracker.SimulationAnimation;
+import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
+import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
+import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
+import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.IReproduction;

@@ -4,8 +4,8 @@
  */
 package GUI;
 
-import evoalgo.tracker.HitAndAvoidAwarder;
-import evoalgo.tracker.SimulationAnimation;
+import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
+import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.problem.IProblem;

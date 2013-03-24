@@ -1,4 +1,4 @@
-package evoalgo.tracker;
+package evoalgo.problem.ctrnn.trackerSim;
 
 public class ExplorationEffortAwarder implements IEffortAwarder{
 

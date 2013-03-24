@@ -1,16 +1,13 @@
-package evoalgo.tracker;
+package evoalgo.problem.ctrnn.trackerSim;
 
-public class SidewaysFallingObject implements IFallingObject{
+public class VerticalFallingObject implements IFallingObject {
 	int size;
 	private int yPosition=15;
 	int[] xPosition;
-	int dx;
 
-	public SidewaysFallingObject(){
+	public VerticalFallingObject(){
 		
-		dx = Math.random() < 0.5 ? 1 : -1;
 		size = 1+(int)(Math.random()*6);
-		
 		xPosition = new int[size];
 		int start = (int) (Math.random()*31);
 		for (int i = 0; i < xPosition.length; i++) {
@@ -38,14 +35,6 @@ public class SidewaysFallingObject implements IFallingObject{
 	}
 	
 	public void step(){
-		
-		int left = xPosition[0];
-		left = left+dx;
-		if(left<0) left = 30+left;
-		
-		for (int i = 0; i < xPosition.length; i++) {
-			xPosition[i] = (left+i)%30;
-		}
 		yPosition--;
 	}
 	
