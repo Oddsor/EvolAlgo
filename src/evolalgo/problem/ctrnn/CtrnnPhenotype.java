@@ -128,7 +128,8 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
      * @return 
      */
     private double convertWeight(int genomeValue){
-        double genomeScale = (WEIGHTS_MAX - WEIGHTS_MIN) / Math.pow(2.0, CtrnnProblem.BIT_SIZE);
+        double genomeScale = (WEIGHTS_MAX - WEIGHTS_MIN) / 
+                (Math.pow(2.0, CtrnnProblem.BIT_SIZE) - 1);
         return WEIGHTS_MIN + (genomeScale * (double) genomeValue);
     }
     
@@ -139,7 +140,8 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
      * @return 
      */
     private double convertBias(int genomeValue){
-        double genomeScale = (BIASES_MAX - BIASES_MIN) / Math.pow(2.0, CtrnnProblem.BIT_SIZE);
+        double genomeScale = (BIASES_MAX - BIASES_MIN) / 
+                (Math.pow(2.0, CtrnnProblem.BIT_SIZE) - 1);
         return BIASES_MIN + (genomeScale * (double) genomeValue);
     }
     
@@ -151,7 +153,8 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
      * @return 
      */
     private double convertGain(int genomeValue){
-        double genomeScale = (GAINS_MAX - GAINS_MIN) / Math.pow(2.0, CtrnnProblem.BIT_SIZE);
+        double genomeScale = (GAINS_MAX - GAINS_MIN) / 
+                (Math.pow(2.0, CtrnnProblem.BIT_SIZE) - 1);
         return GAINS_MIN + (genomeScale * (double) genomeValue);
     }
     
@@ -164,7 +167,7 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
      */
     private double convertTimeConstant(int genomeValue){
         double genomeScale = (TIMECONSTANTS_MAX - TIMECONSTANTS_MIN) / 
-                Math.pow(2.0, CtrnnProblem.BIT_SIZE);
+                (Math.pow(2.0, CtrnnProblem.BIT_SIZE) - 1);
         return TIMECONSTANTS_MIN + (genomeScale * (double) genomeValue);
     }
 
