@@ -32,7 +32,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
         fallingObjectsBox = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         motorTypeBox = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        statisticsRun = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         numNeuronsField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -50,7 +50,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
 
         motorTypeBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tugofwar", "MostEager bidirection", "MostEager separate" }));
 
-        jCheckBox1.setText("Statistic Run");
+        statisticsRun.setText("Statistic Run");
 
         jLabel4.setText("Hidden neurons:");
 
@@ -79,7 +79,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(numNeuronsField, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1))
+                        .addComponent(statisticsRun))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -110,7 +110,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
                     .addComponent(effortAwardBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(statisticsRun)
                     .addComponent(jLabel4)
                     .addComponent(numNeuronsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -119,7 +119,6 @@ public class ProblemCtrnn extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox effortAwardBox;
     public javax.swing.JComboBox fallingObjectsBox;
-    public javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -128,5 +127,6 @@ public class ProblemCtrnn extends javax.swing.JPanel {
     public javax.swing.JComboBox motorTypeBox;
     public javax.swing.JTextField numNeuronsField;
     public javax.swing.JComboBox pointawardingBox;
+    public javax.swing.JCheckBox statisticsRun;
     // End of variables declaration//GEN-END:variables
 }

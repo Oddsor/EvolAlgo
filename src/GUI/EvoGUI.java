@@ -476,6 +476,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 motorType = CtrnnProblem.MOTOR_MOSTEAGER_SEPARATE;
                 break;
         }
+        statisticRun = ctrnnPanel.statisticsRun.isSelected();
         
         IReproduction reproduction = null;
         reproduction = new BinaryStrings(mutation / 100.0, 
@@ -766,7 +767,6 @@ public class EvoGUI extends javax.swing.JFrame {
         int POPULATION = Integer.parseInt(populationSizeField.getText());
         CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
         CTRNNStatisticThread cst = new CTRNNStatisticThread(GENERATIONS, POPULATION, evo, problem);
-        statisticRun = true;
         if(statisticRun) cst.start();
         else ct.start();
     }
