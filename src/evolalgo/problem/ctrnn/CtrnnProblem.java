@@ -1,6 +1,9 @@
 package evolalgo.problem.ctrnn;
 
+import evoalgo.problem.ctrnn.trackerSim.ExplorationEffortAwarder;
 import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
+import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
+import evoalgo.problem.ctrnn.trackerSim.IEffortAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
 import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
@@ -11,18 +14,17 @@ import evolalgo.IndividualImpl;
 import evolalgo.BinaryStrings;
 import evolalgo.adultselectors.GenerationalMixing;
 import evolalgo.adultselectors.IAdultSelection;
+import evolalgo.parentselectors.FitnessProportionate;
 import evolalgo.parentselectors.IParentSelection;
 import evolalgo.parentselectors.SigmaScaling;
 import evolalgo.parentselectors.Tournament;
 import evolalgo.problem.IProblem;
 import java.awt.Color;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import org.math.plot.Plot2DPanel;
 
 /**
@@ -42,12 +44,15 @@ public class CtrnnProblem implements IProblem{
     private int motorType;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
+    private IEffortAwarder effort;
     private int trackerWidth;
     private int hiddenNeurons;
     private int objectType;
     
-    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth, int motorType, int objectType){
+    public CtrnnProblem(IPointAwarder awarder, IEffortAwarder effort, 
+            int hiddenNeurons, int trackerWidth, int motorType, int objectType){
         this.awarder = awarder;
+        this.effort = effort;
         this.trackerWidth = trackerWidth;
         this.hiddenNeurons = hiddenNeurons;
         this.objectType = objectType;
@@ -89,7 +94,7 @@ public class CtrnnProblem implements IProblem{
 
     @Override
     public void calculateFitness(List<IIndividual> population) throws Exception {
-        int NUM_RUNS = 3;
+        int NUM_RUNS = 1;
         for (IIndividual iIndividual : population) {
             double score = 0.0;
                 for(int i = 0; i < NUM_RUNS; i++){
@@ -122,14 +127,16 @@ public class CtrnnProblem implements IProblem{
                     long start = System.currentTimeMillis();
                     Date d = new Date(start);
                     System.out.println("Started run at " + d.toString());
-                    //IReproduction rep = new BinaryStrings(0.15, 0.8, 2, 1);
-                    IReproduction rep = new BinaryCTRNNStrings(0.15, 0.8, 1);
+                    IReproduction rep = new BinaryStrings(0.1, 0.8, 2, 30);
+                    //IReproduction rep = new BinaryCTRNNStrings(0.15, 0.8, 1);
                     IAdultSelection adSel = new GenerationalMixing(10);
-                    //IParentSelection parSel = new FitnessProportionate();
-                    IParentSelection parSel = new SigmaScaling();
+                    IParentSelection parSel = new FitnessProportionate();
+                    //IParentSelection parSel = new SigmaScaling();
                     //IParentSelection parSel = new Tournament(10, 0.3);
-                    IPointAwarder rewarder = new HitAndAvoidAwarder();
-                    IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR,OBJECT_TYPE_VERTICAL);
+                    IPointAwarder rewarder = new HitAwarder();
+                    IEffortAwarder effort = new ExplorationEffortAwarder();
+                    IProblem problem = new CtrnnProblem(rewarder, effort, 4, 5, 
+                            MOTOR_TUGOFWAR, OBJECT_TYPE_VERTICAL);
 
                     int POPULATION = 100;
                     int GENERATIONS = 200;

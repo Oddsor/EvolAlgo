@@ -2,8 +2,10 @@
 package GUI;
 
 import evoalgo.problem.ctrnn.statisticscripts.CTRNNStatisticThread;
+import evoalgo.problem.ctrnn.trackerSim.ExplorationEffortAwarder;
 import evoalgo.problem.ctrnn.trackerSim.HitAndAvoidAwarder;
 import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
+import evoalgo.problem.ctrnn.trackerSim.IEffortAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
@@ -446,8 +448,34 @@ public class EvoGUI extends javax.swing.JFrame {
                 awarder = new HitAndAvoidAwarder();
                 break;
         }
+        int effortAwarder = ctrnnPanel.effortAwardBox.getSelectedIndex();
+        IEffortAwarder effort = null;
+        switch(effortAwarder){
+            case 0:
+                effort = null;
+                break;
+            case 1:
+                effort = new ExplorationEffortAwarder();
+                break;
+            case 2:
+                break;
+        }
         int fallingObjects = ctrnnPanel.fallingObjectsBox.getSelectedIndex();
         
+        int numHiddenNeurons = Integer.parseInt(ctrnnPanel.numNeuronsField.getText());
+        int motorTypeCase = ctrnnPanel.motorTypeBox.getSelectedIndex();
+        int motorType = 0;
+        switch(motorTypeCase){
+            case (0):
+                motorType = CtrnnProblem.MOTOR_TUGOFWAR;
+                break;
+            case (1):
+                motorType = CtrnnProblem.MOTOR_MOSTEAGER_BIDIRECTIONAL;
+                break;
+            case (2):
+                motorType = CtrnnProblem.MOTOR_MOSTEAGER_SEPARATE;
+                break;
+        }
         
         IReproduction reproduction = null;
         reproduction = new BinaryStrings(mutation / 100.0, 
@@ -471,8 +499,8 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
             case 3:
 
-                problem = new CtrnnProblem(awarder, 2, 5,0,fallingObjects);
-
+                problem = new CtrnnProblem(awarder, effort, numHiddenNeurons, 
+                        5, motorType, fallingObjects);
                 break;
         }
         
@@ -738,7 +766,7 @@ public class EvoGUI extends javax.swing.JFrame {
         int POPULATION = Integer.parseInt(populationSizeField.getText());
         CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
         CTRNNStatisticThread cst = new CTRNNStatisticThread(GENERATIONS, POPULATION, evo, problem);
-        statisticRun = false;
+        statisticRun = true;
         if(statisticRun) cst.start();
         else ct.start();
     }

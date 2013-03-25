@@ -5,8 +5,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import sun.text.normalizer.CharTrie;
-
 import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
 /**
