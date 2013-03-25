@@ -98,7 +98,7 @@ public class CtrnnProblem implements IProblem{
         for (IIndividual iIndividual : population) {
             double score = 0.0;
                 for(int i = 0; i < NUM_RUNS; i++){
-                    score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder,objectType);
+                    score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder, effort, objectType);
                 }
         	iIndividual.setFitness(score/(double) NUM_RUNS);
 		}
@@ -127,18 +127,18 @@ public class CtrnnProblem implements IProblem{
                     long start = System.currentTimeMillis();
                     Date d = new Date(start);
                     System.out.println("Started run at " + d.toString());
-                    IReproduction rep = new BinaryStrings(0.1, 0.8, 2, 30);
+                    IReproduction rep = new BinaryStrings(0.1, 0.8, 2, 10);
                     //IReproduction rep = new BinaryCTRNNStrings(0.15, 0.8, 1);
                     IAdultSelection adSel = new GenerationalMixing(10);
                     IParentSelection parSel = new FitnessProportionate();
                     //IParentSelection parSel = new SigmaScaling();
                     //IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAwarder();
-                    IEffortAwarder effort = new ExplorationEffortAwarder();
+                    IEffortAwarder effort = null;
                     IProblem problem = new CtrnnProblem(rewarder, effort, 4, 5, 
                             MOTOR_TUGOFWAR, OBJECT_TYPE_VERTICAL);
 
-                    int POPULATION = 100;
+                    int POPULATION = 50;
                     int GENERATIONS = 200;
                     Evolution evo = new Evolution(POPULATION, rep, adSel, parSel, problem);
                     Plot2DPanel plot = new Plot2DPanel();

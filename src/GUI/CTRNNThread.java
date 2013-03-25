@@ -41,9 +41,9 @@ public class CTRNNThread extends Thread {
         System.out.println("Pop size: " + POPULATION);
         Plot2DPanel plot = new Plot2DPanel();
         double[] Y = new double[GENERATIONS];
-        for (int i = 0; i < GENERATIONS; i++){
-            Y[i] = 0;
-        }
+//        for (int i = 0; i < GENERATIONS; i++){
+//            Y[i] = 0.0;
+//        }
         double[] scale = {1.0};
         double[] scale2 = {0.0};
         plot.addLinePlot("Fitness of best individual", Color.BLUE, Y);

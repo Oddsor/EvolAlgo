@@ -87,7 +87,7 @@ public class CTRNNStatisticThread extends Thread {
     		   ITracker tr = (ITracker) iIndividual.phenotype();
     		   Simulation sim = new Simulation();
     		   CtrnnProblem ct = (CtrnnProblem) problem;
-    		   score += sim.simulate(tr, new HitAwarder(),ct.getObjectType());
+    		   score += sim.simulate(tr, new HitAwarder(), null, ct.getObjectType());
 		}
     		totalScore += score/SIMULATIONRUNS;
 	} 

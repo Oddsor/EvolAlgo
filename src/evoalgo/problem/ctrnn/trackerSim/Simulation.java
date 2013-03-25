@@ -8,10 +8,15 @@ public class Simulation implements ISimulation
 	 public static final int OBJECT_TYPE_VERTICAL = 0;
 	 public static final int OBJECT_TYPE_SIDEWAYS = 1;
 	@Override
-	public double simulate(ITracker it, IPointAwarder awarder, int objectType) {
+	public double simulate(ITracker it, IPointAwarder awarder, IEffortAwarder effort, int objectType) {
+            TrackerEnvironment env = null;
+		if(effort != null){
+                    env = new TrackerEnvironment(it, awarder,new ExplorationEffortAwarder());
+                }
+                else{
+                    env = new TrackerEnvironment(it, awarder);
+                }
 		
-//		TrackerEnvironment env = new TrackerEnvironment(it, awarder,new ExplorationEffortAwarder());
-		TrackerEnvironment env = new TrackerEnvironment(it, awarder);
 
 		double score = 0;
 		
