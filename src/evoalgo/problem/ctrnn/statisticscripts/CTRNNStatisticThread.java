@@ -47,7 +47,7 @@ public class CTRNNStatisticThread extends Thread {
     		List<IIndividual> pop = problem.createPopulation(POPULATION);
         
         	for (int j = 0; j < GENERATIONS; j++){
-        	if(j%10 ==0) System.out.println("Ping from generation "+ j+" evolving tracker "+k);
+        	if(j%10 ==0) System.out.println("Ping from generation "+ j+" evolving tracker "+(k+1));
             try{
                 pop = evo.runGeneration(pop);
                 Map m = evo.getStatistics().get(evo.getStatistics().size() - 1);
@@ -77,19 +77,21 @@ public class CTRNNStatisticThread extends Thread {
              System.out.println("Run time so far: "+((time2/1000)/60)+" minutes and "+ ((time2/1000)%60)+" seconds");
         }
      
-    	double score=0;
+    	double totalScore=0;
     	System.out.println("Running "+SIMULATIONRUNS+" simulations per tracker");
     	int c = 0;
     	for (IIndividual iIndividual : indv) {
     		System.out.println("Simulating tracker "+c++);
+    		double score = 0;
     		for (int i = 0; i < SIMULATIONRUNS; i++) {
     		   ITracker tr = (ITracker) iIndividual.phenotype();
     		   Simulation sim = new Simulation();
     		   CtrnnProblem ct = (CtrnnProblem) problem;
     		   score += sim.simulate(tr, new HitAwarder(),ct.getObjectType());
 		}
+    		totalScore += score/SIMULATIONRUNS;
 	} 
-       double percentScore = (score/indv.size())/SIMULATIONRUNS;
+       double percentScore = totalScore/indv.size();
        System.out.println("Total score of "+INDIVIDUALS+ " individuals after "+SIMULATIONRUNS+" Simualtions :\n"+percentScore );
        time -= System.currentTimeMillis();
        System.out.println("Total run time: "+((-time/1000)/60)+" minutes and "+ ((-time/1000)%60)+" seconds");
