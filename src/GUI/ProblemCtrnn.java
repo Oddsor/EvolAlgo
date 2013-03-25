@@ -58,7 +58,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
 
         jLabel5.setText("Effort award:");
 
-        effortAwardBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "Exploration", "Minimal movement" }));
+        effortAwardBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "Exploration" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

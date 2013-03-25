@@ -457,8 +457,6 @@ public class EvoGUI extends javax.swing.JFrame {
             case 1:
                 effort = new ExplorationEffortAwarder();
                 break;
-            case 2:
-                break;
         }
         int fallingObjects = ctrnnPanel.fallingObjectsBox.getSelectedIndex();
         

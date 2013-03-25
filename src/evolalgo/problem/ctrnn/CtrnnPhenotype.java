@@ -114,6 +114,8 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
         }
         double left = Math.round((float) motorLayer.get(0).getOutput());
         double right = Math.round((float) motorLayer.get(1).getOutput());
+        //double left = motorLayer.get(0).getOutput();
+        //double right = motorLayer.get(1).getOutput();
         int movement = 0;
         if(motorType == CtrnnProblem.MOTOR_MOSTEAGER_SEPARATE){
             if(left > right) movement = (int) (-left * 4);
@@ -125,6 +127,8 @@ public class CtrnnPhenotype implements IPhenotype, ITracker{
                     Math.abs(right - 0.5)){
                 movement = (int) ((left - 0.5) * 8);
             }else movement = (int) ((right - 0.5) * 8);
+        }else if(motorType == CtrnnProblem.MOTOR_ADDEDFORCE){
+            movement = (int) (((left - 0.5)*4) + ((right - 0.5)*4));
         }
         return movement;
     }
