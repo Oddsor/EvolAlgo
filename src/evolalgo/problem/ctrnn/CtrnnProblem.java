@@ -36,22 +36,30 @@ public class CtrnnProblem implements IProblem{
     public static final int MOTOR_TUGOFWAR = 0;
     public static final int MOTOR_MOSTEAGER_BIDIRECTIONAL = 1;
     public static final int MOTOR_MOSTEAGER_SEPARATE = 2;
-    
+    public static final int OBJECT_TYPE_VERTICAL = 0;
+    public static final int OBJECT_TYPE_SIDEWAYS = 1;
+
     private int motorType;
     private Simulation sim = new Simulation();
     private IPointAwarder awarder;
     private int trackerWidth;
     private int hiddenNeurons;
+    private int objectType;
     
-    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth, int motorType){
+    public CtrnnProblem(IPointAwarder awarder, int hiddenNeurons, int trackerWidth, int motorType, int objectType){
         this.awarder = awarder;
         this.trackerWidth = trackerWidth;
         this.hiddenNeurons = hiddenNeurons;
-        
+        this.objectType = objectType;
         this.motorType = motorType;
     }
 
-    /**
+    public int getObjectType() {
+		return objectType;
+	}
+
+	
+	/**
      * Calculate how many attributes we need to form all weights, gains, biases
      * and time constants. For example: a tracker width of 5 and 2 hidden neurons
      * will output 34.
@@ -85,7 +93,7 @@ public class CtrnnProblem implements IProblem{
         for (IIndividual iIndividual : population) {
             double score = 0.0;
                 for(int i = 0; i < NUM_RUNS; i++){
-                    score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder);
+                    score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder,objectType);
                 }
         	iIndividual.setFitness(score/(double) NUM_RUNS);
 		}
@@ -121,7 +129,7 @@ public class CtrnnProblem implements IProblem{
                     IParentSelection parSel = new SigmaScaling();
                     //IParentSelection parSel = new Tournament(10, 0.3);
                     IPointAwarder rewarder = new HitAndAvoidAwarder();
-                    IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR);
+                    IProblem problem = new CtrnnProblem(rewarder, 2, 5, MOTOR_TUGOFWAR,OBJECT_TYPE_VERTICAL);
 
                     int POPULATION = 100;
                     int GENERATIONS = 200;
@@ -164,7 +172,7 @@ public class CtrnnProblem implements IProblem{
                     IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
                     System.out.println("Final tracker: " + ind.toString());
-                    SimulationAnimation simAn = new SimulationAnimation(tr, rewarder);
+                    SimulationAnimation simAn = new SimulationAnimation(tr, rewarder,OBJECT_TYPE_VERTICAL);
                 }
             };
             evoT.start();

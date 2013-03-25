@@ -5,6 +5,9 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import sun.text.normalizer.CharTrie;
+
+import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
 /**
  * Animates a simulation.
@@ -19,6 +22,7 @@ public class SimulationAnimation extends JFrame {
 	private int[] trackerPos;
 	private int[] fallPos;
 	private int fallLevel;
+	private int objectType;
 	private Container con;
 	static final int WIDTH=900;
 	static final int HEIGHT=450+60;
@@ -28,10 +32,13 @@ public class SimulationAnimation extends JFrame {
 	 * @param it
 	 * @param pa
 	 */
-	public SimulationAnimation(ITracker it, IPointAwarder pa) {
+	public SimulationAnimation(ITracker it, IPointAwarder pa, int objectType) {
 
 		env = new TrackerEnvironment(it, pa);
-		env.setFallingObject(new VerticalFallingObject());
+		this.objectType = objectType;
+		if(objectType == CtrnnProblem.OBJECT_TYPE_VERTICAL) env.setFallingObject(new VerticalFallingObject());
+		if(objectType == CtrnnProblem.OBJECT_TYPE_SIDEWAYS) env.setFallingObject(new SidewaysFallingObject());
+		
 		fallLevel = env.getFallingObject().getYPosition();
 		updateMatrix();
 		frame = new JFrame("Tracker Animation");
@@ -53,10 +60,13 @@ public class SimulationAnimation extends JFrame {
 		trackerPos = env.getTracker().getPosition();
 		fallPos = env.getFallingObject().getPosition();
 		fallLevel = env.step();
-		if(fallLevel < 0) env.setFallingObject((new VerticalFallingObject()));
-//		if(fallLevel < 0) env.setFallingObject((new SidewaysFallingObject()));
+		
+		if(fallLevel<0){
+		if(objectType == CtrnnProblem.OBJECT_TYPE_VERTICAL) env.setFallingObject(new VerticalFallingObject());
+		
+		if(objectType == CtrnnProblem.OBJECT_TYPE_SIDEWAYS) env.setFallingObject(new SidewaysFallingObject());
 	}
-	
+	}
 	void loop(){
 		while(true){
 			try {
@@ -69,10 +79,8 @@ public class SimulationAnimation extends JFrame {
 			con.repaint();
 		}
 	}
-
-	public static void main(String[] args) throws InterruptedException {
-		new SimulationAnimation(new randomTracker(), new HitAwarder());
-		
+	public static void main(String[] args) {
+		new SimulationAnimation(new randomTracker(), new HitAndAvoidAwarder(), 0);
 	}
 	class draw extends JPanel { 
 		public draw() {

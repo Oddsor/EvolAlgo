@@ -11,6 +11,7 @@ import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.problem.IProblem;
+import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
 import java.awt.Color;
 import java.util.List;
@@ -76,8 +77,9 @@ public class CTRNNThread extends Thread {
         evo.drawBestFitnessPlot();
         IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
         ITracker tr = (ITracker) ind.phenotype();
-        
-        SimulationAnimation sim = new SimulationAnimation(tr, new HitAwarder());
+        CtrnnProblem ct = (CtrnnProblem) problem;
+      
+        SimulationAnimation sim = new SimulationAnimation(tr, new HitAwarder(), ct.getObjectType());
         
        
     }

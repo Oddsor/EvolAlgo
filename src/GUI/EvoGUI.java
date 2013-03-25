@@ -471,7 +471,7 @@ public class EvoGUI extends javax.swing.JFrame {
                 break;
             case 3:
 
-                problem = new CtrnnProblem(awarder, 2, 5,0);
+                problem = new CtrnnProblem(awarder, 2, 5,0,fallingObjects);
 
                 break;
         }
@@ -738,7 +738,7 @@ public class EvoGUI extends javax.swing.JFrame {
         int POPULATION = Integer.parseInt(populationSizeField.getText());
         CTRNNThread ct = new CTRNNThread(GENERATIONS, POPULATION, evo, problem);
         CTRNNStatisticThread cst = new CTRNNStatisticThread(GENERATIONS, POPULATION, evo, problem);
-        statisticRun = true;
+        statisticRun = false;
         if(statisticRun) cst.start();
         else ct.start();
     }

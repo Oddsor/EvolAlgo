@@ -9,6 +9,7 @@ import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evolalgo.Evolution;
 import evolalgo.IIndividual;
 import evolalgo.problem.IProblem;
+import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,8 @@ public class CTRNNStatisticThread extends Thread {
     		for (int i = 0; i < SIMULATIONRUNS; i++) {
     		   ITracker tr = (ITracker) iIndividual.phenotype();
     		   Simulation sim = new Simulation();
-    		   score += sim.simulate(tr, new HitAwarder());
+    		   CtrnnProblem ct = (CtrnnProblem) problem;
+    		   score += sim.simulate(tr, new HitAwarder(),ct.getObjectType());
 		}
 	} 
        double percentScore = (score/indv.size())/SIMULATIONRUNS;

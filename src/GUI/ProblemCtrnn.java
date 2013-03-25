@@ -37,7 +37,7 @@ public class ProblemCtrnn extends javax.swing.JPanel {
 
         jLabel2.setText("Falling:");
 
-        fallingObjectsBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Straight", "Straight+Sideways" }));
+        fallingObjectsBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Straight", "Sideways" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
