@@ -1,8 +1,8 @@
 
 package evolalgo.problem.ctrnn;
 
-import evolalgo.IIndividual;
-import evolalgo.IReproduction;
+import evolalgo.Individual;
+import evolalgo.Reproduction;
 import java.util.List;
 import java.util.Random;
 
@@ -11,7 +11,7 @@ import java.util.Random;
  * other attribute.
  * @author Odd
  */
-public class BinaryCTRNNStrings implements IReproduction{
+public class BinaryCTRNNStrings implements Reproduction{
     
     private double mutationRate;
     private double crossoverRate;
@@ -42,7 +42,7 @@ public class BinaryCTRNNStrings implements IReproduction{
     }
 
     @Override
-    public Object[] crossover(List<IIndividual> parents){
+    public Object[] crossover(List<Individual> parents){
         
         String gene1 = parents.get(0).getGenes().toString();
         String gene2 = parents.get(1).getGenes().toString();
@@ -70,7 +70,7 @@ public class BinaryCTRNNStrings implements IReproduction{
     }
 
     @Override
-    public Object[] reproduce(List<IIndividual> parents){
+    public Object[] reproduce(List<Individual> parents){
         Object[] genoTypes = crossover(parents);
         try {
             if(Math.random() <= mutationRate){

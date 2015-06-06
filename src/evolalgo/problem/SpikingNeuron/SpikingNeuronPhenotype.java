@@ -1,13 +1,13 @@
 package evolalgo.problem.SpikingNeuron;
 
-import evolalgo.IPhenotype;
+import evolalgo.Phenotype;
 import java.text.DecimalFormat;
 
 /**
  * 
  * @author Odd Andreas Sørsæther
  */
-public class SpikingNeuronPhenotype implements IPhenotype{
+public class SpikingNeuronPhenotype implements Phenotype{
     /**
      * How many values do we get from the bit length? For instance a length of
      * 7 gives you 128 values.

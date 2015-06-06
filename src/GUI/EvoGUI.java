@@ -8,8 +8,8 @@ import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IEffortAwarder;
 import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
 import evolalgo.Evolution;
-import evolalgo.IIndividual;
-import evolalgo.IReproduction;
+import evolalgo.Individual;
+import evolalgo.Reproduction;
 import evolalgo.BinaryStrings;
 import evolalgo.adultselectors.FullGenReplacement;
 import evolalgo.adultselectors.GenerationalMixing;
@@ -476,7 +476,7 @@ public class EvoGUI extends javax.swing.JFrame {
         }
         statisticRun = ctrnnPanel.statisticsRun.isSelected();
         
-        IReproduction reproduction = null;
+        Reproduction reproduction = null;
         reproduction = new BinaryStrings(mutation / 100.0, 
                 crossoverRate / 100.0, crossoverSplit, maxMutations);
         
@@ -611,13 +611,13 @@ public class EvoGUI extends javax.swing.JFrame {
         
         double[] avgEntropy = new double[generations];
         double[] stdDev = new double[generations];
-        List<IIndividual> individuals = problem.createPopulation(populationSize);
+        List<Individual> individuals = problem.createPopulation(populationSize);
         try {
             for (int i = 0; i < generations; i++){
                 individuals = evo.runGeneration(individuals);
                 double[] fitnesses = new double[populationSize];
                 int numParents = 0;
-                for(IIndividual ind: individuals){
+                for(Individual ind: individuals){
                     if(ind.age() > 0){
                         fitnesses[numParents] = ind.fitness();
                         BlottoPhenotype pheno = (BlottoPhenotype) ind.phenotype();
@@ -694,13 +694,13 @@ public class EvoGUI extends javax.swing.JFrame {
         int populationSize = Integer.parseInt(populationSizeField.getText());
         int generations = Integer.parseInt(generationsField.getText());
         SpikingNeuronProblem sn = (SpikingNeuronProblem) problem;
-        List<IIndividual> individuals = problem.createPopulation(populationSize);
+        List<Individual> individuals = problem.createPopulation(populationSize);
         try {
         	long startTime = System.nanoTime();
         	for (int i = 0; i < generations; i++){
                 individuals = evo.runGeneration(individuals);
-                IIndividual best = individuals.get(0);
-                for (IIndividual ind: individuals){
+                Individual best = individuals.get(0);
+                for (Individual ind: individuals){
                     if(ind.age() > 0){
                         if (ind.fitness() > best.fitness()){
                             best = ind;

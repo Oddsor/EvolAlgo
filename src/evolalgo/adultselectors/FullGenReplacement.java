@@ -1,7 +1,7 @@
 
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,14 +11,14 @@ import java.util.List;
  */
 public class FullGenReplacement extends AdultSelection implements IAdultSelection{
     @Override
-    public List<IIndividual> getAdults(List<IIndividual> population) 
+    public List<Individual> getAdults(List<Individual> population) 
             throws Exception{
         int[] childAdult = findAdultChildRatio(population);
         //If we have equal number of adults and children, begin replacement
         if(childAdult[0] == childAdult[1]){
-            Iterator<IIndividual> it = population.iterator();
+            Iterator<Individual> it = population.iterator();
             while(it.hasNext()){
-                IIndividual i = it.next();
+                Individual i = it.next();
                 if(i.age() > 0){
                     it.remove();
                 }
@@ -31,7 +31,7 @@ public class FullGenReplacement extends AdultSelection implements IAdultSelectio
     }
     
 	@Override
-	public int getNumberOfChildren(List<IIndividual> population) {
+	public int getNumberOfChildren(List<Individual> population) {
 		return population.size();
 	}
 

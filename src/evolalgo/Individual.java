@@ -6,10 +6,10 @@ package evolalgo;
  * It is currently assumed that only one class of individual will ever be needed.
  * @author Odd
  */
-public interface IIndividual {
-    public void setPhenotype(IPhenotype phenotype);
+public interface Individual {
+    public void setPhenotype(Phenotype phenotype);
     
-    public IPhenotype phenotype();
+    public Phenotype phenotype();
     
     public Object getGenes();
     

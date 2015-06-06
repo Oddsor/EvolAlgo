@@ -1,10 +1,13 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *//*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package GUI;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronPhenotype;
 import evolalgo.problem.SpikingNeuron.SpikingNeuronProblem;
 import evolalgo.problem.SpikingNeuron.sdm.ISDM;
@@ -296,8 +299,8 @@ public class SpikeTester extends javax.swing.JFrame {
     private void paintPanel(double... attribs){
         ISDM sdm = new WaveformDistance();
         SpikingNeuronProblem problem = new SpikingNeuronProblem(1, sdm, false);
-        List<IIndividual> pop = problem.createPopulation(1);
-        IIndividual ind = pop.get(0);
+        List<Individual> pop = problem.createPopulation(1);
+        Individual ind = pop.get(0);
         try {
             if(attribs == null || attribs.length != 5){
                 problem.developPheno(pop.get(0));

@@ -1,7 +1,7 @@
 
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +18,14 @@ public class GenerationalMixing extends AdultSelection implements IAdultSelectio
 	}
 
 	@Override
-	public List<IIndividual> getAdults(List<IIndividual> population) throws Exception{
+	public List<Individual> getAdults(List<Individual> population) throws Exception{
 		//Use standard selection method
 		int[] childAdult = findAdultChildRatio(population);
 		int populationSize = childAdult[1]; //The size we want to reduce to.
 		if(childAdult[1] == 0) return growPopulation(population);
-		List<IIndividual> adults = new ArrayList<IIndividual>();
-		List<IIndividual> children = new ArrayList<IIndividual>();
-		for (IIndividual i: population){
+		List<Individual> adults = new ArrayList<Individual>();
+		List<Individual> children = new ArrayList<Individual>();
+		for (Individual i: population){
 			if (i.age() > 0) adults.add(i);
 			else children.add(i);
 		}
@@ -35,7 +35,7 @@ public class GenerationalMixing extends AdultSelection implements IAdultSelectio
 		adults = selectBestFit(adults, adultSpots);
 		//System.out.println(adults.size());
 		//adults.addAll(children);
-		for(IIndividual i: children){
+		for(Individual i: children){
 			adults.add(i);
 		}
 		//System.out.println(adults.size());
@@ -43,7 +43,7 @@ public class GenerationalMixing extends AdultSelection implements IAdultSelectio
 	}
 
 	@Override
-	public int getNumberOfChildren(List<IIndividual> population) {
+	public int getNumberOfChildren(List<Individual> population) {
 		return population.size()-adultSpots;
 	}
 

@@ -1,6 +1,6 @@
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +15,8 @@ abstract class AdultSelection{
      * @param population
      * @return Population list, one generation older
      */
-    public static List<IIndividual> growPopulation(List<IIndividual> population){
-        for(IIndividual i: population){
+    public static List<Individual> growPopulation(List<Individual> population){
+        for(Individual i: population){
             i.growOlder();
         }
         return population;
@@ -28,14 +28,14 @@ abstract class AdultSelection{
      * @param population
      * @return List new population
      */
-    public static List<IIndividual> selectBestFit(List<IIndividual> population, 
+    public static List<Individual> selectBestFit(List<Individual> population, 
             int adultSpots) throws Exception{
-        List<IIndividual> newPopulation = new ArrayList<IIndividual>();
+        List<Individual> newPopulation = new ArrayList<Individual>();
         //Loop through and pick best candidates
         //List<IIndividual> populationcopy = new ArrayList<IIndividual>(population);
         while(newPopulation.size() < adultSpots){
-            IIndividual highestIndividual = null;
-            for(IIndividual i: population){
+            Individual highestIndividual = null;
+            for(Individual i: population){
                 if(highestIndividual == null){
                     highestIndividual = i;
                 }else if(highestIndividual.fitness() < i.fitness()){
@@ -53,10 +53,10 @@ abstract class AdultSelection{
      * @param population
      * @return int[] Number of children and number of adults
      */
-    public static int[] findAdultChildRatio(List<IIndividual> population){        
+    public static int[] findAdultChildRatio(List<Individual> population){        
         int countChildren = 0;
         int countAdults = 0;
-        for(IIndividual i: population){
+        for(Individual i: population){
             if(i.age() == 0){
                 countChildren++;
             }else if(i.age() > 0){

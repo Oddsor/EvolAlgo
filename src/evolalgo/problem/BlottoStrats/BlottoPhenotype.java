@@ -1,19 +1,19 @@
 package evolalgo.problem.BlottoStrats;
 
-import evolalgo.IIndividual;
-import evolalgo.IPhenotype;
+import evolalgo.Individual;
+import evolalgo.Phenotype;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlottoPhenotype implements IPhenotype{
+public class BlottoPhenotype implements Phenotype{
     public double[] pheno;
-    public List<IIndividual> fought;
+    public List<Individual> fought;
     public int score;
     
     public BlottoPhenotype(double[] pheno){
         this.pheno = pheno;
-        fought = new ArrayList<IIndividual>();
+        fought = new ArrayList<Individual>();
     }
 
     @Override

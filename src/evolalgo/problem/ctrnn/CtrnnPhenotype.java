@@ -1,7 +1,7 @@
 
 package evolalgo.problem.ctrnn;
 
-import evolalgo.IPhenotype;
+import evolalgo.Phenotype;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * 
  * @author Odd
  */
-public class CtrnnPhenotype implements IPhenotype, ITracker{
+public class CtrnnPhenotype implements Phenotype, ITracker{
    private static final double WEIGHTS_MIN = -5.0;
    private static final double WEIGHTS_MAX = 5.0;
    

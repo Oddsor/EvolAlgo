@@ -1,7 +1,7 @@
 
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
     }
     
     @Override
-    public List<IIndividual> getAdults(List<IIndividual> population) 
+    public List<Individual> getAdults(List<Individual> population) 
             throws Exception{
         int[] childAdult = findAdultChildRatio(population);
         if(childAdult[1] == 0){
@@ -28,9 +28,9 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
             throw new Exception("N children (" + childAdult[0] + ") smaller than or equal to number of "
                     + "adults (" + childAdult[1] + ")! Use replacement method or produce more.");
         }
-        List<IIndividual> populationcopy = new ArrayList<IIndividual>();
+        List<Individual> populationcopy = new ArrayList<Individual>();
         //Kill old people
-        for(IIndividual i: population){
+        for(Individual i: population){
             if(i.age() == 0){
                 populationcopy.add(i);
             }
@@ -40,7 +40,7 @@ public class OverProduction extends AdultSelection implements IAdultSelection{
     }
 
 	@Override
-	public int getNumberOfChildren(List<IIndividual> population) {
+	public int getNumberOfChildren(List<Individual> population) {
 		return population.size()+(int)(population.size()*overProductionRate);
 	}
 }

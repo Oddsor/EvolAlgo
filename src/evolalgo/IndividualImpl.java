@@ -7,10 +7,10 @@ import java.text.DecimalFormat;
  * Implementation of individual.
  * @author Odd
  */
-public class IndividualImpl implements IIndividual{
+public class IndividualImpl implements Individual{
     
     private Object genotype;
-    private IPhenotype phenotype;
+    private Phenotype phenotype;
     private int age;
     private double fitness;
     
@@ -22,12 +22,12 @@ public class IndividualImpl implements IIndividual{
     }
 
     @Override
-    public void setPhenotype(IPhenotype phenotype) {
+    public void setPhenotype(Phenotype phenotype) {
         this.phenotype = phenotype;
     }
 
     @Override
-    public IPhenotype phenotype(){
+    public Phenotype phenotype(){
         return phenotype;
     }
 

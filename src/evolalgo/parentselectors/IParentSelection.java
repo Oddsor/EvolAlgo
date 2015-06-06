@@ -1,6 +1,6 @@
 package evolalgo.parentselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -15,5 +15,5 @@ public interface IParentSelection {
      * @return The chosen parent
      * @throws Exception 
      */
-    public IIndividual getParent(List<IIndividual> population) throws Exception;
+    public Individual getParent(List<Individual> population) throws Exception;
 }

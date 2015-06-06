@@ -1,6 +1,6 @@
 package evolalgo.parentselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,10 +20,10 @@ public class Tournament implements IParentSelection{
     }
     
     @Override
-    public IIndividual getParent(List<IIndividual> population) throws Exception{
+    public Individual getParent(List<Individual> population) throws Exception{
         Random rand = new Random();
-        List<IIndividual> local = new ArrayList<IIndividual>();
-        IIndividual best = null;
+        List<Individual> local = new ArrayList<Individual>();
+        Individual best = null;
         //Form the sample group
         while(local.size() < tournamentSize){
             int random = rand.nextInt(population.size());

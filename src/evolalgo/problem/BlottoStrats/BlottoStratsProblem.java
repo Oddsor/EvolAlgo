@@ -1,7 +1,7 @@
 package evolalgo.problem.BlottoStrats;
 
-import evolalgo.IIndividual;
-import evolalgo.IPhenotype;
+import evolalgo.Individual;
+import evolalgo.Phenotype;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class BlottoStratsProblem implements IProblem{
      * @throws Exception 
      */
     @Override
-    public void developPheno(IIndividual individual) throws Exception{
+    public void developPheno(Individual individual) throws Exception{
         String geno = individual.getGenes().toString();
         if(geno instanceof String){
             int segments = geno.toString().length() / 4;
@@ -54,7 +54,7 @@ public class BlottoStratsProblem implements IProblem{
             for(int i = 0; i < segments; i++){
                 phenotype[i] = phenotype[i] * weight;
             }
-            IPhenotype pheno = new BlottoPhenotype(phenotype);
+            Phenotype pheno = new BlottoPhenotype(phenotype);
             individual.setPhenotype(pheno);
         }else{
             throw new Exception("Error in genotype");
@@ -62,14 +62,14 @@ public class BlottoStratsProblem implements IProblem{
     }
 
     @Override
-    public void calculateFitness(List<IIndividual> population) 
+    public void calculateFitness(List<Individual> population) 
             throws Exception {
         //Have every individual fight every other individual and increase fitness as they score
         int warpoints = 0;
-        for (IIndividual fighter: population){
+        for (Individual fighter: population){
             BlottoPhenotype fighterPheno = (BlottoPhenotype) fighter.phenotype();
             fighter.setFitness(0.0);
-            for(IIndividual opponent: population){
+            for(Individual opponent: population){
                 if(!fighter.equals(opponent) && !fighterPheno.fought.contains(opponent)){
                     BlottoPhenotype opponentPheno = (BlottoPhenotype) opponent.phenotype();
                     int fighterWins = 0;
@@ -116,11 +116,11 @@ public class BlottoStratsProblem implements IProblem{
             }
         }
         int topScore = 0;
-        for (IIndividual individual: population){
+        for (Individual individual: population){
             BlottoPhenotype ph = (BlottoPhenotype) individual.phenotype();
             if (ph.score > topScore) topScore = ph.score;
         }
-        for (IIndividual individual: population){
+        for (Individual individual: population){
             BlottoPhenotype ph = (BlottoPhenotype) individual.phenotype();
             individual.setFitness((double)ph.score / (double)topScore);
             ph.fought = null;
@@ -128,7 +128,7 @@ public class BlottoStratsProblem implements IProblem{
     }
     
     @Override
-    public List<IIndividual> createPopulation(int individuals) {
+    public List<Individual> createPopulation(int individuals) {
         List<Object> genotypes = new ArrayList();
         for(int i = 0; i < individuals; i++){
             String bitstring = "";
@@ -141,7 +141,7 @@ public class BlottoStratsProblem implements IProblem{
         }
         
         //Setting up list of individuals
-        List<IIndividual> population = new ArrayList();
+        List<Individual> population = new ArrayList();
         
         for(Object o: genotypes){
             population.add(new IndividualImpl(o));

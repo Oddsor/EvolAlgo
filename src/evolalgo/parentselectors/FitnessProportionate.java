@@ -1,6 +1,6 @@
 package evolalgo.parentselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -11,11 +11,11 @@ import java.util.List;
 public class FitnessProportionate extends ParentSelection 
         implements IParentSelection{
     @Override
-    public IIndividual getParent(List<IIndividual> population) 
+    public Individual getParent(List<Individual> population) 
             throws Exception{
         //Sum up total fitness in the population
         double totalFitness = 0.0;
-        for(IIndividual i: population){
+        for(Individual i: population){
             totalFitness += i.fitness();
         }
         double[] weights = new double[population.size()];

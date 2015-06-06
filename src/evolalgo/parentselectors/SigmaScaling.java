@@ -1,6 +1,6 @@
 package evolalgo.parentselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class SigmaScaling extends ParentSelection implements IParentSelection{
     @Override
-    public IIndividual getParent(List<IIndividual> population) throws Exception{
+    public Individual getParent(List<Individual> population) throws Exception{
         double[] weights = new double[population.size()];
         
         //Find fitness average of population

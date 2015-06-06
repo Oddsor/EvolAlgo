@@ -1,7 +1,7 @@
 package evolalgo.problem.SpikingNeuron;
 
 import evolalgo.problem.SpikingNeuron.sdm.ISDM;
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
 import java.io.BufferedReader;
@@ -72,7 +72,7 @@ public class SpikingNeuronProblem implements IProblem{
     }
     
     @Override
-    public void developPheno(IIndividual individual) throws Exception {
+    public void developPheno(Individual individual) throws Exception {
         
         String gene = (String) individual.getGenes();
         double[] attribs = new double[5];
@@ -85,7 +85,7 @@ public class SpikingNeuronProblem implements IProblem{
     }
     
     @Override
-    public void calculateFitness(List<IIndividual> population) throws Exception {
+    public void calculateFitness(List<Individual> population) throws Exception {
         
         for (int i = 0; i < population.size(); i++){
             SpikingNeuronPhenotype pheno = (SpikingNeuronPhenotype) population.get(i).phenotype();
@@ -124,9 +124,9 @@ public class SpikingNeuronProblem implements IProblem{
     }
     
     @Override
-    public List<IIndividual> createPopulation(int individuals) {
+    public List<Individual> createPopulation(int individuals) {
         
-        List<IIndividual> population = new ArrayList<IIndividual>();
+        List<Individual> population = new ArrayList<Individual>();
         Random rand = new Random();
         while(population.size() < individuals){
             String gene = "";

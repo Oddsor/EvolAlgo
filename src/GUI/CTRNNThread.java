@@ -1,6 +1,9 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *//*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package GUI;
 
@@ -9,7 +12,7 @@ import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
 import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import evolalgo.problem.IProblem;
 import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
@@ -54,7 +57,7 @@ public class CTRNNThread extends Thread {
         frame.setContentPane(plot);
         frame.setSize(500, 400);
         frame.setVisible(true);
-        List<IIndividual> pop = problem.createPopulation(POPULATION);
+        List<Individual> pop = problem.createPopulation(POPULATION);
         System.out.println(pop.size());
         for (int j = 0; j < GENERATIONS; j++){
             try{
@@ -75,7 +78,7 @@ public class CTRNNThread extends Thread {
         }
         List<Map> stats = evo.getStatistics();
         evo.drawBestFitnessPlot();
-        IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
+        Individual ind = (Individual) stats.get(stats.size()-1).get("bestIndividual");
         ITracker tr = (ITracker) ind.phenotype();
         CtrnnProblem ct = (CtrnnProblem) problem;
       

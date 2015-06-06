@@ -1,7 +1,7 @@
 package evolalgo.problem.MaxOne;
 
-import evolalgo.IPhenotype;
-import evolalgo.IIndividual;
+import evolalgo.Phenotype;
+import evolalgo.Individual;
 import evolalgo.IndividualImpl;
 import evolalgo.problem.IProblem;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MaxOneProblem implements IProblem{
     }
 
     @Override
-    public void developPheno(IIndividual individual) throws Exception{
+    public void developPheno(Individual individual) throws Exception{
         if (individual.phenotype() != null) return;
         String geno = individual.getGenes().toString();
         String genostring = geno.toString();
@@ -44,7 +44,7 @@ public class MaxOneProblem implements IProblem{
     }
     
     @Override
-    public void calculateFitness(List<IIndividual> population) throws Exception{
+    public void calculateFitness(List<Individual> population) throws Exception{
         for(int i = 0; i < population.size(); i++){
             try{
                 population.get(i).fitness();
@@ -67,7 +67,7 @@ public class MaxOneProblem implements IProblem{
     }
     
     @Override
-    public List<IIndividual> createPopulation(int individuals) {
+    public List<Individual> createPopulation(int individuals) {
         List<Object> genotypes = new ArrayList();
         for(int i = 0; i < individuals; i++){
             String bitstring = "";
@@ -80,7 +80,7 @@ public class MaxOneProblem implements IProblem{
         }
         
         //Setting up list of individuals
-        List<IIndividual> population = new ArrayList();
+        List<Individual> population = new ArrayList();
         
         for(Object o: genotypes){
             population.add(new IndividualImpl(o));
@@ -88,7 +88,7 @@ public class MaxOneProblem implements IProblem{
         return population;
     }
 }
-class MaxOnePheno implements IPhenotype{
+class MaxOnePheno implements Phenotype{
     public int[] pheno;
     
     public MaxOnePheno(int size){

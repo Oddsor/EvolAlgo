@@ -1,7 +1,7 @@
 
 package evolalgo.adultselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ public interface IAdultSelection {
      * @return A list populated with adults
      * @throws Exception 
      */
-    public List<IIndividual> getAdults(List<IIndividual> population) 
+    public List<Individual> getAdults(List<Individual> population) 
             throws Exception;
-    public int getNumberOfChildren(List<IIndividual> population);
+    public int getNumberOfChildren(List<Individual> population);
 }

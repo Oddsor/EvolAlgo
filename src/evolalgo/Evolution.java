@@ -24,13 +24,13 @@ public class Evolution {
     private IAdultSelection adSel;
     private IParentSelection parSel;
     private IProblem problem;
-    private IReproduction rep;
+    private Reproduction rep;
     private double baseMutationRate;
     private boolean variable_mutation = false;
     
     List<Map> stats;
     
-    public Evolution(int populationSize, IReproduction rep,
+    public Evolution(int populationSize, Reproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
             IProblem problem, int... options){
         
@@ -53,7 +53,7 @@ public class Evolution {
         
     }
     
-    public List<IIndividual> runGeneration(List<IIndividual> individuals) throws Exception{
+    public List<Individual> runGeneration(List<Individual> individuals) throws Exception{
         
         //Make phenotypes if they don't already exist.
         for(int i = 0; i < individuals.size(); i++){
@@ -108,7 +108,7 @@ public class Evolution {
 
     public void loop(int generations, boolean stop) throws Exception{
         
-        List<IIndividual> individuals = problem.createPopulation(populationSize);
+        List<Individual> individuals = problem.createPopulation(populationSize);
         for (int i = 0; i < generations; i++){
             individuals = runGeneration(individuals);
             if(stop){
@@ -143,26 +143,26 @@ public class Evolution {
      * Return the best overall individual in the entire evolutionary run
      * @return 
      */
-    public IIndividual getOverallBest(){
+    public Individual getOverallBest(){
         double highestFitness = 0.0;
-        IIndividual bestIndividual = null;
+        Individual bestIndividual = null;
         for (Map genStat: stats){
             double genFitness = Double.parseDouble(genStat.get("maxFitness").toString());
             if(genFitness > highestFitness){
-                bestIndividual = (IIndividual) genStat.get("bestIndividual");
+                bestIndividual = (Individual) genStat.get("bestIndividual");
                 highestFitness = genFitness;
             }
         }
         return bestIndividual;
     }
     
-    private Map fitnessCalculations(List<IIndividual> individuals){
+    private Map fitnessCalculations(List<Individual> individuals){
     	Map statistics = new HashMap();
     	//Find average fitness and highest/lowest
     	double countFitness = 0;
     	double maxFitness = 0.0;
     	double minFitness = 10.0;
-    	for(IIndividual i: individuals){
+    	for(Individual i: individuals){
     		try {
     			countFitness += i.fitness();
     			if(i.fitness() > maxFitness){
@@ -185,14 +185,14 @@ public class Evolution {
     	return statistics;
     }
     
-    private void produceChildren(List<IIndividual> individuals) throws Exception{
-    	List<IIndividual> children = new ArrayList<IIndividual>();
+    private void produceChildren(List<Individual> individuals) throws Exception{
+    	List<Individual> children = new ArrayList<Individual>();
     	while(children.size() < adSel.getNumberOfChildren(individuals)){
-            List<IIndividual> parents = new ArrayList<IIndividual>();
+            List<Individual> parents = new ArrayList<Individual>();
             //Try selecting parents!
-            IIndividual firstParent = parSel.getParent(individuals);
+            Individual firstParent = parSel.getParent(individuals);
             parents.add(firstParent);
-            List<IIndividual> otherindividuals = new ArrayList<IIndividual>(individuals);
+            List<Individual> otherindividuals = new ArrayList<Individual>(individuals);
             otherindividuals.remove(firstParent);
             parents.add(parSel.getParent(otherindividuals));
             try{

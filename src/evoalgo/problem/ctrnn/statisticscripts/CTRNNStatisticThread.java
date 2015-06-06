@@ -1,13 +1,16 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *//*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package evoalgo.problem.ctrnn.statisticscripts;
 
 import evoalgo.problem.ctrnn.trackerSim.HitAwarder;
 import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evolalgo.Evolution;
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import evolalgo.problem.IProblem;
 import evolalgo.problem.ctrnn.CtrnnProblem;
 import evolalgo.problem.ctrnn.ITracker;
@@ -39,12 +42,12 @@ public class CTRNNStatisticThread extends Thread {
 
     	System.out.println("Starting statistics run");
     	long time = System.currentTimeMillis();
-    	List<IIndividual> indv = new ArrayList<IIndividual>();
+    	List<Individual> indv = new ArrayList<Individual>();
     
     	for(int k = 0; k < INDIVIDUALS; k++){
     	
     		System.out.println("Evolving tracker "+(k+1));
-    		List<IIndividual> pop = problem.createPopulation(POPULATION);
+    		List<Individual> pop = problem.createPopulation(POPULATION);
         
         	for (int j = 0; j < GENERATIONS; j++){
         	if(j%10 ==0) System.out.println("Ping from generation "+ j+" evolving tracker "+(k+1));
@@ -64,7 +67,7 @@ public class CTRNNStatisticThread extends Thread {
         	}
         	
         	List<Map> stats = evo.getStatistics();
-        	IIndividual temp = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
+        	Individual temp = (Individual) stats.get(stats.size()-1).get("bestIndividual");
         	indv.add(temp);
         	
         	try {
@@ -80,7 +83,7 @@ public class CTRNNStatisticThread extends Thread {
     	double totalScore=0;
     	System.out.println("Running "+SIMULATIONRUNS+" simulations per tracker");
     	int c = 0;
-    	for (IIndividual iIndividual : indv) {
+    	for (Individual iIndividual : indv) {
     		System.out.println("Simulating tracker "+c++);
     		double score = 0;
     		for (int i = 0; i < SIMULATIONRUNS; i++) {

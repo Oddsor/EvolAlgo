@@ -7,7 +7,7 @@ import java.util.Random;
  * Implementation for crossover and mutation of binary strings
  * @author Odd
  */
-public class BinaryStrings implements IReproduction{
+public class BinaryStrings implements Reproduction{
 
     private double recombinationRate;
     private int recombinationSplit;
@@ -65,9 +65,9 @@ public class BinaryStrings implements IReproduction{
     }
 
     @Override
-    public Object[] crossover(List<IIndividual> parents){
-        for (IIndividual parent: parents){
-            if (!(parent instanceof IIndividual)){
+    public Object[] crossover(List<Individual> parents){
+        for (Individual parent: parents){
+            if (!(parent instanceof Individual)){
                 try{
                     throw new Exception("Parent incorrect class?");
                 }catch(Exception e){
@@ -107,7 +107,7 @@ public class BinaryStrings implements IReproduction{
     }
 
     @Override
-    public Object[] reproduce(List<IIndividual> parents){
+    public Object[] reproduce(List<Individual> parents){
         //Recombine to two children and then mutate their genes
         
         Object[] genoTypes = crossover(parents);

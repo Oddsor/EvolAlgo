@@ -8,8 +8,8 @@ import evoalgo.problem.ctrnn.trackerSim.IPointAwarder;
 import evoalgo.problem.ctrnn.trackerSim.Simulation;
 import evoalgo.problem.ctrnn.trackerSim.SimulationAnimation;
 import evolalgo.Evolution;
-import evolalgo.IIndividual;
-import evolalgo.IReproduction;
+import evolalgo.Individual;
+import evolalgo.Reproduction;
 import evolalgo.IndividualImpl;
 import evolalgo.BinaryStrings;
 import evolalgo.adultselectors.FullGenReplacement;
@@ -83,7 +83,7 @@ public class CtrnnProblem implements IProblem{
     }
     
     @Override
-    public void developPheno(IIndividual individual) throws Exception {
+    public void developPheno(Individual individual) throws Exception {
         
         String gene = (String) individual.getGenes();
         List<Integer> attribs = new ArrayList<Integer>();
@@ -96,9 +96,9 @@ public class CtrnnProblem implements IProblem{
     }
 
     @Override
-    public void calculateFitness(List<IIndividual> population) throws Exception {
+    public void calculateFitness(List<Individual> population) throws Exception {
         int NUM_RUNS = 3;
-        for (IIndividual iIndividual : population) {
+        for (Individual iIndividual : population) {
             double score = 0.0;
                 for(int i = 0; i < NUM_RUNS; i++){
                     score += (double) sim.simulate((ITracker)iIndividual.phenotype(), awarder, effort, objectType);
@@ -108,9 +108,9 @@ public class CtrnnProblem implements IProblem{
     }
 
     @Override
-    public List<IIndividual> createPopulation(int individuals) {
+    public List<Individual> createPopulation(int individuals) {
         Random rand = new Random();
-        List<IIndividual> population = new ArrayList<IIndividual>();
+        List<Individual> population = new ArrayList<Individual>();
         for (int i = 0; i < individuals; i++){
             String genome = "";
             for (int j = 0; j < BIT_SIZE * numAttributes(); j++){
@@ -130,7 +130,7 @@ public class CtrnnProblem implements IProblem{
                     long start = System.currentTimeMillis();
                     Date d = new Date(start);
                     System.out.println("Started run at " + d.toString());
-                    IReproduction rep = new BinaryStrings(0.05, 0.8, 2, 10);
+                    Reproduction rep = new BinaryStrings(0.05, 0.8, 2, 10);
                     //IReproduction rep = new BinaryCTRNNStrings(0.15, 0.8, 1);
                     //IAdultSelection adSel = new FullGenReplacement();
                     IAdultSelection adSel = new GenerationalMixing(10);
@@ -155,7 +155,7 @@ public class CtrnnProblem implements IProblem{
                     frame.setContentPane(plot);
                     frame.setSize(500, 400);
                     frame.setVisible(true);
-                    List<IIndividual> pop = problem.createPopulation(POPULATION);
+                    List<Individual> pop = problem.createPopulation(POPULATION);
                     for (int j = 0; j < GENERATIONS; j++){
                         double[] newY = new double[j + 1];
                         for(int k = 0; k < Y.length; k++){
@@ -179,7 +179,7 @@ public class CtrnnProblem implements IProblem{
                     int minutes = seconds % 60;
                     System.out.println("Time spent: " + minutes + " minutes, " + seconds + "seconds");
                     List<Map> stats = evo.getStatistics();
-                    IIndividual ind = (IIndividual) stats.get(stats.size()-1).get("bestIndividual");
+                    Individual ind = (Individual) stats.get(stats.size()-1).get("bestIndividual");
                     ITracker tr = (ITracker) ind.phenotype();
                     System.out.println("Final tracker: " + ind.toString());
                     SimulationAnimation simAn = new SimulationAnimation(tr, rewarder,OBJECT_TYPE_VERTICAL);

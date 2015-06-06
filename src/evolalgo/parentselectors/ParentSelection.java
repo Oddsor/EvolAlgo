@@ -1,6 +1,6 @@
 package evolalgo.parentselectors;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class ParentSelection{
     
-    IIndividual spinWheel(double[] weights, 
-            List<IIndividual> population){
-        IIndividual chosenParent = null;
+    Individual spinWheel(double[] weights, 
+            List<Individual> population){
+        Individual chosenParent = null;
         
         double random = Math.random();
         for(int i = 0; i < population.size(); i++){

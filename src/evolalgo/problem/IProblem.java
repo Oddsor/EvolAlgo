@@ -1,6 +1,6 @@
 package evolalgo.problem;
 
-import evolalgo.IIndividual;
+import evolalgo.Individual;
 import java.util.List;
 
 /**
@@ -19,9 +19,9 @@ public interface IProblem {
      * and this needs to be implemented on a per problem basis anyway.
      * @throws Exception 
      */
-    public void developPheno(IIndividual individual) throws Exception;
+    public void developPheno(Individual individual) throws Exception;
     
-    public void calculateFitness(List<IIndividual> population) 
+    public void calculateFitness(List<Individual> population) 
             throws Exception;
-    public List<IIndividual> createPopulation(int individuals);
+    public List<Individual> createPopulation(int individuals);
 }
