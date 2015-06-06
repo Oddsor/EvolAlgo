@@ -33,7 +33,7 @@ public class Evolution {
     public Evolution(int populationSize, Reproduction rep,
             IAdultSelection adSel, IParentSelection parSel, 
             IProblem problem, int... options){
-        
+        //TODO quick todo-test
         this.rep = rep;
         baseMutationRate = rep.getMutationRate();
         this.populationSize = populationSize;
